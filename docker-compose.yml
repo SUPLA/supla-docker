@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  supla-cloud:
+    container_name: ${COMPOSE_PROJECT_NAME}-cloud
+    restart: unless-stopped
+    build:
+      context: ./cloud
+      args:
+        WWW_DATA_UID: ${UID}
+        CLOUD_VERSION: ${CLOUD_VERSION}
+    ports:
+      - 8080:80
+    volumes:
+      - ./cloud/apache-conf:/etc/apache2/sites-available:z
+    depends_on:
+     - supla-mysql
+     - supla-server
+
+  supla-mysql:
+    container_name: ${COMPOSE_PROJECT_NAME}-mysql
+    restart: unless-stopped
+    image: mysql:8.0.3
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: supla
+      MYSQL_USER: supla
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+       - ${VOLUME_DATA}/mysql:/var/lib/mysql:z
+
+  supla-server:
+    container_name: ${COMPOSE_PROJECT_NAME}-server
+    restart: unless-stopped
+    build:
+      context: ./server
+      args:
+        SERVER_VERSION:
+    volumes:
+       - ./server/etc:/etc/supla-server:z
+    ports:
+      - 2016:2016
+      - 2015:2015
+
+networks:
+  default: ~

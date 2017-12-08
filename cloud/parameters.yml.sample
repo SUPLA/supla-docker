@@ -1,0 +1,25 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: supla-mysql
+    database_port: null
+    database_name: supla
+    database_user: supla
+    database_password: CHANGE_ME_BEFORE_FIRST_LAUNCH
+    mailer_transport: sendmail
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    mailer_port: 25
+    mailer_encryption: null
+    mailer_from: null
+    admin_email: null
+    supla_server: supla.dev
+    supla_server_list: null
+    ewz_recaptcha_public_key:
+    ewz_recaptcha_private_key:
+    locale: en
+    secret: ThisTokenIsNotSoSecretChangeIt
+    use_webpack_dev_server: false
+    supla_autodiscover_server: null
+    recaptcha_enabled: false
+    supla_protocol: http
