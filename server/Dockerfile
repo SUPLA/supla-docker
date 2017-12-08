@@ -1,10 +1,13 @@
 FROM debian:jessie
 
-RUN apt-get update && \
-    apt-get install -y git make gcc g++ libmysqlclient-dev libssl-dev wget && \
-    wget https://www.openssl.org/source/openssl-1.0.1t.tar.gz && \
-    tar -zxvf openssl-1.0.1t.tar.gz && \
-    (cd openssl-1.0.1t && ./config enable-ssl2 --prefix=/usr/local && make depend) \
+RUN apt-get update \
+    && apt-get install -y git make gcc g++ libmysqlclient-dev libssl-dev wget \
+    && wget https://www.openssl.org/source/openssl-1.0.1t.tar.gz \
+    && tar -zxvf openssl-1.0.1t.tar.gz \
+    && cd openssl-1.0.1t && ./config enable-ssl2 --prefix=/usr/local shared && make depend && make install \
+    && rm -fr /openssl-1.0.1t* \
+    && cp /usr/local/lib/libcrypto.so.1.0.0 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.0.0 \
+    && cp /usr/local/lib/libssl.so.1.0.0 /usr/lib/x86_64-linux-gnu/libssl.so.1.0.0 \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/*
 

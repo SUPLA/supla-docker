@@ -7,13 +7,14 @@ services:
     build:
       context: ./cloud
       args:
-        WWW_DATA_UID: ${UID}
         CLOUD_VERSION: ${CLOUD_VERSION}
     ports:
       - 8080:80
+      - 443:443
     volumes:
       - ./cloud/apache-conf:/etc/apache2/sites-available:z
-      - ./cloud/ssl:/etc/apache2/sites-available:z
+      - ./ssl/cloud:/etc/apache2/ssl:z
+#      - supla-server-socket:/tmp/supla-server-ctrl.sock
     depends_on:
      - supla-mysql
      - supla-server
@@ -39,11 +40,12 @@ services:
         SERVER_VERSION:
     volumes:
        - ./ssl/server:/etc/supla-server/ssl:z
+#       - supla-server-socket:/tmp/supla-server-ctrl.sock
     ports:
       - 2016:2016
       - 2015:2015
     depends_on:
       - supla-mysql
 
-networks:
-  default: ~
+volumes:
+  supla-server-socket: {}

@@ -31,9 +31,8 @@ RUN wget https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERSION/
     && rm -f supla-cloud-v$CLOUD_VERSION.tar.gz
 
 ADD parameters.yml cloud/app/config/parameters.yml
+
+RUN a2ensite default-ssl
 #RUN php cloud/bin/console doctrine:schema:create
 
-ARG WWW_DATA_UID=1001
-RUN usermod --uid "$WWW_DATA_UID" www-data \
-           && groupmod --gid "$WWW_DATA_UID" www-data \
-           && chown -hR www-data:www-data /var/www
+RUN chown -hR www-data:www-data /var/www/cloud/var
