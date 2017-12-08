@@ -14,7 +14,7 @@ services:
     volumes:
       - ./cloud/apache-conf:/etc/apache2/sites-available:z
       - ./ssl/cloud:/etc/apache2/ssl:z
-#      - supla-server-socket:/tmp/supla-server-ctrl.sock
+      - supla-server-socket:/tmp
     depends_on:
      - supla-mysql
      - supla-server
@@ -40,7 +40,7 @@ services:
         SERVER_VERSION:
     volumes:
        - ./ssl/server:/etc/supla-server/ssl:z
-#       - supla-server-socket:/tmp/supla-server-ctrl.sock
+       - supla-server-socket:/tmp
     ports:
       - 2016:2016
       - 2015:2015
