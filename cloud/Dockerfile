@@ -35,8 +35,7 @@ ADD parameters.yml cloud/app/config/parameters.yml
 RUN a2ensite default-ssl
 
 WORKDIR /var/www/cloud
-RUN php bin/console doctrine:query:sql --no-interaction "$(< app/DoctrineMigrations/supla-1.1.0.sql)" \
-    && php bin/console doctrine:migrations:migrate --no-interaction \
+RUN php bin/console doctrine:migrations:migrate --no-interaction \
     && php bin/console cache:clear --no-warmup \
     && php bin/console cache:warmup
 
