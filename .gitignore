@@ -1,3 +1,5 @@
 .env
 .idea/
 parameters.yml
+*.crt
+*.key

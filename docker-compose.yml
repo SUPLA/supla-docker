@@ -13,6 +13,7 @@ services:
       - 8080:80
     volumes:
       - ./cloud/apache-conf:/etc/apache2/sites-available:z
+      - ./cloud/ssl:/etc/apache2/sites-available:z
     depends_on:
      - supla-mysql
      - supla-server
@@ -37,10 +38,12 @@ services:
       args:
         SERVER_VERSION:
     volumes:
-       - ./server/etc:/etc/supla-server:z
+       - ./ssl/server:/etc/supla-server/ssl:z
     ports:
       - 2016:2016
       - 2015:2015
+    depends_on:
+      - supla-mysql
 
 networks:
   default: ~
