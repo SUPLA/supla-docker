@@ -22,9 +22,11 @@ RUN apt-get update \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/*
 
-RUN a2enmod rewrite expires deflate ssl cgi alias env proxy_http
+RUN a2enmod rewrite expires deflate ssl cgi alias env proxy_http && a2ensite default-ssl
 
-ARG CLOUD_VERSION=2.1.5
+ARG CLOUD_VERSION=2.1.6
+#COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
+
 RUN wget https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERSION/supla-cloud-v$CLOUD_VERSION.tar.gz \
     && mkdir cloud \
     && tar -xzf supla-cloud-v$CLOUD_VERSION.tar.gz -C cloud \
@@ -32,11 +34,6 @@ RUN wget https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERSION/
 
 ADD parameters.yml cloud/app/config/parameters.yml
 
-RUN a2ensite default-ssl
-
 WORKDIR /var/www/cloud
-RUN php bin/console doctrine:migrations:migrate --no-interaction \
-    && php bin/console cache:clear --no-warmup \
-    && php bin/console cache:warmup
 
-RUN chown -hR www-data:www-data /var/www/cloud/var
+RUN chown -hR www-data:www-data var
