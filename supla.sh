@@ -2,17 +2,25 @@
 
 cd "$(dirname "$0")"
 
-if [ ! -f .env ]; then
-  echo "Could not read the .env configuration file."
-  exit
-fi
-
-source .env >/dev/null 2>&1
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
+
+if [ ! -f .env ]; then
+  cp .env.sample .env
+  cp -n cloud/parameters.yml.sample cloud/parameters.yml
+  cp -n server/supla.cfg.sample server/supla.cfg
+  DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1)"
+  sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
+  sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" cloud/parameters.yml
+  sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" server/supla.cfg
+  echo -e "${YELLOW}Configuration files has been generated based on samples.${NC}"
+fi
+
+exit
+
+source .env >/dev/null 2>&1
 
 # remove \r at the end of the env, if exists
 CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
