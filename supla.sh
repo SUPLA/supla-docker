@@ -16,6 +16,7 @@ NC='\033[0m'
 
 # remove \r at the end of the env, if exists
 CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
+CRONTAB="* * * * * $(which docker) exec -u www-data $CONTAINER_NAME-cloud php bin/console supla:dispatch-cyclic-tasks"
 
 if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}"
@@ -24,6 +25,9 @@ if [ "$1" = "start" ]; then
   docker exec -u www-data "$CONTAINER_NAME-cloud" rm -fr var/cache/*
   docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console doctrine:migrations:migrate --no-interaction
   docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console cache:warmup
+
+  (crontab -l | grep -q "$CRONTAB" && echo "SUPLA crontab already installed") || ((crontab -l; echo ""; echo "$CRONTAB") | crontab && echo "SUPLA crontab has been installed successfully")
+
   echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then
