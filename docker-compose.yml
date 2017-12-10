@@ -4,10 +4,7 @@ services:
   supla-cloud:
     container_name: ${COMPOSE_PROJECT_NAME}-cloud
     restart: unless-stopped
-    build:
-      context: ./cloud
-      args:
-        CLOUD_VERSION: ${CLOUD_VERSION}
+    build: ./cloud
     ports:
       - "${PORT_HTTP}:80"
       - "${PORT_HTTPS}:443"
@@ -34,10 +31,7 @@ services:
   supla-server:
     container_name: ${COMPOSE_PROJECT_NAME}-server
     restart: unless-stopped
-    build:
-      context: ./server
-      args:
-        SERVER_VERSION:
+    build: ./server
     volumes:
        - ./ssl/server:/etc/supla-server/ssl:z
        - supla-server-tmp:/tmp:z

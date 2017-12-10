@@ -7,9 +7,6 @@ if [ ! -f .env ]; then
   exit
 fi
 
-export UID=$(id -u) >/dev/null 2>&1
-export GID=$(id -g) >/dev/null 2>&1
-
 source .env >/dev/null 2>&1
 
 RED='\033[0;31m'
