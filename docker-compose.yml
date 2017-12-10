@@ -9,12 +9,12 @@ services:
       args:
         CLOUD_VERSION: ${CLOUD_VERSION}
     ports:
-      - 8080:80
-      - 443:443
+      - "${PORT_HTTP}:80"
+      - "${PORT_HTTPS}:443"
     volumes:
       - ./cloud/apache-conf:/etc/apache2/sites-available:z
       - ./ssl/cloud:/etc/apache2/ssl:z
-      - supla-server-socket:/tmp
+      - supla-server-tmp:/supla-server:z
     depends_on:
      - supla-mysql
      - supla-server
@@ -22,7 +22,7 @@ services:
   supla-mysql:
     container_name: ${COMPOSE_PROJECT_NAME}-mysql
     restart: unless-stopped
-    image: mysql:8.0.3
+    image: mysql:5.7.20
     environment:
       MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_DATABASE: supla
@@ -40,7 +40,7 @@ services:
         SERVER_VERSION:
     volumes:
        - ./ssl/server:/etc/supla-server/ssl:z
-       - supla-server-socket:/tmp
+       - supla-server-tmp:/tmp:z
     ports:
       - 2016:2016
       - 2015:2015
@@ -48,4 +48,4 @@ services:
       - supla-mysql
 
 volumes:
-  supla-server-socket: {}
+  supla-server-tmp: {}

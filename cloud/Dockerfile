@@ -24,13 +24,14 @@ RUN apt-get update \
 
 RUN a2enmod rewrite expires deflate ssl cgi alias env proxy_http && a2ensite default-ssl
 
-ARG CLOUD_VERSION=2.1.6
+ARG CLOUD_VERSION=2.1.5
 #COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
 
-RUN wget https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERSION/supla-cloud-v$CLOUD_VERSION.tar.gz \
+RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERSION/supla-cloud-v$CLOUD_VERSION.tar.gz \
     && mkdir cloud \
     && tar -xzf supla-cloud-v$CLOUD_VERSION.tar.gz -C cloud \
-    && rm -f supla-cloud-v$CLOUD_VERSION.tar.gz
+    && rm -f supla-cloud-v$CLOUD_VERSION.tar.gz \
+    && sed -i "s+/tmp/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml
 
 ADD parameters.yml cloud/app/config/parameters.yml
 

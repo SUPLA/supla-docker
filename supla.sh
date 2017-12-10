@@ -24,9 +24,9 @@ if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}"
   docker-compose up --build -d
   sleep 1
-  docker exec -it -u www-data "$CONTAINER_NAME-cloud" php bin/console doctrine:migrations:migrate --no-interaction
-  docker exec -it -u www-data "$CONTAINER_NAME-cloud" php bin/console cache:clear --no-warmup
-  docker exec -it -u www-data "$CONTAINER_NAME-cloud" php bin/console cache:warmup
+  docker exec -u www-data "$CONTAINER_NAME-cloud" rm -fr var/cache/*
+  docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console doctrine:migrations:migrate --no-interaction
+  docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console cache:warmup
   echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then

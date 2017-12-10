@@ -3,3 +3,4 @@
 parameters.yml
 *.crt
 *.key
+*.tar.gz
