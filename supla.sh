@@ -18,7 +18,10 @@ if [ ! -f .env ]; then
   echo -e "${YELLOW}Configuration files has been generated based on samples.${NC}"
 fi
 
-exit
+if [ ! -f ssl/cloud/server.crt ]; then
+  echo -e "${YELLOW}Generating self-signed certificates for supla-cloud and supla-server.${NC}"
+  ./ssl/generate-self-signed-certs.sh
+fi
 
 source .env >/dev/null 2>&1
 
@@ -33,9 +36,7 @@ if [ "$1" = "start" ]; then
   docker exec -u www-data "$CONTAINER_NAME-cloud" rm -fr var/cache/*
   docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console doctrine:migrations:migrate --no-interaction
   docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console cache:warmup
-
   (crontab -l | grep -q "$CRONTAB" && echo "SUPLA crontab already installed") || ((crontab -l; echo ""; echo "$CRONTAB") | crontab && echo "SUPLA crontab has been installed successfully")
-
   echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then
