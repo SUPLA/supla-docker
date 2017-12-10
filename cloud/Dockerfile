@@ -16,7 +16,9 @@ RUN apt-get update \
     && update-ca-certificates \
     && docker-php-ext-install \
       pdo_mysql \
+      mbstring \
       opcache \
+      intl \
       curl \
       zip \
     && apt-get autoremove \

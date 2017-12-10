@@ -15,11 +15,9 @@ parameters:
     admin_email: null
     supla_server: supla.dev
     supla_server_list: null
-    supla_server_socket: /tmp/supla-server-ctrl.sock
     ewz_recaptcha_public_key:
     ewz_recaptcha_private_key:
     locale: en
     secret: ThisTokenIsNotSoSecretChangeIt
     supla_autodiscover_server: null
     recaptcha_enabled: false
-
