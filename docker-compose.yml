@@ -22,7 +22,7 @@ services:
   supla-mysql:
     container_name: ${COMPOSE_PROJECT_NAME}-mysql
     restart: unless-stopped
-    image: mysql:5.7.20
+    build: ./mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_DATABASE: supla
