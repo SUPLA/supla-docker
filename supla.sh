@@ -37,7 +37,7 @@ if [ "$1" = "start" ]; then
   docker-compose up --build -d
   sleep 1
   docker exec -u www-data "$CONTAINER_NAME-cloud" rm -fr var/cache/*
-  docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console doctrine:migrations:migrate --no-interaction
+  docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console supla:initialize
   docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console cache:warmup
   (crontab -l | grep -q "$CRONTAB" && echo "SUPLA crontab already installed") || ((crontab -l; echo ""; echo "$CRONTAB") | crontab && echo "SUPLA crontab has been installed successfully")
   echo -e "${GREEN}SUPLA containers has been started.${NC}"

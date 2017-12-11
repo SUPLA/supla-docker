@@ -4,8 +4,10 @@ RUN apt-get update \
     && apt-get install -y git make gcc g++ libmysqlclient-dev libssl-dev wget \
     && wget https://www.openssl.org/source/openssl-1.0.1t.tar.gz \
     && tar -zxvf openssl-1.0.1t.tar.gz \
-    && cd openssl-1.0.1t && ./config enable-ssl2 shared && make depend && make install \
+    && cd openssl-1.0.1t && ./config enable-ssl2 --prefix=/usr/local shared && make depend && make install \
     && rm -fr /openssl-1.0.1t* \
+    && cp /usr/local/lib/libcrypto.so.1.0.0 "$(ldconfig -p | grep libcrypto.so.1.0.0$ | awk '{ print $4 }')" \
+    && cp /usr/local/lib/libssl.so.1.0.0 "$(ldconfig -p | grep libssl.so.1.0.0$ | awk '{ print $4 }')" \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/*
 
