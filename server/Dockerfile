@@ -1,7 +1,17 @@
 FROM debian:jessie
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git make gcc g++ libmysqlclient-dev libssl-dev wget supervisor ca-certificates ssl-cert \
+    && apt-get install -y --no-install-recommends \
+        git \
+        make \
+        gcc \
+        g++ \
+        libmysqlclient-dev \
+        libssl-dev \
+        wget \
+        supervisor \
+        ca-certificates \
+        ssl-cert \
     && wget https://www.openssl.org/source/openssl-1.0.1t.tar.gz \
     && tar -zxf openssl-1.0.1t.tar.gz \
     && cd openssl-1.0.1t && ./config enable-ssl2 --prefix=/usr/local shared && make depend && make install \
