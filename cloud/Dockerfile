@@ -35,7 +35,7 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERS
     && mkdir cloud \
     && tar -xzf supla-cloud-v$CLOUD_VERSION.tar.gz -C cloud \
     && rm -f supla-cloud-v$CLOUD_VERSION.tar.gz \
-    && sed -i "s+/tmp/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml
+    && sed -i "s+/tmp/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
     && chown -hR www-data:www-data cloud/var
 
 WORKDIR /var/www/cloud
