@@ -12,9 +12,11 @@ if [ ! -f .env ]; then
   cp -n cloud/parameters.yml.sample cloud/parameters.yml
   cp -n mysql/mysql.cnf.sample mysql/mysql.cnf
   cp -n server/supla.cfg.sample server/supla.cfg
-  DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1)"
+  DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+  SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
   sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
   sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" cloud/parameters.yml
+  sed -i "s+ThisTokenIsNotSoSecretChangeIt+$SECRET+g" cloud/parameters.yml
   sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" server/supla.cfg
   echo -e "${YELLOW}Configuration files has been generated based on samples.${NC}"
 fi

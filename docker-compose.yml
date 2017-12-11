@@ -9,7 +9,6 @@ services:
       - "${PORT_HTTP}:80"
       - "${PORT_HTTPS}:443"
     volumes:
-      - ./cloud/apache-conf:/etc/apache2/sites-available:z
       - ./ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z
     depends_on:

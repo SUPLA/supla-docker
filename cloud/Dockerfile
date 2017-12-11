@@ -24,6 +24,8 @@ RUN apt-get update \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/*
 
+COPY apache-conf /etc/apache2/sites-available
+
 RUN a2enmod rewrite expires deflate ssl cgi alias env proxy_http && a2ensite default-ssl
 
 ARG CLOUD_VERSION=2.1.5
