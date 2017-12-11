@@ -35,8 +35,8 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERS
     && rm -f supla-cloud-v$CLOUD_VERSION.tar.gz \
     && sed -i "s+/tmp/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml
 
-ADD parameters.yml cloud/app/config/parameters.yml
-
 WORKDIR /var/www/cloud
 
-RUN chown -hR www-data:www-data var
+RUN chown -hR www-data:www-data .
+
+COPY parameters.yml cloud/app/config/parameters.yml

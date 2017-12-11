@@ -14,7 +14,8 @@ RUN git clone https://github.com/SUPLA/supla-core.git --branch v$SERVER_VERSION 
     && cd /src/supla-scheduler/Release && make all \
     && cd /src/supla-server/Release && make all \
     && cp /src/supla-scheduler/Release/supla-scheduler /src/supla-server/Release/supla-server /usr/local/bin \
-    && rm -fr /src
+    && rm -fr /src \
+    && mkdir -p /etc/supla-server
 
 COPY supla.cfg /etc/supla-server/supla.cfg
 

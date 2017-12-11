@@ -5,3 +5,4 @@ parameters.yml
 *.key
 *.tar.gz
 supla.cfg
+mysql.cnf
