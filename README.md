@@ -19,14 +19,9 @@ Your home connected. With Docker. www.supla.org
    pip install docker-compose
    ```
 1. Clone this repository.
-   * For Raspberry Pi and other ARM-based devices choose the `raspberry` branch:
-      ```
-      git clone https://github.com/SUPLA/supla-docker.git --branch raspberry
-      ```
-   * On any other architecture, choose `common` branch:
-      ```
-      git clone https://github.com/SUPLA/supla-docker.git --branch common
-      ```
+   ```
+   git clone https://github.com/SUPLA/supla-docker.git
+   ```
 1. Start SUPLA!
    ```
    ./supla-docker/supla.sh start
