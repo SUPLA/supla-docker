@@ -10,14 +10,24 @@ Your home connected. With Docker. www.supla.org
 
 ## Installation
 
-1. Install [Docker CE](https://docs.docker.com/engine/installation/).
+1. Install [Docker CE](https://docs.docker.com/engine/installation/) 17.06+ 
+   and [docker-compose](https://docs.docker.com/compose/install/) 1.17+.
    The following _should_ work (as root):
    ```
    curl -sSL https://get.docker.com | sh
-   ```
-1. Install [docker-compose](https://docs.docker.com/compose/install/).
-   The following _should_ work (as root):
-   ```
    apt-get -y install python-pip
    pip install docker-compose
+   ```
+1. Clone this repository.
+   * For Raspberry Pi and other ARM-based devices choose the `raspberry` branch:
+      ```
+      git clone https://github.com/SUPLA/supla-docker.git --branch raspberry
+      ```
+   * On any other architecture, choose `common` branch:
+      ```
+      git clone https://github.com/SUPLA/supla-docker.git --branch common
+      ```
+1. Start SUPLA!
+   ```
+   ./supla-docker/supla.sh start
    ```
