@@ -41,4 +41,4 @@ WORKDIR /var/www/cloud
 
 RUN chown -hR www-data:www-data .
 
-COPY parameters.yml cloud/app/config/parameters.yml
+COPY parameters.yml app/config/parameters.yml
