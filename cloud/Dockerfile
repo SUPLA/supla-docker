@@ -38,7 +38,7 @@ RUN { \
 RUN a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl
 
 ARG CLOUD_VERSION=2.1.5
-COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
+#COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERSION/supla-cloud-v$CLOUD_VERSION.tar.gz \
     && mkdir cloud \
@@ -48,4 +48,4 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v$CLOUD_VERS
     && chown -hR www-data:www-data cloud/var
 
 WORKDIR /var/www/cloud
-COPY parameters.yml app/config/parameters.yml
+#COPY parameters.yml app/config/parameters.yml
