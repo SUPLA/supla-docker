@@ -35,17 +35,22 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl
+RUN a2enmod rewrite expires deflate ssl cgi alias env
+#&& a2ensite default-ssl
 
 ENV CLOUD_VERSION=2.1.5
-#COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
+COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
     && tar -xzf supla-cloud-v${CLOUD_VERSION}.tar.gz -C cloud \
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && sed -i "s+/tmp/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
+    && cp cloud/app/config/parameters.yml.dist cloud/app/config/parameters.yml \
+    && sed -i "s#database_host: 127.0.0.1#database_host: supla-mysql#" cloud/app/config/parameters.yml \
+    && sed -i "s#database_user: root#database_user: supla#" cloud/app/config/parameters.yml \
     && chown -hR www-data:www-data cloud/var
 
 WORKDIR /var/www/cloud
-#COPY parameters.yml app/config/parameters.yml
+
+COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
