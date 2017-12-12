@@ -22,8 +22,8 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
-ARG SERVER_VERSION=1.8.5
-RUN git clone https://github.com/SUPLA/supla-core.git --branch v$SERVER_VERSION /src \
+ENV SERVER_VERSION=1.8.5
+RUN git clone https://github.com/SUPLA/supla-core.git --branch v${SERVER_VERSION} /src \
     && cd /src/supla-scheduler/Release && make all \
     && cd /src/supla-server/Release && make all \
     && cp /src/supla-scheduler/Release/supla-scheduler /src/supla-server/Release/supla-server /usr/local/bin \
