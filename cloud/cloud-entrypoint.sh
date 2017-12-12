@@ -9,6 +9,7 @@ sed -i "s+secret: ThisTokenIsNotSoSecretChangeIt+secret: $SECRET+g" app/config/p
 rm -fr var/cache/*
 php bin/console supla:initialize
 php bin/console cache:warmup
+chown -hR www-data:www-data var
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then

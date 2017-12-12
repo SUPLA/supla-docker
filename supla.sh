@@ -9,15 +9,10 @@ NC='\033[0m'
 
 if [ ! -f .env ]; then
   cp .env.sample .env
-  cp -n cloud/parameters.yml.sample cloud/parameters.yml
-  cp -n mysql/mysql.cnf.sample mysql/mysql.cnf
-  cp -n server/supla.cfg.sample server/supla.cfg
   DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
   SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
-  sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
-  sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" cloud/parameters.yml
-  sed -i "s+ThisTokenIsNotSoSecretChangeIt+$SECRET+g" cloud/parameters.yml
-  sed -i "s+CHANGE_ME_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" server/supla.cfg
+  sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
+  sed -i "s+CHANGE_SECRET_BEFORE_FIRST_LAUNCH+$SECRET+g" .env
   echo -e "${YELLOW}Configuration files has been generated based on samples.${NC}"
 fi
 
@@ -28,7 +23,8 @@ fi
 
 if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
   echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
-  sed -i "s#mysql:5.7.20#hypriot/rpi-mysql:5.5#g" mysql/Dockerfile
+  sed -i "s#mysql:5.5.58#hypriot/rpi-mysql:5.5#g" mysql/Dockerfile
+  sed -i "s#mysql:5.5.58#hypriot/rpi-mysql:5.5#g" docker-compose.yml
 fi
 
 source .env >/dev/null 2>&1
@@ -40,10 +36,6 @@ CRONTAB="* * * * * $(which docker) exec -u www-data $CONTAINER_NAME-cloud php bi
 if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}"
   docker-compose up --build -d
-  sleep 1
-  docker exec -u www-data "$CONTAINER_NAME-cloud" rm -fr var/cache/*
-  docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console supla:initialize
-  docker exec -u www-data "$CONTAINER_NAME-cloud" php bin/console cache:warmup
   (crontab -l | grep -q "$CRONTAB" && echo "SUPLA crontab already installed") || ((crontab -l; echo ""; echo "$CRONTAB") | crontab && echo "SUPLA crontab has been installed successfully")
   echo -e "${GREEN}SUPLA containers has been started.${NC}"
 

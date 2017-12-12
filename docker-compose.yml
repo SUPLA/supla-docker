@@ -12,32 +12,32 @@ services:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z
     environment:
-      DB_PASSWORD: ${DATABASE_PASSWORD}
+      - DB_PASSWORD
     depends_on:
-     - supla-mysql
-     - supla-server
+      - supla-mysql
+      - supla-server
 
   supla-mysql:
     container_name: ${COMPOSE_PROJECT_NAME}-mysql
     restart: unless-stopped
-    build: ./mysql
+    image: mysql:5.5.58
     environment:
-      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: supla
       MYSQL_USER: supla
-      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
-       - ${VOLUME_DATA}/mysql:/var/lib/mysql:z
+      - ${VOLUME_DATA}/mysql:/var/lib/mysql:z
 
   supla-server:
     container_name: ${COMPOSE_PROJECT_NAME}-server
     restart: unless-stopped
     build: ./server
     environment:
-      DB_PASSWORD: ${DATABASE_PASSWORD}
+      - DB_PASSWORD
     volumes:
-       - ./ssl/server:/etc/supla-server/ssl:z
-       - supla-server-tmp:/tmp:z
+      - ./ssl/server:/etc/supla-server/ssl:z
+      - supla-server-tmp:/tmp:z
     ports:
       - 2016:2016
       - 2015:2015

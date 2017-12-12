@@ -1,8 +1,5 @@
 .env
 .idea/
-parameters.yml
 *.crt
 *.key
 *.tar.gz
-supla.cfg
-mysql.cnf
