@@ -26,7 +26,16 @@ RUN apt-get update \
 
 COPY apache-conf /etc/apache2/sites-available
 
-RUN a2enmod rewrite expires deflate ssl cgi alias env proxy_http && a2ensite default-ssl
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=2'; \
+		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.enable_cli=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+RUN a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl
 
 ARG CLOUD_VERSION=2.1.5
 COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
