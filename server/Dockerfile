@@ -31,6 +31,6 @@ RUN git clone https://github.com/SUPLA/supla-core.git --branch v${SERVER_VERSION
     && mkdir -p /etc/supla-server
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY supla.cfg /etc/supla-server/supla.cfg
+#COPY supla.cfg /etc/supla-server/supla.cfg
 
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
