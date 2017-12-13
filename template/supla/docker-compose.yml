@@ -1,5 +1,4 @@
 supla-cloud:
-  container_name: ${COMPOSE_PROJECT_NAME}-cloud
   restart: unless-stopped
   image: supla/supla-cloud:rc
   ports:
@@ -15,7 +14,6 @@ supla-cloud:
     - supla-server
 
 supla-mysql:
-  container_name: ${COMPOSE_PROJECT_NAME}-mysql
   restart: unless-stopped
   image: mysql:5.5.58
   environment:
@@ -27,7 +25,6 @@ supla-mysql:
     - /var/supla/mysql:/var/lib/mysql:z
 
 supla-server:
-  container_name: ${COMPOSE_PROJECT_NAME}-server
   restart: unless-stopped
   image: supla/supla-server
 #  environment:
