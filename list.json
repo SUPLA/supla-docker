@@ -66,6 +66,17 @@
         "type": "app"
     },
     {
+        "description": "SUPLA is cool",
+        "repository": "dockerhub",
+        "arch": "amd64",
+        "icon": "https://secure.gravatar.com/avatar/198763e6f37c4890ad7bd07fd68fa708.jpg?s=80&r=g&d=mm",
+        "displayName": "SUPLA",
+        "name": "supla",
+        "version": "2.1.6",
+        "location": "https://hub.docker.com/r/supla/supla-cloud/",
+        "type": "app"
+    },
+    {
         "description": "Fast, free and incredibly easy to use, the Ubuntu operating system powers millions of desktop PCs, laptops and servers around the world.",
         "repository": "qnap",
         "inspect": "{}",
