@@ -1,8 +1,48 @@
 {
-    "app": {
-    },
-    "wizard": [
-    ],
-    "env": {
+  "app": {
+    "type": "web",
+    "entry": {
+      "port": "app.supla.ports.https"
     }
+  },
+  "wizard": [
+    {
+      "step_title": "{{'CONFIGURE_SUPLA' | translate}}",
+      "items": [
+        {
+          "type": "textfield",
+          "desc": "{{'SUPLA_DB_PASSWORD' | translate}}",
+          "subitems": [
+            {
+              "key": "app.supla.environment.DB_PASSWORD",
+              "desc": "{{'PASSWORD' | translate}}",
+              "validator": {
+                "minLength": 5,
+                "maxLength": 32
+              }
+            }
+          ]
+        },
+        {
+          "type": "textfield",
+          "desc": "{{'SUPLA_PORT_DESC' | translate}}",
+          "subitems": [
+            {
+              "key": "app.supla.ports.https",
+              "desc": "{{'PORT' | translate}}",
+              "validator": {
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "env": {
+    "supla": {
+      "environment": {
+        "HTTPS_PORT": "app.supla.ports.https"
+      }
+    }
+  }
 }

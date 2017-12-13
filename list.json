@@ -66,11 +66,11 @@
         "type": "app"
     },
     {
-        "description": "SUPLA is cool",
+        "description": "Connect your home with SUPLA.",
         "repository": "dockerhub",
         "arch": "amd64",
         "icon": "https://secure.gravatar.com/avatar/198763e6f37c4890ad7bd07fd68fa708.jpg?s=80&r=g&d=mm",
-        "displayName": "SUPLA",
+        "displayName": "SUPLA Cloud",
         "name": "supla",
         "version": "2.1.6",
         "location": "https://hub.docker.com/r/supla/supla-cloud/",

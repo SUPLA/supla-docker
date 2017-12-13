@@ -2,15 +2,14 @@ supla-cloud:
   restart: unless-stopped
   image: supla/supla-cloud:rc
   ports:
-    - "12344:80"
-    - "12345:443"
+    - "1234:443"
   volumes:
     - /etc/supla/ssl/cloud:/etc/apache2/ssl:z
     - /etc/supla/server:/supla-server:z
   links:
     - supla-mysql
-#  environment:
-#    - DB_PASSWORD
+  environment:
+    - DB_PASSWORD
 #  depends_on:
 #    - supla-mysql
 #    - supla-server
@@ -28,10 +27,9 @@ supla-mysql:
 
 supla-server:
   restart: unless-stopped
-  image: supla/supla-server
-  entrypoint: /bin/sh
-#  environment:
-#    - DB_PASSWORD
+  image: supla/supla-server:rc
+  environment:
+    - DB_PASSWORD
   volumes:
     - /etc/supla/ssl/server:/etc/supla-server/ssl:z
     - /etc/supla/server:/tmp:z

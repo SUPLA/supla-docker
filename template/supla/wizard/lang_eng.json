@@ -1,2 +1,7 @@
 {
+  "CONFIGURE_SUPLA": "Configure SUPLA",
+  "SUPLA_DB_PASSWORD": "The password for the database. Make it strong.",
+  "PASSWORD": "Password",
+  "SUPLA_PORT_DESC": "The port of the SUPLA Cloud. Defaults to 443.",
+  "PORT": "Port"
 }
