@@ -9,9 +9,9 @@ supla-cloud:
     - /etc/supla/server:/supla-server:z
 #  environment:
 #    - DB_PASSWORD
-  depends_on:
-    - supla-mysql
-    - supla-server
+#  depends_on:
+#    - supla-mysql
+#    - supla-server
 
 supla-mysql:
   restart: unless-stopped
@@ -35,6 +35,6 @@ supla-server:
   ports:
     - 2016:2016
     - 2015:2015
-  depends_on:
-    - supla-mysql
+#  depends_on:
+#    - supla-mysql
 
