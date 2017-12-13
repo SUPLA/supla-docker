@@ -45,7 +45,7 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VER
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && sed -i "s+/tmp/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
     && cp cloud/app/config/parameters.yml.dist cloud/app/config/parameters.yml \
-    && sed -i "s#database_host: 127.0.0.1#database_host: supla-mysql#" cloud/app/config/parameters.yml \
+    && sed -i "s#database_host: 127.0.0.1#database_host: supla-db#" cloud/app/config/parameters.yml \
     && sed -i "s#database_user: root#database_user: supla#" cloud/app/config/parameters.yml \
     && chown -hR www-data:www-data cloud
 

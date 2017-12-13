@@ -32,7 +32,7 @@ RUN git clone https://github.com/SUPLA/supla-core.git --branch v${SERVER_VERSION
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY supla.cfg /etc/supla-server/supla.cfg
-COPY server-entrypoint.sh /usr/local/bin/server-entrypoint
+COPY server-entrypoint.sh /usr/bin/server-entrypoint
 
-ENTRYPOINT ["server-entrypoint"]
+ENTRYPOINT ["/usr/bin/server-entrypoint"]
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
