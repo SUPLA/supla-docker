@@ -7,6 +7,8 @@ supla-cloud:
   volumes:
     - /etc/supla/ssl/cloud:/etc/apache2/ssl:z
     - /etc/supla/server:/supla-server:z
+  links:
+    - supla-mysql
 #  environment:
 #    - DB_PASSWORD
 #  depends_on:
@@ -27,6 +29,7 @@ supla-mysql:
 supla-server:
   restart: unless-stopped
   image: supla/supla-server
+  entrypoint: /bin/sh
 #  environment:
 #    - DB_PASSWORD
   volumes:
@@ -35,6 +38,8 @@ supla-server:
   ports:
     - 2016:2016
     - 2015:2015
+  links:
+    - supla-mysql
 #  depends_on:
 #    - supla-mysql
 
