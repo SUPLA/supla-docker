@@ -1,0 +1,43 @@
+supla-cloud:
+  container_name: ${COMPOSE_PROJECT_NAME}-cloud
+  restart: unless-stopped
+  image: supla/supla-cloud:rc
+  ports:
+    - "12344:80"
+    - "12345:443"
+  volumes:
+    - /etc/supla/ssl/cloud:/etc/apache2/ssl:z
+    - /etc/supla/server:/supla-server:z
+#  environment:
+#    - DB_PASSWORD
+  depends_on:
+    - supla-mysql
+    - supla-server
+
+supla-mysql:
+  container_name: ${COMPOSE_PROJECT_NAME}-mysql
+  restart: unless-stopped
+  image: mysql:5.5.58
+  environment:
+    MYSQL_ROOT_PASSWORD: DEFAULT_PASSWORD_IS_BAD_IDEA
+    MYSQL_DATABASE: supla
+    MYSQL_USER: supla
+    MYSQL_PASSWORD: DEFAULT_PASSWORD_IS_BAD_IDEA
+  volumes:
+    - /var/supla/mysql:/var/lib/mysql:z
+
+supla-server:
+  container_name: ${COMPOSE_PROJECT_NAME}-server
+  restart: unless-stopped
+  image: supla/supla-server
+#  environment:
+#    - DB_PASSWORD
+  volumes:
+    - /etc/supla/ssl/server:/etc/supla-server/ssl:z
+    - /etc/supla/server:/tmp:z
+  ports:
+    - 2016:2016
+    - 2015:2015
+  depends_on:
+    - supla-mysql
+
