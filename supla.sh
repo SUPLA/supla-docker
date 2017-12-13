@@ -16,11 +16,6 @@ if [ ! -f .env ]; then
   echo -e "${YELLOW}Configuration files has been generated based on samples.${NC}"
 fi
 
-if [ ! -f ssl/cloud/server.crt ]; then
-  echo -e "${YELLOW}Generating self-signed certificates for supla-cloud and supla-server.${NC}"
-  ./ssl/generate-self-signed-certs.sh
-fi
-
 if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
   echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
   sed -i "s#mysql:5.5.58#hypriot/rpi-mysql:5.5#g" mysql/Dockerfile
