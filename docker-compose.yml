@@ -12,10 +12,20 @@ services:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z
     environment:
+      - ADMIN_EMAIL
       - CLOUD_DOMAIN
       - DB_PASSWORD
       - FIRST_USER_EMAIL
       - FIRST_USER_PASSWORD
+      - MAILER_ENCRYPTION
+      - MAILER_HOST
+      - MAILER_PASSWORD
+      - MAILER_PORT
+      - MAILER_USER
+      - RECAPTCHA_ENABLED
+      - RECAPTCHA_PRIVATE_KEY
+      - RECAPTCHA_PUBLIC_KEY
+      - SECRET
     links:
       - supla-db
     depends_on:
@@ -43,8 +53,8 @@ services:
       - ./ssl/server:/etc/supla-server/ssl:z
       - supla-server-tmp:/tmp:z
     ports:
-      - 2016:2016
-      - 2015:2015
+      - "2016:2016"
+      - "2015:2015"
     links:
       - supla-db
     depends_on:
