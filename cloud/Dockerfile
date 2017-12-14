@@ -13,6 +13,8 @@ RUN apt-get update \
       unzip \
       mysql-client \
       wget \
+      supervisor \
+      cron \
     && update-ca-certificates \
     && docker-php-ext-install \
       pdo_mysql \
@@ -22,9 +24,11 @@ RUN apt-get update \
       curl \
       zip \
     && apt-get autoremove \
-    && rm -r /var/lib/apt/lists/*
+    && rm -r /var/lib/apt/lists/* \
+    && mkdir -p /var/log/supervisor
 
 COPY apache-conf /etc/apache2/sites-available
+COPY crontab /etc/cron.d/supla-cron
 
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
@@ -34,7 +38,9 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini \
-    && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl
+    && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl \
+    && chmod 0644 /etc/cron.d/supla-cron \
+    && touch /var/log/cron.log
 
 ENV CLOUD_VERSION=2.1.6-rc.1
 #COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
@@ -51,4 +57,7 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VER
 
 WORKDIR /var/www/cloud
 
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
+
+CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]

@@ -18,7 +18,6 @@ fi
 
 if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
   echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
-  sed -i "s#mysql:5.5.58#hypriot/rpi-mysql:5.5#g" mysql/Dockerfile
   sed -i "s#mysql:5.5.58#hypriot/rpi-mysql:5.5#g" docker-compose.yml
 fi
 
@@ -26,12 +25,10 @@ source .env >/dev/null 2>&1
 
 # remove \r at the end of the env, if exists
 CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
-CRONTAB="* * * * * $(which docker) exec -u www-data $CONTAINER_NAME-cloud php bin/console supla:dispatch-cyclic-tasks"
 
 if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}"
   docker-compose up --build -d
-  (crontab -l | grep -q "$CRONTAB" && echo "SUPLA crontab already installed") || ((crontab -l; echo ""; echo "$CRONTAB") | crontab && echo "SUPLA crontab has been installed successfully")
   echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then
