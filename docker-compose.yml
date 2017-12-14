@@ -4,7 +4,7 @@ services:
   supla-cloud:
     container_name: ${COMPOSE_PROJECT_NAME}-cloud
     restart: unless-stopped
-    build: ./cloud
+    image: supla/supla-cloud
     ports:
       - "${PORT_HTTP}:80"
       - "${PORT_HTTPS}:443"
@@ -46,7 +46,7 @@ services:
   supla-server:
     container_name: ${COMPOSE_PROJECT_NAME}-server
     restart: unless-stopped
-    build: ./server
+    image: supla/supla-server
     environment:
       - DB_PASSWORD
     volumes:

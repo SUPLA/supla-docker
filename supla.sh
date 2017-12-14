@@ -17,8 +17,8 @@ if [ ! -f .env ]; then
 fi
 
 if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
-  echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
-  sed -i "s#mysql:5.5.58#hypriot/rpi-mysql:5.5#g" docker-compose.yml
+  echo -e "${RED}ARM architecture detected. Build from src branch.${NC}"
+  exit
 fi
 
 source .env >/dev/null 2>&1
@@ -28,8 +28,7 @@ CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
 
 if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}"
-  docker-compose up --build -d
-  echo -e "${GREEN}SUPLA containers has been started.${NC}"
+  docker-compose up --build -d && echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then
   echo -e "${GREEN}Stopping SUPLA containers${NC}"
