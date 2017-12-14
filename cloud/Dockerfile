@@ -39,8 +39,7 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini \
     && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl \
-    && chmod 0644 /etc/cron.d/supla-cron \
-    && touch /var/log/cron.log
+    && chmod 0644 /etc/cron.d/supla-cron
 
 ENV CLOUD_VERSION=2.1.6-rc.1
 #COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
