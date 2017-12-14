@@ -36,8 +36,8 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini \
     && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl
 
-ENV CLOUD_VERSION=2.1.5
-COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
+ENV CLOUD_VERSION=2.1.6-rc.1
+#COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
