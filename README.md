@@ -2,9 +2,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/supla/supla-cloud.svg)](https://hub.docker.com/r/supla/supla-cloud/) [![Docker Build Status](https://img.shields.io/docker/build/supla/supla-cloud.svg)](https://hub.docker.com/r/supla/supla-cloud/)
  
-| SUPLA-Cloud        | SUPLA-Core           |
-| ------------- |:-------------|
-| [![Latest release](https://img.shields.io/github/release/SUPLA/supla-cloud.svg)](https://github.com/SUPLA/supla-cloud/releases/latest)  | [![Latest release](https://img.shields.io/github/release/SUPLA/supla-core.svg)](https://github.com/SUPLA/supla-core/releases/latest) |
+[![Current Supla-Cloud version](https://img.shields.io/badge/SUPLA--Cloud-v2.1.6--rc.1-blue.svg)](https://github.com/SUPLA/supla-cloud/releases/latest)  [![Current SUPLA-Server version](https://img.shields.io/badge/SUPLA--Server-v1.8.5-blue.svg)](https://github.com/SUPLA/supla-core/releases/latest) |
 
 Your home connected. With Docker. www.supla.org
 
