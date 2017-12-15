@@ -1,43 +1,35 @@
 supla-cloud:
-  restart: unless-stopped
-  image: supla/supla-cloud:rc
+  image: supla/supla-cloud
   ports:
-    - "12345:443"
+    - "1235:80"
+    - "1234:443"
   volumes:
-    - /etc/supla/ssl/cloud:/etc/apache2/ssl:z
-    - /etc/supla/server:/supla-server:z
+    - /etc/supla-cloud/ssl/cloud:/etc/apache2/ssl:z
+    - /etc/supla-cloud/server:/supla-server:z
+  environtment:
+    DB_PASSWORD: ala123
   links:
     - supla-db
-#  environment:
-#    - DB_PASSWORD
-#  depends_on:
-#    - supla-mysql
-#    - supla-server
 
 supla-db:
-  restart: unless-stopped
   image: mysql:5.7.20
   environment:
-    MYSQL_ROOT_PASSWORD: DEFAULT_PASSWORD_IS_BAD_IDEA
+    MYSQL_ROOT_PASSWORD: ala123
     MYSQL_DATABASE: supla
     MYSQL_USER: supla
-    MYSQL_PASSWORD: DEFAULT_PASSWORD_IS_BAD_IDEA
+    MYSQL_PASSWORD: ala123
   volumes:
-    - /var/supla/mysql:/var/lib/mysql:z
+    - /var/supla/db:/var/lib/mysql:z
 
 supla-server:
-  restart: unless-stopped
   image: supla/supla-server
-#  environment:
-#    - DB_PASSWORD
+  environment:
+    DB_PASSWORD: ala123
   volumes:
-    - /etc/supla/ssl/server:/etc/supla-server/ssl:z
-    - /etc/supla/server:/tmp:z
+    - /etc/supla-cloud/ssl/server:/etc/apache2/ssl:z
+    - /etc/supla-cloud/server:/tmp:z
   ports:
-    - 2016:2016
-    - 2015:2015
+    - "2016:2016"
+    - "2015:2015"
   links:
     - supla-db
-#  depends_on:
-#    - supla-mysql
-
