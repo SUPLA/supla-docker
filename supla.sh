@@ -18,7 +18,7 @@ fi
 
 if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
   echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
-  sed -i "s#mysql:5.5.58#hypriot/rpi-mysql:5.5#g" docker-compose.yml
+  sed -i "s#mysql:5.7.20#hypriot/rpi-mysql:5.5#g" docker-compose.yml
 fi
 
 source .env >/dev/null 2>&1
