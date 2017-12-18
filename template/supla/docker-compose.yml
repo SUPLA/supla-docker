@@ -1,5 +1,5 @@
 supla-cloud:
-  image: supla/supla-cloud
+  image: supla/supla-cloud:latest
   ports:
     - "1235:80"
     - "1234:443"
@@ -22,7 +22,7 @@ supla-db:
     - /var/supla/db:/var/lib/mysql:z
 
 supla-server:
-  image: supla/supla-server
+  image: supla/supla-server:latest
   environment:
     DB_PASSWORD: ala123
   volumes:
