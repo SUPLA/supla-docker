@@ -51,7 +51,6 @@ elif [ "$1" = "backup" ]; then
   echo -e "${GREEN}Database backup saved to $BACKUP_FILE${NC}" || \
   (echo -e "${RED}Could not create the database backup. Is the application started?${NC}" && false)
 
-
 elif [ "$1" = "upgrade" ]; then
   "./$(basename "$0")" backup && \
   "./$(basename "$0")" stop && \
