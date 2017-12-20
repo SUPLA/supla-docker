@@ -42,10 +42,15 @@ elif [ "$1" = "restart" ]; then
   sleep 1
   "./$(basename "$0")" start
 
+elif [ "$1" = "upgrade" ]; then
+  "./$(basename "$0")" stop
+  docker-compose pull
+  "./$(basename "$0")" start
+
 elif [ "$1" = "create-confirmed-user" ]; then
   docker exec -it -u www-data "$CONTAINER_NAME-cloud" php bin/console supla:create-confirmed-user
 
 else
-  echo -e "${RED}Usage: $0 start|stop|restart|create-confirmed-user${NC}"
+  echo -e "${RED}Usage: $0 start|stop|restart|upgrade|create-confirmed-user${NC}"
 
 fi
