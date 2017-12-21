@@ -26,12 +26,28 @@ Your home connected. With Docker. www.supla.org
    ```
    git clone https://github.com/SUPLA/supla-docker.git
    ```
+1. Generate sample config by running
+   ```
+   ./supla-docker/supla.sh
+   ```
+   Review the settings in `./supla-docker/.env` file.
 1. Start SUPLA!
    ```
    ./supla-docker/supla.sh start
    ```
    
 ## Creating an user account
+Before you launch the containers, set the `FIRST_USER_EMAIL` and `FIRST_USER_PASSWORD` settings in the `.env` file. 
+The account will be automatically created for you. You can remove these settings afterwards not to expose your password.
+
+If the containers are started already, you can create new user account interactively with:
 ```
 ./supla-docker/supla.sh create-confirmed-user
+```
+
+## Upgrading to the newest version
+```
+cd supla-docker
+git pull
+./supla.sh upgrade
 ```
