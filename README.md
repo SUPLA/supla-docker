@@ -10,6 +10,8 @@ Your home connected. With Docker. www.supla.org
 
 ## Installation
 
+[VIDEO](https://www.youtube.com/watch?v=MBgRUE_5dFU)
+
 1. Install [Docker CE](https://docs.docker.com/engine/installation/) 17.06+, [docker-compose](https://docs.docker.com/compose/install/) 1.17+ and Git.
    The following _should_ work (as root):
    ```
