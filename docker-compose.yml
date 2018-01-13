@@ -5,9 +5,6 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-cloud
     restart: unless-stopped
     image: supla/supla-cloud
-    ports:
-      - "${PORT_HTTP}:80"
-      - "${PORT_HTTPS}:443"
     volumes:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z

@@ -30,8 +30,9 @@ source .env >/dev/null 2>&1
 CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
 
 if [ "$1" = "start" ]; then
-  echo -e "${GREEN}Starting SUPLA containers${NC}"
-  docker-compose up --build -d && echo -e "${GREEN}SUPLA containers has been started.${NC}"
+  echo -e "${GREEN}Starting SUPLA containers${NC}" && \
+  docker-compose up --build -d && \
+  echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then
   echo -e "${GREEN}Stopping SUPLA containers${NC}"

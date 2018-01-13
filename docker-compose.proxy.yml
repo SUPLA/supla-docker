@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  supla-cloud:
+    networks: [default, proxy]
+    environment:
+      - VIRTUAL_HOST=${CLOUD_DOMAIN}
+      - LETSENCRYPT_HOST=${CLOUD_DOMAIN}
+      - LETSENCRYPT_EMAIL=${ADMIN_EMAIL}
+      - SUPLA_PROTOCOL=http
+
+networks:
+  proxy:
+    external:
+      name: webproxy
