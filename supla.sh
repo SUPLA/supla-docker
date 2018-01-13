@@ -14,7 +14,7 @@ if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
 fi
 
 if [ ! -f .env ]; then
-  cp .env.sample .env
+  cp .env.default .env
   DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
   SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
   sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env

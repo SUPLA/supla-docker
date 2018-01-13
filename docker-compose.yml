@@ -5,24 +5,12 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-cloud
     restart: unless-stopped
     image: supla/supla-cloud
+    env_file:
+      - .env.default
+      - .env
     volumes:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z
-    environment:
-      - ADMIN_EMAIL
-      - CLOUD_DOMAIN
-      - DB_PASSWORD
-      - FIRST_USER_EMAIL
-      - FIRST_USER_PASSWORD
-      - MAILER_ENCRYPTION
-      - MAILER_HOST
-      - MAILER_PASSWORD
-      - MAILER_PORT
-      - MAILER_USER
-      - RECAPTCHA_ENABLED
-      - RECAPTCHA_PRIVATE_KEY
-      - RECAPTCHA_PUBLIC_KEY
-      - SECRET
     links:
       - supla-db
     depends_on:
@@ -32,6 +20,9 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-db
     restart: unless-stopped
     image: mysql:5.7.20
+    env_file:
+      - .env.default
+      - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: supla
@@ -44,8 +35,9 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-server
     restart: unless-stopped
     image: supla/supla-server
-    environment:
-      - DB_PASSWORD
+    env_file:
+      - .env.default
+      - .env
     volumes:
       - ./ssl/server:/etc/supla-server/ssl:z
       - supla-server-tmp:/tmp:z
