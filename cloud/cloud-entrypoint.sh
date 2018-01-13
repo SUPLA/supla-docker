@@ -19,7 +19,8 @@ sed -i "s+mailer_password: ~+mailer_password: ${MAILER_PASSWORD:-~}+g" app/confi
 sed -i "s+mailer_port: 465+mailer_port: ${MAILER_PORT:-25}+g" app/config/parameters.yml
 sed -i "s+mailer_encryption: ssl+mailer_encryption: ${MAILER_ENCRYPTION:-~}+g" app/config/parameters.yml
 sed -i "s+mailer_from: ~+mailer_from: ${MAILER_FROM:-~}+g" app/config/parameters.yml
-sed -i "s+admin_email: ~: ~+admin_email: ${ADMIN_EMAIL:-~}+g" app/config/parameters.yml
+sed -i "s+admin_email: ~+admin_email: ${ADMIN_EMAIL:-~}+g" app/config/parameters.yml
+sed -i "s+supla_protocol: https+supla_protocol: ${SUPLA_PROTOCOL:-https}+g" app/config/config.yml
 
 rm -fr var/cache/*
 php bin/console supla:initialize
