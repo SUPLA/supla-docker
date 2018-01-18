@@ -7,18 +7,15 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
-  echo -e "${RED}ARM architecture detected. Use the configuration from arm32v7 branch.${NC}"
-  echo -e "${YELLOW}Run the following command and try again: git checkout arm32v7${NC}"
-  exit
-fi
-
 if [ ! -f .env ]; then
   cp .env.default .env
   DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
   SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
   sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
   sed -i "s+CHANGE_SECRET_BEFORE_FIRST_LAUNCH+$SECRET+g" .env
+  if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
+    sed -i -E "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1;docker-compose.arm32v7.yml/" .env
+  fi
   echo -e "${YELLOW}Sample configuration file has been generated for you.${NC}"
   echo -e "${YELLOW}Please check if the .env file matches your needs and run this command again.${NC}"
   exit
