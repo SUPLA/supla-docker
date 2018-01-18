@@ -75,7 +75,7 @@ If you either
     ``` 
     and change it to 
     ```
-    COMPOSE_FILE=docker-compose.yml;docker-compose.proxy.yml
+    COMPOSE_FILE=docker-compose.yml:docker-compose.proxy.yml
     ```
 1. In the file `supla-docker/.env` make sure that `CLOUD_DOMAIN` is valid domain name that should point to the SUPLA instance (can not be an IP address!) and the `ADMIN_EMAIL` is a correct e-mail address.
 1. Start SUPLA!
