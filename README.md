@@ -69,9 +69,9 @@ If you either
       supla-docker/
       docker-compose-letsencrypt-nginx-proxy-companion/
     ```
-1. In the file `supla-docker/.env` find the following option
+1. In the file `supla-docker/.env` find the following configuration
     ```
-    COMPOSE_FILE=docker-compose.yml;docker-compose.standalone.yml
+    COMPOSE_FILE=docker-compose.yml:docker-compose.standalone.yml
     ``` 
     and change it to 
     ```

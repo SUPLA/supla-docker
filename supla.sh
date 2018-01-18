@@ -14,7 +14,7 @@ if [ ! -f .env ]; then
   sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
   sed -i "s+CHANGE_SECRET_BEFORE_FIRST_LAUNCH+$SECRET+g" .env
   if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
-    sed -i -E "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1;docker-compose.arm32v7.yml/" .env
+    sed -i -E "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.arm32v7.yml/" .env
   fi
   echo -e "${YELLOW}Sample configuration file has been generated for you.${NC}"
   echo -e "${YELLOW}Please check if the .env file matches your needs and run this command again.${NC}"
