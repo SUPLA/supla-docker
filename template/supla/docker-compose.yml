@@ -7,7 +7,7 @@ services:
     ports:
       - "9999:443"
     volumes:
-      - ./ssl-cloud:/etc/apache2/ssl:z
+      - ${PWD}/ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z
     links:
       - supla-db
@@ -23,13 +23,13 @@ services:
       MYSQL_USER: supla
       MYSQL_PASSWORD: ala123
     volumes:
-      - ./mysql:/var/lib/mysql:z
+      - ${PWD}/mysql:/var/lib/mysql:z
 
   supla-server:
     container_name: supla-server
     image: supla/supla-server
     volumes:
-      - ./ssl-server:/etc/supla-server/ssl:z
+      - ${PWD}/ssl/server:/etc/supla-server/ssl:z
       - supla-server-tmp:/tmp:z
     ports:
       - "2016:2016"
