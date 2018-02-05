@@ -6,6 +6,12 @@ services:
     image: supla/supla-cloud
     ports:
       - "9999:443"
+    environment:
+      CLOUD_DOMAIN: cloud.supla.org
+      FIRST_USER_EMAIL: user@supla.org
+      FIRST_USER_PASSWORD: pass
+      DB_PASSWORD: ala123
+      SECRET: ala1234
     volumes:
       - ${PWD}/ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z
@@ -28,6 +34,8 @@ services:
   supla-server:
     container_name: supla-server
     image: supla/supla-server
+    environment:
+      DB_PASSWORD: ala123
     volumes:
       - ${PWD}/ssl/server:/etc/supla-server/ssl:z
       - supla-server-tmp:/tmp:z
