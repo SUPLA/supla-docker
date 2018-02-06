@@ -121,11 +121,6 @@
           "title": "Enabled",
           "description": ""
         },
-        "recaptcha_enabled2": {
-          "type": "checkbox",
-          "title": "Enabled",
-          "description": ""
-        },
         "recaptcha_public_key": {
           "type": "string",
           "title": "Public key",
