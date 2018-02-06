@@ -14,7 +14,7 @@
           "desc": "{{'SUPLA_DB_PASSWORD' | translate}}",
           "subitems": [
             {
-              "key": "app.supla.environment.DB_PASSWORD",
+              "key": "app.supla.db.password",
               "desc": "{{'PASSWORD' | translate}}",
               "validator": {
                 "minLength": 5,
@@ -55,7 +55,10 @@
   "env": {
     "supla": {
       "environment": {
-        "HTTPS_PORT": "app.supla.ports.https"
+        "HTTPS_PORT": "app.supla.ports.https",
+        "DB_PASSWORD": "app.supla.db.password",
+        "MYSQL_ROOT_PASSWORD": "app.supla.db.password",
+        "MYSQL_PASSWORD": "app.supla.db.password"
       }
     }
   }
