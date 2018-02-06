@@ -112,7 +112,7 @@
         "supla-cloud.environment.SECRET"
       ],
       "protocol": [
-        "sulpa-cloud.environment.SUPLA_PROTOCOL"
+        "supla-cloud.environment.SUPLA_PROTOCOL"
       ]
     }
   }
