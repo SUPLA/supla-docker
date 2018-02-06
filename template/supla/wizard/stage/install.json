@@ -7,23 +7,23 @@
       "schema": {
         "cloud_domain": {
           "type": "string",
-          "title": "{{CLOUD_DOMAIN_TITLE}}",
-          "description": "{{CLOUD_DOMAIN_DESCRIPTION}}",
+          "title": "Domain name or IP address",
+          "description": "The address where the SUPLA Cloud will be accessible",
           "required": true,
           "minLength": 5,
           "maxLength": 32
         },
-        "first_user_email": {
+        "first_user_username": {
           "type": "string",
-          "title": "{{FIRST_USER_EMAIL_TITLE}}",
-          "description": "{{FIRST_USER_EMAIL_DESCRIPTION}}",
+          "title": "First user e-mail",
+          "description": "E-mail of the first user to create in SUPLA Cloud",
           "required": true,
           "minLength": 4,
           "maxLength": 32
         },
         "first_user_password": {
           "type": "string",
-          "title": "{{FIRST_USER_PASSWORD_TITLE}}",
+          "title": "First user password",
           "description": "",
           "required": true,
           "minLength": 4,
@@ -31,20 +31,20 @@
         },
         "http_port": {
           "type": "integer",
-          "title": "HTTP port",
+          "title": "HTTP Port",
           "required": true,
           "maximum": 65535
         },
         "https_port": {
           "type": "integer",
-          "title": "HTTPS port",
+          "title": "HTTPS Port",
           "required": true,
           "maximum": 65535
         },
         "protocol": {
           "type": "string",
-          "title": "{{PROTOCOL_TITLE}}",
-          "description": "{{PROTOCOL_DESCRIPTION}}",
+          "title": "Protocol",
+          "description": "On which protocol SUPLA Cloud should work? Either <code>http</code> or <code>https</code>.",
           "required": true,
           "minLength": 4,
           "maxLength": 5
@@ -55,23 +55,19 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE_PASSWORDS}}",
+      "title": "{{SUPLA_CONFIGURE}} - passwords",
       "schema": {
         "db_password": {
           "type": "string",
-          "title": "{{DB_PASSWORD_TITLE}}",
+          "title": "Database password",
           "description": "",
-          "required": true,
-          "minLength": 8,
-          "maxLength": 64
+          "required": true
         },
         "secret": {
           "type": "string",
-          "title": "{{SECRET_TITLE}}",
-          "description": "{{SECRET_DESCRIPTION}}",
-          "required": true,
-          "minLength": 8,
-          "maxLength": 64
+          "title": "Secret",
+          "description": "Make it strong.<div>You can use a <a href=\"https://www.random.org/passwords/\" target=\"_blank\">password generator</a> to generate these values.</div>",
+          "required": true
         }
       },
       "form": [
@@ -79,7 +75,7 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE_MAILER}}",
+      "title": "{{SUPLA_CONFIGURE}} - mailer",
       "schema": {
         "mailer_host": {
           "type": "string",
@@ -93,23 +89,23 @@
         },
         "mailer_user": {
           "type": "string",
-          "title": "{{MAILER_USERNAME_TITLE}}",
+          "title": "Username",
           "description": ""
         },
         "mailer_password": {
           "type": "string",
-          "title": "{{MAILER_PASSWORD_TITLE}}",
+          "title": "Password",
           "description": ""
         },
         "mailer_encryption": {
           "type": "string",
-          "title": "{{MAILER_ENCRYPTION_TITLE}}",
+          "title": "Encryption",
           "description": "",
           "maxLength": 5
         },
         "mailer_from": {
           "type": "string",
-          "title": "{{MAILER_FROM_TITLE}}",
+          "title": "From",
           "description": ""
         }
       },
@@ -118,21 +114,21 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE_RECAPTCHA}}",
+      "title": "{{SUPLA_CONFIGURE}} - reCaptcha",
       "schema": {
         "recaptcha_enabled": {
           "type": "boolean",
-          "title": "{{RECAPTCHA_ENABLED_TITLE}}",
+          "title": "Enabled",
           "description": ""
         },
         "recaptcha_public_key": {
           "type": "string",
-          "title": "{{RECAPTCHA_PUBLIC_KEY_TITLE}}",
+          "title": "Public key",
           "description": ""
         },
         "recaptcha_private_key": {
           "type": "string",
-          "title": "{{RECAPTCHA_PRIVATE_KEY_TITLE}}",
+          "title": "Public key",
           "description": ""
         }
       },
@@ -148,7 +144,7 @@
       "cloud_domain": [
         "supla-cloud.environment.CLOUD_DOMAIN"
       ],
-      "first_user_email": [
+      "first_user_username": [
         "supla-cloud.environment.FIRST_USER_EMAIL",
         "supla-cloud.environment.ADMIN_EMAIL"
       ],
