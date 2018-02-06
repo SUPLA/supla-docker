@@ -13,7 +13,7 @@
   "PROTOCOL_DESCRIPTION": "On which protocol SUPLA Cloud should work? Either <code>http</code> or <code>https</code>.",
   "DB_PASSWORD_TITLE": "Database password",
   "SECRET_TITLE": "Secret",
-  "SECRET_DESCRIPTION": "Make these values strong.<div>You can use a <a href=\"https://www.random.org/passwords/\" target=\"_blank\">password generator</a> to generate them.</div>",
+  "SECRET_DESCRIPTION": "Make these values strong.<div>You can use a <a href='https://www.random.org/passwords/' target='_blank'>password generator</a> to generate them.</div>",
   "MAILER_USERNAME_TITLE": "Username",
   "MAILER_PASSWORD_TITLE": "Password",
   "MAILER_ENCRYPTION_TITLE": "Encryption",

@@ -13,11 +13,11 @@
   "PROTOCOL_DESCRIPTION": "Na jakim protokole SUPLA Cloud powinien działać? Wpisz <code>http</code> albo <code>https</code>.",
   "DB_PASSWORD_TITLE": "Hasło bazy danych",
   "SECRET_TITLE": "Sekretny ciąg znaków",
-  "SECRET_DESCRIPTION": "Wprowadź długie, przypadkowe wartości.<div>Możesz użyć <a href=\"https://www.random.org/passwords/\" target=\"_blank\">generatora haseł</a> by je wygenerować.</div>",
+  "SECRET_DESCRIPTION": "Wprowadź długie, przypadkowe wartości.<div>Możesz użyć <a href='https://www.random.org/passwords/' target='_blank'>generatora haseł</a> by je wygenerować.</div>",
   "MAILER_USERNAME_TITLE": "Nazwa użytkownika",
   "MAILER_PASSWORD_TITLE": "Hasło",
   "MAILER_ENCRYPTION_TITLE": "Szyfrowanie",
-  "MAILER_FROM_TITLE": "Pole <em>Od</em>",
+  "MAILER_FROM_TITLE": "Pole 'Od'",
   "RECAPTCHA_ENABLED_TITLE": "Aktywna",
   "RECAPTCHA_PUBLIC_KEY_TITLE": "Klucz publiczny",
   "RECAPTCHA_PRIVATE_KEY_TITLE": "Klucz prywatny"
