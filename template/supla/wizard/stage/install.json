@@ -7,23 +7,23 @@
       "schema": {
         "cloud_domain": {
           "type": "string",
-          "title": "Domain name or IP address",
-          "description": "The address where the SUPLA Cloud will be accessible",
+          "title": "{{CLOUD_DOMAIN_TITLE}}",
+          "description": "{{CLOUD_DOMAIN_DESCRIPTION}}",
           "required": true,
           "minLength": 5,
           "maxLength": 32
         },
-        "first_user_username": {
+        "first_user_email": {
           "type": "string",
-          "title": "First user e-mail",
-          "description": "E-mail of the first user to create in SUPLA Cloud",
+          "title": "{{FIRST_USER_EMAIL_TITLE}}",
+          "description": "{{FIRST_USER_EMAIL_DESCRIPTION}}",
           "required": true,
           "minLength": 4,
           "maxLength": 32
         },
         "first_user_password": {
           "type": "string",
-          "title": "First user password",
+          "title": "{{FIRST_USER_PASSWORD_TITLE}}",
           "description": "",
           "required": true,
           "minLength": 4,
@@ -144,7 +144,7 @@
       "cloud_domain": [
         "supla-cloud.environment.CLOUD_DOMAIN"
       ],
-      "first_user_username": [
+      "first_user_email": [
         "supla-cloud.environment.FIRST_USER_EMAIL",
         "supla-cloud.environment.ADMIN_EMAIL"
       ],
