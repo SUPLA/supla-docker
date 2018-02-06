@@ -1,9 +1,13 @@
 {
   "CONFIGURE_SUPLA": "Configure SUPLA",
-  "SUPLA_DB_PASSWORD": "The password for the database. Make it strong.",
+  "SUPLA_PASSWORD_DESC": "The password for the root user. Defaults to 5iveL!fe.",
   "PASSWORD": "Password",
-  "SUPLA_PORT_DESC": "The port of the SUPLA Cloud. Defaults to 443.",
+  "SUPLA_WEB_HOST_PORT_DESC": "The port of the SUPLA server. Defaults to 80.",
   "PORT": "Port",
-  "SUPLA_EMAIL": "E-mail",
-  "SUPLA_FIRST_USER_EMAIL": "E-mail address for the first user to create."
+  "SUPLA_SSH_HOST_PORT_DESC": "The ssh port number. Defaults to 22.",
+  "SERVICE_MANAGEMENT": "Service Management",
+  "SERVICE_ENTRY": "Service entrypoint",
+  "START_ONBOOT": "Start on boot",
+  "CONTEXT_PATH": "Context path",
+  "SERVICE_URL": "Service URL"
 }

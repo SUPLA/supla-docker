@@ -1,0 +1,42 @@
+{
+  "api_version": "v1",
+  "title": "{{SUPLA_NAME}}",
+  "wizard": [
+    {
+      "title": "{{SUPLA_CONFIGURE}}",
+      "schema": {
+        "http_port": {
+          "type": "integer",
+          "title": "HTTP Port",
+          "description": "{{SUPLA_WEB_HOST_PORT_DESC}}",
+		  "required": true,
+          "maximum": 65535
+        },
+        "ssh_port": {
+          "type": "integer",
+          "title": "SSH Port",
+          "description": "{{SUPLA_SSH_HOST_PORT_DESC}}",
+		  "required": true,
+          "maximum": 65535
+        }
+      },
+      "form": [
+        "*"
+      ]
+    }
+  ],
+  "binding": {
+    "type": "yaml",
+    "file": "docker-compose.yml",
+    "data": {
+      "http_port": [
+        "supla.ports[0]",
+        "supla.environment.SUPLA_PORT"
+      ],
+      "ssh_port": [
+        "supla.environment.SUPLA_SSH_PORT",
+        "supla.ports[1]"
+      ]
+    }
+  }
+}
