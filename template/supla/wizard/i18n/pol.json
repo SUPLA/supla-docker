@@ -17,7 +17,7 @@
   "MAILER_USERNAME_TITLE": "Nazwa użytkownika",
   "MAILER_PASSWORD_TITLE": "Hasło",
   "MAILER_ENCRYPTION_TITLE": "Szyfrowanie",
-  "MAILER_FROM_TITLE": "Pole \"Od\"",
+  "MAILER_FROM_TITLE": "Pole <em>Od</em>",
   "RECAPTCHA_ENABLED_TITLE": "Aktywna",
   "RECAPTCHA_PUBLIC_KEY_TITLE": "Klucz publiczny",
   "RECAPTCHA_PRIVATE_KEY_TITLE": "Klucz prywatny"
