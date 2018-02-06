@@ -3,5 +3,7 @@
   "SUPLA_DB_PASSWORD": "The password for the database. Make it strong.",
   "PASSWORD": "Password",
   "SUPLA_PORT_DESC": "The port of the SUPLA Cloud. Defaults to 443.",
-  "PORT": "Port"
+  "PORT": "Port",
+  "SUPLA_EMAIL": "E-mail",
+  "SUPLA_FIRST_USER_EMAIL": "E-mail address for the first user to create."
 }
