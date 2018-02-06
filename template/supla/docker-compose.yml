@@ -1,5 +1,4 @@
 supla-cloud:
-  container_name: supla-cloud
   image: supla/supla-cloud
   ports:
     - "9999:443"
@@ -13,10 +12,10 @@ supla-cloud:
     - ${PWD}/ssl/cloud:/etc/apache2/ssl:z
     - ${PWD}/server:/supla-server:z
   links:
-    - supla-db
+    - supla-db:supla-db
+    - supla-server:supla-server
 
 supla-db:
-  container_name: supla-db
   image: mysql:5.7.20
   environment:
     MYSQL_ROOT_PASSWORD: ala123
@@ -27,7 +26,6 @@ supla-db:
     - ${PWD}/mysql:/var/lib/mysql:z
 
 supla-server:
-  container_name: supla-server
   image: supla/supla-server
   environment:
     DB_PASSWORD: ala123
@@ -38,4 +36,4 @@ supla-server:
     - "2016:2016"
     - "2015:2015"
   links:
-    - supla-db
+    - supla-db:supla-db
