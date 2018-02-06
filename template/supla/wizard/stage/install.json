@@ -31,20 +31,20 @@
         },
         "http_port": {
           "type": "integer",
-          "title": "HTTP Port",
+          "title": "HTTP port",
           "required": true,
           "maximum": 65535
         },
         "https_port": {
           "type": "integer",
-          "title": "HTTPS Port",
+          "title": "HTTPS port",
           "required": true,
           "maximum": 65535
         },
         "protocol": {
           "type": "string",
-          "title": "Protocol",
-          "description": "On which protocol SUPLA Cloud should work? Either <code>http</code> or <code>https</code>.",
+          "title": "{{PROTOCOL_TITLE}}",
+          "description": "{{PROTOCOL_DESCRIPTION}}",
           "required": true,
           "minLength": 4,
           "maxLength": 5
