@@ -14,8 +14,6 @@ supla-cloud:
     - ${PWD}/server:/supla-server:z
   links:
     - supla-db
-  depends_on:
-    - supla-db
 
 supla-db:
   container_name: supla-db
@@ -41,5 +39,3 @@ supla-server:
     - "2015:2015"
   links:
     - supla-db
-  depends_on:
-    - supla-cloud
