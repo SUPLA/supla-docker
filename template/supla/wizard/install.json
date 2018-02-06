@@ -4,78 +4,7 @@
         "entry": {"port": "app.supla.ports.80"}
     },
     "wizard": [
-        {
-            "step_title":"{{'CONFIGURE_SUPLA' | translate}}",
-            "items":[
-                {
-                    "type":"textfield",
-                    "desc":"{{'SUPLA_PASSWORD_DESC' | translate}}",
-                    "subitems":[
-                        {
-                            "key":"app.supla.environment.SUPLA_ROOT_PASSWORD",
-                            "desc":"{{'PASSWORD' | translate}}",
-                            "validator":{
-                                "minLength":2,
-                                "maxLength":10
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type":"textfield",
-                    "desc":"{{'SUPLA_WEB_HOST_PORT_DESC' | translate}}",
-                    "subitems":[
-                        {
-                            "key":"app.supla.ports['80']",
-                            "desc":"{{'PORT' | translate}}",
-                            "validator":{
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type":"textfield",
-                    "desc":"{{'SUPLA_SSH_HOST_PORT_DESC' | translate}}",
-                    "subitems":[
-                        {
-                            "key":"app.supla.ports['22']",
-                            "desc":"{{'PORT' | translate}}",
-                            "validator":{
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "step_title":"{{'SERVICE_MANAGEMENT' | translate}}",
-            "items":[
-                {
-                    "type":"multiselect",
-                    "desc":"",
-                    "subitems":[
-                        {
-                            "key":"custom.autostart",
-                            "desc":"{{'START_ONBOOT' | translate}}",
-                            "validator":{
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type":"textfield",
-                    "desc":"",
-                    "subitems":[
-                        {
-                            "key":"custom.entrypoint",
-                            "desc":"{{'SERVICE_ENTRY' | translate}}",
-                            "validator":{
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
+
     ],
     "env": {
         "supla": {

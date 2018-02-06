@@ -48,10 +48,6 @@
           "required": true,
           "minLength": 4,
           "maxLength": 5
-        },
-        "volumes": {
-          "type": "string",
-          "title": "VOLUMES"
         }
       },
       "form": [
@@ -199,9 +195,6 @@
       ],
       "recaptcha_private_key": [
         "supla-cloud.environment.RECAPTCHA_PRIVATE_KEY"
-      ],
-      "volumes": [
-        "supla-cloud.environment.VOLUMES_DIR"
       ]
     }
   }
