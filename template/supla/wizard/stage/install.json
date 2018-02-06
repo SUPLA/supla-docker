@@ -117,7 +117,12 @@
       "title": "{{SUPLA_CONFIGURE}} - reCaptcha",
       "schema": {
         "recaptcha_enabled": {
-          "type": "string",
+          "type": "boolean",
+          "title": "Enabled",
+          "description": ""
+        },
+        "recaptcha_enabled2": {
+          "type": "checkbox",
           "title": "Enabled",
           "description": ""
         },
