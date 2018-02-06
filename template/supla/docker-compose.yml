@@ -1,4 +1,5 @@
 supla-cloud:
+  restart: always
   image: supla/supla-cloud
   ports:
     - "9998:80"
@@ -29,6 +30,7 @@ supla-cloud:
     - supla-server:supla-server
 
 supla-db:
+  restart: always
   image: mysql:5.7.20
   environment:
     MYSQL_ROOT_PASSWORD: password
@@ -39,6 +41,7 @@ supla-db:
     - /var/lib/mysql
 
 supla-server:
+  restart: always
   image: supla/supla-server
   environment:
     DB_PASSWORD: password
