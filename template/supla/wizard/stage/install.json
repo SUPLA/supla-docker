@@ -55,7 +55,7 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE}}",
+      "title": "{{SUPLA_CONFIGURE}} - passwords",
       "schema": {
         "db_password": {
           "type": "string",
@@ -80,8 +80,56 @@
         "mailer_host": {
           "type": "string",
           "title": "Host",
+          "description": ""
+        },
+        "mailer_port": {
+          "type": "integer",
+          "title": "Port",
+          "maximum": 65535
+        },
+        "mailer_user": {
+          "type": "string",
+          "title": "Username",
+          "description": ""
+        },
+        "mailer_password": {
+          "type": "string",
+          "title": "Password",
+          "description": ""
+        },
+        "mailer_encryption": {
+          "type": "string",
+          "title": "Encryption",
           "description": "",
-          "required": true
+          "maxLength": 5
+        },
+        "mailer_from": {
+          "type": "string",
+          "title": "From",
+          "description": ""
+        }
+      },
+      "form": [
+        "*"
+      ]
+    },
+    {
+      "title": "{{SUPLA_CONFIGURE}} - reCaptcha",
+      "schema": {
+        "recaptcha_enabled": {
+          "type": "string",
+          "title": "Enabled",
+          "description": ""
+        },
+        "recaptcha_public_key": {
+          "type": "string",
+          "title": "Public key",
+          "description": ""
+        },
+        "recaptcha_private_key": {
+          "type": "string",
+          "title": "Public key",
+          "description": ""
         }
       },
       "form": [
@@ -123,6 +171,30 @@
       ],
       "mailer_host": [
         "supla-cloud.environment.MAILER_HOST"
+      ],
+      "mailer_port": [
+        "supla-cloud.environment.MAILER_PORT"
+      ],
+      "mailer_user": [
+        "supla-cloud.environment.MAILER_USER"
+      ],
+      "mailer_password": [
+        "supla-cloud.environment.MAILER_PASSWORD"
+      ],
+      "mailer_encryption": [
+        "supla-cloud.environment.MAILER_ENCRYPTION"
+      ],
+      "mailer_from": [
+        "supla-cloud.environment.MAILER_FROM"
+      ],
+      "recaptcha_enabled": [
+        "supla-cloud.environment.RECAPTCHA_ENABLED"
+      ],
+      "recaptcha_public_key": [
+        "supla-cloud.environment.RECAPTCHA_PUBLIC_KEY"
+      ],
+      "recaptcha_private_key": [
+        "supla-cloud.environment.RECAPTCHA_PRIVATE_KEY"
       ]
     }
   }
