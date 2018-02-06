@@ -15,7 +15,8 @@
           "type": "string",
           "title": "First user username",
           "description": "E-mail of the first user to create in SUPLA Cloud",
-          "required": true
+          "required": true,
+          "minLength": 5
         },
         "first_user_password": {
           "type": "string",
@@ -52,7 +53,7 @@
         "secret": {
           "type": "string",
           "title": "Secret",
-          "description": "Make it strong.<div>You can use a <a href=\"https://www.random.org/passwords/\">password generator</a> to generate these values.</div>",
+          "description": "Make it strong.<div>You can use a <a href=\"https://www.random.org/passwords/\" target=\"_blank\">password generator</a> to generate these values.</div>",
           "required": true
         }
       },
