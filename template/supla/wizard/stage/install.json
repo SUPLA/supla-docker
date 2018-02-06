@@ -5,17 +5,34 @@
     {
       "title": "{{SUPLA_CONFIGURE}}",
       "schema": {
+        "cloud_domain": {
+          "type": "string",
+          "title": "Domain name or IP address",
+          "description": "The address where the SUPLA Cloud will be accessible",
+          "required": true
+        },
         "first_user_username": {
           "type": "string",
-          "title": "First user usrname",
+          "title": "First user username",
           "description": "E-mail of the first user to create in SUPLA Cloud",
-		  "required": true
+          "required": true
         },
-        "ssh_port": {
+        "first_user_password": {
+          "type": "string",
+          "title": "First user password",
+          "description": "",
+          "required": true
+        },
+        "http_port": {
           "type": "integer",
-          "title": "SSH Port",
-          "description": "{{SUPLA_SSH_HOST_PORT_DESC}}",
-		  "required": true,
+          "title": "HTTP Port",
+          "required": true,
+          "maximum": 65535
+        },
+        "https_port": {
+          "type": "integer",
+          "title": "HTTPS Port",
+          "required": true,
           "maximum": 65535
         }
       },
@@ -28,13 +45,20 @@
     "type": "yaml",
     "file": "docker-compose.yml",
     "data": {
-      "first_user_username": [
-        "supla-cloud.environment.FIRST_USER_EMAIL",
-        "supla-server.environment.BLA_USER_EMAIL"
+      "cloud_domain": [
+        "supla-cloud.environment.CLOUD_DOMAIN"
       ],
-      "ssh_port": [
-        "supla.environment.SUPLA_SSH_PORT",
-        "supla.ports[1]"
+      "first_user_username": [
+        "supla-cloud.environment.FIRST_USER_EMAIL"
+      ],
+      "first_user_password": [
+        "supla-cloud.environment.FIRST_USER_PASSWORD"
+      ],
+      "http_port": [
+        "supla-cloud.ports[0]"
+      ],
+      "https_port": [
+        "supla-cloud.ports[1]"
       ]
     }
   }

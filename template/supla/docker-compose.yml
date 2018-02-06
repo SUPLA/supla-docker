@@ -1,9 +1,10 @@
 supla-cloud:
   image: supla/supla-cloud
   ports:
+    - "9998:80"
     - "9999:443"
   environment:
-    CLOUD_DOMAIN: cloud.supla.org
+    CLOUD_DOMAIN: your-qnap-domain-or-ip.com
     FIRST_USER_EMAIL: user@supla.org
     FIRST_USER_PASSWORD: pass
     DB_PASSWORD: password
