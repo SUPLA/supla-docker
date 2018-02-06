@@ -1,18 +1,8 @@
 {
-    "app": {
-        "type": "web",
-        "entry": {"port": "app.supla.ports.80"}
-    },
-    "wizard": [
-
-    ],
-    "env": {
-        "supla": {
-            "environment": {
-                "SUPLA_PORT": "app.supla.ports.80",
-                "SUPLA_SSH_PORT": "app.supla.ports.22",
-                "SUPLA_HOST": "custom.host"
-            }
-        }
-    }
+  "app": {
+  },
+  "wizard": [
+  ],
+  "env": {
+  }
 }
