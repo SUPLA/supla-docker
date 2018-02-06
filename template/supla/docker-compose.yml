@@ -24,9 +24,6 @@ supla-db:
     MYSQL_PASSWORD: password
   volumes:
     - ${PWD}/mysql:/var/lib/mysql:z
-  links:
-    - supla-server:supla-server
-    - supla-cloud:supla-cloud
 
 supla-server:
   image: supla/supla-server
@@ -40,4 +37,3 @@ supla-server:
     - "2015:2015"
   links:
     - supla-db:supla-db
-    - supla-cloud:supla-cloud
