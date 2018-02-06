@@ -39,6 +39,20 @@
       "form": [
         "*"
       ]
+    },
+    {
+      "title": "{{SUPLA_CONFIGURE}}",
+      "schema": {
+        "db_password": {
+          "type": "string",
+          "title": "Database password",
+          "description": "",
+          "required": true
+        }
+      },
+      "form": [
+        "*"
+      ]
     }
   ],
   "binding": {
@@ -59,6 +73,12 @@
       ],
       "https_port": [
         "supla-cloud.ports[1]"
+      ],
+      "db_password": [
+        "supla-cloud.environment.DB_PASSWORD",
+        "supla-server.environment.DB_PASSWORD",
+        "supla-db.environment.MYSQL_ROOT_PASSWORD",
+        "supla-db.environment.MYSQL_PASSWORD"
       ]
     }
   }
