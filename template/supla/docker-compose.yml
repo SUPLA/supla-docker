@@ -20,6 +20,7 @@ supla-cloud:
     RECAPTCHA_ENABLED: false
     RECAPTCHA_PUBLIC_KEY: ""
     RECAPTCHA_PRIVATE_KEY: ""
+    VOLUMES_DIR: ${PWD}
   volumes:
     - ${PWD}/ssl/cloud:/etc/apache2/ssl:z
     - ${PWD}/server:/supla-server:z
