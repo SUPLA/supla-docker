@@ -1,5 +1,0 @@
-{
-  "SUPLA_CONFIGURE": "設定 SUPLA",
-  "SUPLA_WEB_HOST_PORT_DESC": "設定 SUPLA 網頁伺服器的 Port，預設是 10080。",
-  "SUPLA_SSH_HOST_PORT_DESC": "設定 SUPLA SSH 伺服器的 Port，預設是 10022。<div>HTTP Port 和 SSH Port 的設定不可相同。</div>"
-}
