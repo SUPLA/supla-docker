@@ -72,7 +72,7 @@
         "icon": "https://secure.gravatar.com/avatar/198763e6f37c4890ad7bd07fd68fa708.jpg?s=80&r=g&d=mm",
         "displayName": "SUPLA Cloud",
         "name": "supla",
-        "version": "2.1.6",
+      "version": "2.1.7",
         "location": "https://hub.docker.com/r/supla/supla-cloud/",
         "type": "app"
     },
