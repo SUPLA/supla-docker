@@ -5,4 +5,4 @@ SUPLA Cloud
 
 Your home connected. www.supla.org
 
-<img src="https://www.supla.org/assets/img/app-preview-en.png" height="500">
+<img src="https://www.supla.org/assets/img/app-preview-en.png" height="250">

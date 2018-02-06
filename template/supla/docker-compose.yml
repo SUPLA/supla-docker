@@ -36,7 +36,7 @@ supla-db:
     MYSQL_USER: supla
     MYSQL_PASSWORD: password
   volumes:
-    - ${PWD}/mysql:/var/lib/mysql:z
+    - /var/lib/mysql
 
 supla-server:
   image: supla/supla-server
