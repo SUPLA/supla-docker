@@ -40,6 +40,14 @@
           "title": "HTTPS Port",
           "required": true,
           "maximum": 65535
+        },
+        "protocol": {
+          "type": "string",
+          "title": "Protocol",
+          "description": "On which protocol SUPLA Cloud should work? Either <code>http</code> or <code>https</code>.",
+          "required": true,
+          "minLength": 4,
+          "maxLength": 5
         }
       },
       "form": [
@@ -67,23 +75,13 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE}}",
+      "title": "{{SUPLA_CONFIGURE}} - mailer",
       "schema": {
-        "protocol": {
-          "type": "multiselect",
-          "title": "Protocol",
-          "description": "Either http or https",
-          "required": true,
-          "subitems": [
-            {
-              "key": "http",
-              "desc": "HTTP"
-            },
-            {
-              "key": "https",
-              "desc": "HTTPS"
-            }
-          ]
+        "mailer_host": {
+          "type": "string",
+          "title": "Host",
+          "description": "",
+          "required": true
         }
       },
       "form": [
@@ -99,7 +97,8 @@
         "supla-cloud.environment.CLOUD_DOMAIN"
       ],
       "first_user_username": [
-        "supla-cloud.environment.FIRST_USER_EMAIL"
+        "supla-cloud.environment.FIRST_USER_EMAIL",
+        "supla-cloud.environment.ADMIN_EMAIL"
       ],
       "first_user_password": [
         "supla-cloud.environment.FIRST_USER_PASSWORD"
@@ -121,6 +120,9 @@
       ],
       "protocol": [
         "supla-cloud.environment.SUPLA_PROTOCOL"
+      ],
+      "mailer_host": [
+        "supla-cloud.environment.MAILER_HOST"
       ]
     }
   }

@@ -5,11 +5,13 @@ supla-cloud:
     - "9999:443"
   environment:
     CLOUD_DOMAIN: your-qnap-domain-or-ip.com
+    ADMIN_EMAIL: user@supla.org
     FIRST_USER_EMAIL: user@supla.org
     FIRST_USER_PASSWORD: pass
     DB_PASSWORD: password
     SECRET: secret
     SUPLA_PROTOCOL: https
+    MAILER_HOST: your-smtp.com
   volumes:
     - ${PWD}/ssl/cloud:/etc/apache2/ssl:z
     - ${PWD}/server:/supla-server:z
