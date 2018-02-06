@@ -75,7 +75,7 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE}} - mailer",
+      "title": "{{SUPLA_CONFIGURE_MAILER}}",
       "schema": {
         "mailer_host": {
           "type": "string",
@@ -89,23 +89,23 @@
         },
         "mailer_user": {
           "type": "string",
-          "title": "Username",
+          "title": "{{MAILER_USERNAME_TITLE}}",
           "description": ""
         },
         "mailer_password": {
           "type": "string",
-          "title": "Password",
+          "title": "{{MAILER_PASSWORD_TITLE}}",
           "description": ""
         },
         "mailer_encryption": {
           "type": "string",
-          "title": "Encryption",
+          "title": "{{MAILER_ENCRYPTION_TITLE}}",
           "description": "",
           "maxLength": 5
         },
         "mailer_from": {
           "type": "string",
-          "title": "From",
+          "title": "{{MAILER_FROM_TITLE}}",
           "description": ""
         }
       },
@@ -114,21 +114,21 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE}} - reCaptcha",
+      "title": "{{SUPLA_CONFIGURE_RECAPTCHA}}",
       "schema": {
         "recaptcha_enabled": {
           "type": "boolean",
-          "title": "Enabled",
+          "title": "{{RECAPTCHA_ENABLED_TITLE}}",
           "description": ""
         },
         "recaptcha_public_key": {
           "type": "string",
-          "title": "Public key",
+          "title": "{{RECAPTCHA_PUBLIC_KEY_TITLE}}",
           "description": ""
         },
         "recaptcha_private_key": {
           "type": "string",
-          "title": "Public key",
+          "title": "{{RECAPTCHA_PRIVATE_KEY_TITLE}}",
           "description": ""
         }
       },
