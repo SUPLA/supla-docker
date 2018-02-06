@@ -9,6 +9,7 @@ supla-cloud:
     FIRST_USER_PASSWORD: pass
     DB_PASSWORD: password
     SECRET: secret
+    SUPLA_PROTOCOL: https
   volumes:
     - ${PWD}/ssl/cloud:/etc/apache2/ssl:z
     - ${PWD}/server:/supla-server:z

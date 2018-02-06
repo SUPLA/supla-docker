@@ -9,20 +9,25 @@
           "type": "string",
           "title": "Domain name or IP address",
           "description": "The address where the SUPLA Cloud will be accessible",
-          "required": true
+          "required": true,
+          "minLength": 5,
+          "maxLength": 32
         },
         "first_user_username": {
           "type": "string",
-          "title": "First user username",
+          "title": "First user e-mail",
           "description": "E-mail of the first user to create in SUPLA Cloud",
           "required": true,
-          "minLength": 5
+          "minLength": 4,
+          "maxLength": 32
         },
         "first_user_password": {
           "type": "string",
           "title": "First user password",
           "description": "",
-          "required": true
+          "required": true,
+          "minLength": 4,
+          "maxLength": 32
         },
         "http_port": {
           "type": "integer",
@@ -60,6 +65,22 @@
       "form": [
         "*"
       ]
+    },
+    {
+      "title": "{{SUPLA_CONFIGURE}}",
+      "schema": {
+        "protocol": {
+          "type": "string",
+          "title": "Protocol",
+          "description": "Either http or https",
+          "required": true,
+          "minLength": 4,
+          "maxLength": 5
+        }
+      },
+      "form": [
+        "*"
+      ]
     }
   ],
   "binding": {
@@ -89,6 +110,9 @@
       ],
       "secret": [
         "supla-cloud.environment.SECRET"
+      ],
+      "protocol": [
+        "sulpa-cloud.environment.SUPLA_PROTOCOL"
       ]
     }
   }
