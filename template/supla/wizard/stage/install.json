@@ -29,7 +29,8 @@
     "file": "docker-compose.yml",
     "data": {
       "first_user_username": [
-        "supla.environment.FIRST_USER_EMAIL"
+        "supla-cloud.environment.FIRST_USER_EMAIL",
+        "supla-server.environment.BLA_USER_EMAIL"
       ],
       "ssh_port": [
         "supla.environment.SUPLA_SSH_PORT",
