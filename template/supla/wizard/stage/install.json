@@ -48,6 +48,12 @@
           "title": "Database password",
           "description": "",
           "required": true
+        },
+        "secret": {
+          "type": "string",
+          "title": "Secret",
+          "description": "Make it strong.<div>You can use a <a href=\"https://www.random.org/passwords/\">password generator</a> to generate these values.</div>",
+          "required": true
         }
       },
       "form": [
@@ -79,6 +85,9 @@
         "supla-server.environment.DB_PASSWORD",
         "supla-db.environment.MYSQL_ROOT_PASSWORD",
         "supla-db.environment.MYSQL_PASSWORD"
+      ],
+      "secret": [
+        "supla-cloud.environment.SECRET"
       ]
     }
   }
