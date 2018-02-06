@@ -5,12 +5,11 @@
     {
       "title": "{{SUPLA_CONFIGURE}}",
       "schema": {
-        "http_port": {
-          "type": "integer",
-          "title": "HTTP Port",
-          "description": "{{SUPLA_WEB_HOST_PORT_DESC}}",
-		  "required": true,
-          "maximum": 65535
+        "first_user_username": {
+          "type": "string",
+          "title": "First user usrname",
+          "description": "E-mail of the first user to create in SUPLA Cloud",
+		  "required": true
         },
         "ssh_port": {
           "type": "integer",
@@ -29,9 +28,8 @@
     "type": "yaml",
     "file": "docker-compose.yml",
     "data": {
-      "http_port": [
-        "supla.ports[0]",
-        "supla.environment.SUPLA_PORT"
+      "first_user_username": [
+        "supla.environment.FIRST_USER_EMAIL"
       ],
       "ssh_port": [
         "supla.environment.SUPLA_SSH_PORT",
