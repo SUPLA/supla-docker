@@ -55,23 +55,19 @@
       ]
     },
     {
-      "title": "{{SUPLA_CONFIGURE_PASSWORDS}}",
+      "title": "{{SUPLA_CONFIGURE}} - passwords",
       "schema": {
         "db_password": {
           "type": "string",
-          "title": "{{DB_PASSWORD_TITLE}}",
+          "title": "Database password",
           "description": "",
-          "required": true,
-          "minLength": 8,
-          "maxLength": 64
+          "required": true
         },
         "secret": {
           "type": "string",
-          "title": "{{SECRET_TITLE}}",
-          "description": "{{SECRET_DESCRIPTION}}",
-          "required": true,
-          "minLength": 8,
-          "maxLength": 64
+          "title": "Secret",
+          "description": "Make it strong.<div>You can use a <a href=\"https://www.random.org/passwords/\" target=\"_blank\">password generator</a> to generate these values.</div>",
+          "required": true
         }
       },
       "form": [
