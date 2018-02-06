@@ -10,7 +10,7 @@ supla-cloud:
     FIRST_USER_EMAIL: user@supla.org
     FIRST_USER_PASSWORD: pass
     DB_PASSWORD: password
-    SECRET: secret
+    SECRET: notsosecret
     SUPLA_PROTOCOL: https
     MAILER_HOST: ""
     MAILER_PORT: 465
