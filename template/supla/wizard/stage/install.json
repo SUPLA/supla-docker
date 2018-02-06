@@ -70,12 +70,20 @@
       "title": "{{SUPLA_CONFIGURE}}",
       "schema": {
         "protocol": {
-          "type": "string",
+          "type": "multiselect",
           "title": "Protocol",
           "description": "Either http or https",
           "required": true,
-          "minLength": 4,
-          "maxLength": 5
+          "subitems": [
+            {
+              "key": "http",
+              "desc": "HTTP"
+            },
+            {
+              "key": "https",
+              "desc": "HTTPS"
+            }
+          ]
         }
       },
       "form": [
