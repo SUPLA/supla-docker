@@ -22,8 +22,9 @@ sed -i "s+mailer_from: ~+mailer_from: ${MAILER_FROM:-~}+g" app/config/parameters
 sed -i "s+admin_email: ~+admin_email: ${ADMIN_EMAIL:-~}+g" app/config/parameters.yml
 sed -i "s+supla_protocol: https+supla_protocol: ${SUPLA_PROTOCOL:-https}+g" app/config/config.yml
 
-sed -i "s+supla_require_regulations_acceptance: false+supla_require_regulations_acceptance: ${REQUIRE_REGULATIONS_ACCEPTANCE:-false}+g" app/config/config.yml
-sed -i "s+supla_require_cookie_policy_acceptance: false+supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}+g" app/config/config.yml
+sed -i "s+supla_require_regulations_acceptance: false+supla_require_regulations_acceptance: ${REQUIRE_REGULATIONS_ACCEPTANCE:-false}+g" app/config/parameters.yml
+sed -i "s+supla_require_cookie_policy_acceptance: false+supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}+g" app/config/parameters.yml
+sed -i "s+brute_force_auth_prevention_enabled: true+brute_force_auth_prevention_enabled: ${BRUTE_FORCE_AUTH_PREVENTION_ENABLED:-true}+g" app/config/parameters.yml
 
 rm -fr var/cache/*
 php bin/console supla:initialize
