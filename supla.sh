@@ -45,10 +45,10 @@ elif [ "$1" = "restart" ]; then
 elif [ "$1" = "backup" ]; then
   echo -e "${GREEN}Making database backup${NC}"
   mkdir -p "$VOLUME_DATA/backups"
-  BACKUP_FILE="$VOLUME_DATA/backups/supla$(date +"%m%d%Y%H%M%S").sql.gz"
+  BACKUP_FILE="$VOLUME_DATA/backups/supla$(date +"%m%d%Y%H%M%S").sql"
   docker exec "$CONTAINER_NAME-db" mysqldump -u supla --password=$DB_PASSWORD supla > "$BACKUP_FILE" && \
   gzip "$BACKUP_FILE" && \
-  echo -e "${GREEN}Database backup saved to $BACKUP_FILE${NC}" || \
+  echo -e "${GREEN}Database backup saved to ${BACKUP_FILE}.gz${NC}" || \
   (echo -e "${RED}Could not create the database backup. Is the application started?${NC}" && false)
 
 elif [ "$1" = "upgrade" ]; then
