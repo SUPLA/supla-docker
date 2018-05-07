@@ -9,7 +9,7 @@ sed -i "s+database_password: ~+database_password: ${DB_PASSWORD:-DEFAULT_PASSWOR
 sed -i "s+secret: ThisTokenIsNotSoSecretChangeIt+secret: ${SECRET:-DEFAULT_SECRET_IS_BAD_IDEA}+g" app/config/parameters.yml
 sed -i "s+supla_server: ~+supla_server: ${CLOUD_DOMAIN:-cloud.supla.org}+g" app/config/parameters.yml
 
-sed -i "s+recaptcha_enabled: true+recaptcha_enabled: ${RECAPTCHA_ENABLED:-true}+g" app/config/parameters.yml
+sed -i "s+recaptcha_enabled: false+recaptcha_enabled: ${RECAPTCHA_ENABLED:-false}+g" app/config/parameters.yml
 sed -i "s+recaptcha_site_key: ~+recaptcha_site_key: ${RECAPTCHA_PUBLIC_KEY:-~}+g" app/config/parameters.yml
 sed -i "s+recaptcha_secret: ~+recaptcha_secret: ${RECAPTCHA_PRIVATE_KEY:-~}+g" app/config/parameters.yml
 
