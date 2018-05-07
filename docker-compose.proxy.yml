@@ -7,8 +7,8 @@ services:
       - VIRTUAL_HOST=${CLOUD_DOMAIN}
       - LETSENCRYPT_HOST=${CLOUD_DOMAIN}
       - LETSENCRYPT_EMAIL=${ADMIN_EMAIL}
-      # http is required to work in proxy mode; add SUPLA_URL=https://yourinstance.com to .env file to work properly
       - SUPLA_PROTOCOL=http
+      - SUPLA_URL=https://${CLOUD_DOMAIN}
 
 networks:
   proxy:
