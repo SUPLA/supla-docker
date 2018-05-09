@@ -19,8 +19,8 @@ RUN apt-get update \
 ENV SERVER_VERSION=master
 RUN git clone https://github.com/SUPLA/supla-core.git --branch ${SERVER_VERSION} /src \
     && cd /src/supla-scheduler/Release && make all \
-    && cd /src/supla-server/Debug && make all \
-    && cp /src/supla-scheduler/Release/supla-scheduler /src/supla-server/Debug/supla-server /usr/local/bin \
+    && cd /src/supla-server/Release && make all \
+    && cp /src/supla-scheduler/Release/supla-scheduler /src/supla-server/Release/supla-server /usr/local/bin \
     && rm -fr /src \
     && mkdir -p /etc/supla-server
 
