@@ -8,6 +8,7 @@ services:
       - LETSENCRYPT_HOST=${CLOUD_DOMAIN}
       - LETSENCRYPT_EMAIL=${ADMIN_EMAIL}
       - SUPLA_PROTOCOL=http
+      - SUPLA_URL=https://${CLOUD_DOMAIN}
 
 networks:
   proxy:
