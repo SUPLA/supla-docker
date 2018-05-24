@@ -16,7 +16,7 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
-ENV SERVER_VERSION=master
+ENV SERVER_VERSION=v2.2.0
 RUN git clone https://github.com/SUPLA/supla-core.git --branch ${SERVER_VERSION} /src \
     && cd /src/supla-scheduler/Release && make all \
     && cd /src/supla-server/Release && make all \
