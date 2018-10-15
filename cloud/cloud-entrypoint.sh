@@ -20,7 +20,9 @@ sed -i "s+mailer_port: 465+mailer_port: ${MAILER_PORT:-25}+g" app/config/paramet
 sed -i "s+mailer_encryption: ssl+mailer_encryption: ${MAILER_ENCRYPTION:-~}+g" app/config/parameters.yml
 sed -i "s+mailer_from: ~+mailer_from: ${MAILER_FROM:-~}+g" app/config/parameters.yml
 sed -i "s+admin_email: ~+admin_email: ${ADMIN_EMAIL:-~}+g" app/config/parameters.yml
+sed -i "s+cors_allow_origin_regex: \[\]+cors_allow_origin_regex: \[local\]+g" app/config/parameters.yml
 sed -i "s+supla_protocol: https+supla_protocol: ${SUPLA_PROTOCOL:-https}+g" app/config/config.yml
+sed -i "s+use_webpack_dev_server: false+use_webpack_dev_server: true+g" app/config/config.yml
 
 rm -fr var/cache/*
 php bin/console supla:initialize

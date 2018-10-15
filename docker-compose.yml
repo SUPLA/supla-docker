@@ -11,6 +11,9 @@ services:
     volumes:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - supla-server-tmp:/supla-server:z
+      - ../supla-cloud/src:/var/www/cloud/src:z
+      - ../supla-cloud/web:/var/www/cloud/web:z
+      - ../supla-cloud/vendor:/var/www/cloud/vendor:z
     logging:
       options:
         max-size: 50m
@@ -36,6 +39,8 @@ services:
     logging:
       options:
         max-size: 50m
+    ports:
+      - "3307:3306"
 
   supla-server:
     container_name: ${COMPOSE_PROJECT_NAME}-server
