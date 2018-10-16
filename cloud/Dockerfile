@@ -23,6 +23,7 @@ RUN apt-get update \
       intl \
       curl \
       zip \
+      gd \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
