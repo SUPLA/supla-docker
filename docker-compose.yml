@@ -10,6 +10,7 @@ services:
       - .env
     volumes:
       - ./ssl/cloud:/etc/apache2/ssl:z
+      - ${VOLUME_DATA}/cloud-local:/var/www/cloud/var/local
       - supla-server-tmp:/supla-server:z
     logging:
       options:
