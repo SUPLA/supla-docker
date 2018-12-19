@@ -1,4 +1,4 @@
-FROM php:7.0.26-apache
+FROM php:7.0.33-apache
 
 WORKDIR /var/www
 
@@ -15,6 +15,7 @@ RUN apt-get update \
       wget \
       supervisor \
       cron \
+      libpng-dev \
     && update-ca-certificates \
     && docker-php-ext-install \
       pdo_mysql \
@@ -42,14 +43,16 @@ RUN { \
     && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl \
     && chmod 0644 /etc/cron.d/supla-cron
 
-ENV CLOUD_VERSION=2.2.0
-#COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
+ENV CLOUD_VERSION=2.3.0
+COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
     && tar -xzf supla-cloud-v${CLOUD_VERSION}.tar.gz -C cloud \
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
-    && sed -i "s+/tmp/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
+    && echo "parameters:" > cloud/app/config/config_local.yml \
+    && echo "  supla_server_socket: /supla-server/supla-server-ctrl.sock" >> cloud/app/config/config_local.yml \
+    && sed -i "s+/var/run/supla/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
     && cp cloud/app/config/parameters.yml.dist cloud/app/config/parameters.yml \
     && sed -i "s#database_host: 127.0.0.1#database_host: supla-db#" cloud/app/config/parameters.yml \
     && sed -i "s#database_user: root#database_user: supla#" cloud/app/config/parameters.yml \
