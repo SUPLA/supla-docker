@@ -15,7 +15,7 @@ RUN apt-get update \
       wget \
       supervisor \
       cron \
-      libpng-dev \
+      zlib1g-dev \
     && update-ca-certificates \
     && docker-php-ext-install \
       pdo_mysql \
@@ -24,10 +24,19 @@ RUN apt-get update \
       intl \
       curl \
       zip \
-      gd \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
+
+RUN apt-get update && apt-get install -y \
+		libfreetype6-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev \
+	&& docker-php-ext-install -j$(nproc) iconv \
+	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+	&& docker-php-ext-install -j$(nproc) gd \
+	&& apt-get autoremove \
+    && rm -r /var/lib/apt/lists/*
 
 COPY apache-conf /etc/apache2/sites-available
 COPY crontab /etc/cron.d/supla-cron
@@ -52,7 +61,6 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VER
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && echo "parameters:" > cloud/app/config/config_local.yml \
     && echo "  supla_server_socket: /supla-server/supla-server-ctrl.sock" >> cloud/app/config/config_local.yml \
-    && sed -i "s+/var/run/supla/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
     && cp cloud/app/config/parameters.yml.dist cloud/app/config/parameters.yml \
     && sed -i "s#database_host: 127.0.0.1#database_host: supla-db#" cloud/app/config/parameters.yml \
     && sed -i "s#database_user: root#database_user: supla#" cloud/app/config/parameters.yml \
