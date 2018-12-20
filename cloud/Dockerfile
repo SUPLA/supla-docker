@@ -59,8 +59,6 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VER
     && mkdir cloud \
     && tar -xzf supla-cloud-v${CLOUD_VERSION}.tar.gz -C cloud \
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
-    && echo "parameters:" > cloud/app/config/config_local.yml \
-    && echo "  supla_server_socket: /supla-server/supla-server-ctrl.sock" >> cloud/app/config/config_local.yml \
     && cp cloud/app/config/parameters.yml.dist cloud/app/config/parameters.yml \
     && sed -i "s#database_host: 127.0.0.1#database_host: supla-db#" cloud/app/config/parameters.yml \
     && sed -i "s#database_user: root#database_user: supla#" cloud/app/config/parameters.yml \
@@ -68,6 +66,7 @@ RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VER
 
 WORKDIR /var/www/cloud
 
+COPY config_local.yml cloud/app/config/config_local.yml
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
 
