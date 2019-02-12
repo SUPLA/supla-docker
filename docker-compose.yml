@@ -10,7 +10,8 @@ services:
       - .env
     volumes:
       - ./ssl/cloud:/etc/apache2/ssl:z
-      - supla-server-tmp:/supla-server:z
+      - ${VOLUME_DATA}/cloud-local:/var/www/cloud/var/local
+      - supla-server-socket:/supla-server:z
     links:
       - supla-db
     depends_on:
@@ -40,7 +41,7 @@ services:
       - .env
     volumes:
       - ./ssl/server:/etc/supla-server/ssl:z
-      - supla-server-tmp:/tmp:z
+      - supla-server-socket:/var/run/supla:z
     ports:
       - "2016:2016"
       - "2015:2015"
@@ -50,4 +51,4 @@ services:
       - supla-cloud
 
 volumes:
-  supla-server-tmp: {}
+  supla-server-socket: {}
