@@ -53,7 +53,7 @@ RUN { \
     && chmod 0644 /etc/cron.d/supla-cron
 
 ENV CLOUD_VERSION=2.3.0
-COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
+#COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
