@@ -24,6 +24,7 @@ supla-cloud:
     VOLUMES_DIR: ${PWD}
   volumes:
     - ${PWD}/ssl/cloud:/etc/apache2/ssl:z
+    - ${PWD}/cloud-local:/var/www/cloud/var/local
     - ${PWD}/server:/supla-server:z
   links:
     - supla-db:supla-db
@@ -47,7 +48,7 @@ supla-server:
     DB_PASSWORD: password
   volumes:
     - ${PWD}/ssl/server:/etc/supla-server/ssl:z
-    - ${PWD}/server:/tmp:z
+    - ${PWD}/server:/var/run/supla:z
   ports:
     - "2016:2016"
     - "2015:2015"
