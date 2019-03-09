@@ -21,7 +21,7 @@ SERVER_VERSION=$(cat server/Dockerfile | grep "ENV SERVER_VERSION=" | grep -oP "
 
 echo -e "Releasing supla-cloud ${GREEN}${ARCH}-${CLOUD_VERSION}${NC}"
 echo -e "Releasing supla-server ${GREEN}${ARCH}-${SERVER_VERSION}${NC}"
-echo -e "${YELLOW}If you made a mistake, it's a good time to hit Ctrl+C${N}"
+echo -e "${YELLOW}If you made a mistake, it's a good time to hit Ctrl+C${NC}"
 echo "... waiting 10s"
 sleep 10
 echo ""
