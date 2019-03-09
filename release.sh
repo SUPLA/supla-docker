@@ -12,17 +12,16 @@ if [ "$(uname -m)" == "armv6l" ]; then
 elif [ "$(uname -m)" == "armv7l" ]; then
     ARCH=arm32v7
 else
-    echo "${RED}Unsupported release architecture: $(uname -m)${NC}"
+    echo -e "${RED}Unsupported release architecture: $(uname -m)${NC}"
     exit
 fi
 
 CLOUD_VERSION=$(cat cloud/Dockerfile | grep "ENV CLOUD_VERSION=" | grep -oP "\d+\.\d+\.\d+$")
 SERVER_VERSION=$(cat server/Dockerfile | grep "ENV SERVER_VERSION=" | grep -oP "\d+\.\d+\.\d+$")
 
-
-echo "${GREEN}Releasing supla-cloud ${ARCH}${NC}-${CLOUD_VERSION}"
-echo "${GREEN}Releasing supla-server ${ARCH}${NC}-${SERVER_VERSION}"
-echo "${YELLOW}If you made a mistake, it's a good time to hit Ctrl+C${N}"
+echo -e "Releasing supla-cloud ${GREEN}${ARCH}-${CLOUD_VERSION}${NC}"
+echo -e "Releasing supla-server ${GREEN}${ARCH}-${SERVER_VERSION}${NC}"
+echo -e "${YELLOW}If you made a mistake, it's a good time to hit Ctrl+C${N}"
 echo "... waiting 10s"
 sleep 10
 echo ""
