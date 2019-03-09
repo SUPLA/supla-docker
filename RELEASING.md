@@ -20,8 +20,5 @@ Example commands that can be used to pushed built containers to Docker hub:
 
 ```
 docker login
-docker tag supla_supla-cloud supla/supla-cloud:arm32v7
-docker push supla/supla-cloud:arm32v7
-docker tag supla_supla-cloud supla/supla-cloud:arm32v7-2.1.6
-docker push supla/supla-cloud:arm32v7-2.1.6
+./release.sh
 ```
