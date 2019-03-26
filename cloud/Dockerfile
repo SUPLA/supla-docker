@@ -1,4 +1,4 @@
-FROM php:7.0.33-apache
+FROM php:7.0.33-apache AS supla_cloud_base
 
 WORKDIR /var/www
 
@@ -52,8 +52,9 @@ RUN { \
     && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl \
     && chmod 0644 /etc/cron.d/supla-cron
 
+FROM supla_cloud_base AS supla_cloud_prod
 ENV CLOUD_VERSION=2.3.2
-#COPY supla-cloud-v$CLOUD_VERSION.tar.gz ./
+#COPY supla-cloud-develop.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
@@ -71,3 +72,18 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
 
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
+
+FROM supla_cloud_base AS supla_cloud_builder
+
+RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+  && apt-get install -y --no-install-recommends nodejs \
+  && npm install -g npm@5 \
+  && apt-get autoremove \
+  && rm -r /var/lib/apt/lists/* \
+  && apt-get clean \
+  && curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN git clone https://github.com/SUPLA/supla-cloud.git --branch master --single-branch /var/www/supla-cloud-master \
+  && cp supla-cloud-master/app/config/parameters.yml.dist supla-cloud-master/app/config/parameters.yml \
+  && sed -i "s#supla_server: null#supla_server: supla.local#" supla-cloud-master/app/config/parameters.yml \
+  && chown -hR www-data:www-data .
