@@ -86,7 +86,7 @@ RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
 RUN git clone https://github.com/SUPLA/supla-cloud.git /var/www/supla-cloud \
   && cd supla-cloud && git checkout develop && git checkout master \
   && cp app/config/parameters.yml.dist app/config/parameters.yml \
-  && sed -i "s#supla_server: null#supla_server: supla.local#" app/config/parameters.yml \
+  && sed -i "s#supla_server: ~#supla_server: supla.local#" /var/www/supla-cloud/app/config/parameters.yml \
   && cd .. && chown -hR www-data:www-data .
 
 WORKDIR /var/www/supla-cloud
