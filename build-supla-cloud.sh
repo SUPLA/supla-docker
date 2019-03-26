@@ -13,12 +13,12 @@ docker-compose up --build -d supla-cloud-builder
 
 sleep 5
 
-docker exec -it -u www-data -w /var/www/supla-cloud-master supla-cloud-builder git fetch
-LAST_MASTER_VERSION=$(docker exec -it -u www-data -w /var/www/supla-cloud-master supla-cloud-builder git describe --tags master)
-CURRENT_MASTER_VERSION=$(docker exec -it -u www-data -w /var/www/supla-cloud-master supla-cloud-builder git describe --tags origin/master)
+docker exec -it -u www-data supla-cloud-builder git fetch
+LAST_MASTER_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags master)
+CURRENT_MASTER_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags origin/master)
 
-LAST_DEVELOP_VERSION=$(docker exec -it -u www-data -w /var/www/supla-cloud-master supla-cloud-builder git describe --tags develop)
-CURRENT_DEVELOP_VERSION=$(docker exec -it -u www-data -w /var/www/supla-cloud-master supla-cloud-builder git describe --tags origin/develop)
+LAST_DEVELOP_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags develop)
+CURRENT_DEVELOP_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags origin/develop)
 
 if [ $LAST_MASTER_VERSION != $CURRENT_MASTER_VERSION ]; then
     docker exec -it -u www-data supla-cloud-builder git checkout -f master
