@@ -36,10 +36,10 @@ services:
     logging:
       options:
         max-size: 50m
-      links:
-        - supla-db
-      depends_on:
-        - supla-db
+    links:
+      - supla-db
+    depends_on:
+      - supla-db
 
   supla-db:
     container_name: ${COMPOSE_PROJECT_NAME}-db

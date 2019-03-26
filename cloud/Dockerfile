@@ -83,7 +83,10 @@ RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
   && apt-get clean \
   && curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN git clone https://github.com/SUPLA/supla-cloud.git --branch master --single-branch /var/www/supla-cloud-master \
-  && cp supla-cloud-master/app/config/parameters.yml.dist supla-cloud-master/app/config/parameters.yml \
-  && sed -i "s#supla_server: null#supla_server: supla.local#" supla-cloud-master/app/config/parameters.yml \
-  && chown -hR www-data:www-data .
+RUN git clone https://github.com/SUPLA/supla-cloud.git /var/www/supla-cloud \
+  && cd supla-cloud && git checkout develop && git checkout master \
+  && cp app/config/parameters.yml.dist app/config/parameters.yml \
+  && sed -i "s#supla_server: null#supla_server: supla.local#" app/config/parameters.yml \
+  && cd .. && chown -hR www-data:www-data .
+
+WORKDIR /var/www/supla-cloud
