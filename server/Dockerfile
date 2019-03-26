@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -6,7 +6,7 @@ RUN apt-get update \
         make \
         gcc \
         g++ \
-        libmysqlclient-dev \
+        default-libmysqlclient-dev \
         libssl-dev \
         wget \
         supervisor \
