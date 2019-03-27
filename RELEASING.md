@@ -15,18 +15,10 @@ server for this branch unless you have tried building from `master` already.
    rename it to `supla-cloud-vVERSION.tar.gz` and upload it to the 
    [SUPLA Cloud latest release](https://github.com/SUPLA/supla-cloud/releases/latest).
 1. Update versions in `cloud/Dockerfile` and `server/Dockerfile` on `src` branch in this repo.
-1. Proceed to publishing new containers.
-
-## Publishing do Docker Hub
-After new SUPLA Cloud or SUPLA Server release, a SUPLA Team member
-should bump the version number in appropriate `Dockerfile` and build the
-containers on target device. 
-
-We always maintain a `latest` tag and a specific `arhcitecture-version` tags.
-
-Example commands that can be used to pushed built containers to Docker hub:
-
-```
-docker login
-./release.sh
-```
+1. Publish the containers by executing the folowing commands on every supported architecture
+   (being in `supla-docker` repo, `src` branch)
+   ```
+   git pull
+   docker login
+   ./release.sh
+   ```
