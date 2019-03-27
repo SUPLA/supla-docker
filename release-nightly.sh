@@ -21,7 +21,7 @@ touch build.lock
 
 echo -e "Checking for new changes..."
 
-docker-compose up --build -d supla-cloud-builder >/dev/null 2>&1
+docker-compose up --build -d supla-cloud-builder
 
 sleep 5
 
