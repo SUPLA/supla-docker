@@ -56,7 +56,7 @@ RUN { \
 # Production build.
 ###
 FROM supla_cloud_base AS supla_cloud_prod
-ENV CLOUD_VERSION=2.3.2
+ENV CLOUD_VERSION=2.3.5
 #COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
