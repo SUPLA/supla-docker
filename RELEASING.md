@@ -3,16 +3,24 @@
 This branch contains sources for docker containers. Do not build your production
 server for this branch unless you have tried building from `master` already.
 
+## Releasing new version
+
+1. Make sure everything that is going to be released is included in the `master` branch
+   (supla-cloud and supla-core).
+1. Tag new versions of the products according to the chosen flow (e.g. `v2.3.4`).
+1. Wait for the Night Build to pick up the changes, or force it to build the new package with
+   `./release-nightly.sh`. If [nightly.supla.org](https://nightly.supla.org) contains the
+   appropriate version (pay attention to the footer), you may proceed.
+1. Download the release package from [nightly.supla.org/supla-cloud-master.tar.gz](https://nightly.supla.org/supla-cloud-master.tar.gz),
+   rename it to `supla-cloud-vVERSION.tar.gz` and upload it to the 
+   [SUPLA Cloud latest release](https://github.com/SUPLA/supla-cloud/releases/latest).
+1. Update versions in `cloud/Dockerfile` and `server/Dockerfile` on `src` branch in this repo.
+1. Proceed to publishing new containers.
+
 ## Publishing do Docker Hub
 After new SUPLA Cloud or SUPLA Server release, a SUPLA Team member
 should bump the version number in appropriate `Dockerfile` and build the
 containers on target device. 
-
-The `x86` architecture can be built directly on Docker Hub (you need to
-trigger the build after updating the `Dockerfile`s manually in GUI).
-
-Other architectures need to be built manually on target platforms and pushed
-to Docker Hub.
 
 We always maintain a `latest` tag and a specific `arhcitecture-version` tags.
 
