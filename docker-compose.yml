@@ -29,17 +29,9 @@ services:
       target: supla_cloud_builder
     env_file:
       - .env.default
-      - .env
-    volumes:
-      - ./ssl/cloud:/etc/apache2/ssl:z
-      - ${VOLUME_DATA}/cloud-local:/var/www/cloud/var/local
     logging:
       options:
         max-size: 50m
-    links:
-      - supla-db
-    depends_on:
-      - supla-db
 
   supla-db:
     container_name: ${COMPOSE_PROJECT_NAME}-db

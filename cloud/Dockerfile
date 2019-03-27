@@ -49,7 +49,7 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini \
-    && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl \
+    && a2enmod rewrite expires deflate ssl cgi alias env \
     && chmod 0644 /etc/cron.d/supla-cron
 
 ###
@@ -59,7 +59,8 @@ FROM supla_cloud_base AS supla_cloud_prod
 ENV CLOUD_VERSION=2.3.5
 #COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
-RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
+RUN a2ensite default-ssl \
+    && wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
     && tar -xzf supla-cloud-v${CLOUD_VERSION}.tar.gz -C cloud \
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
