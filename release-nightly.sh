@@ -28,14 +28,14 @@ sleep 5
 docker exec -u www-data supla-cloud-builder git fetch
 docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git fetch
 
-LAST_MASTER_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags master | sed -e 's/\r$//')
-CURRENT_MASTER_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags origin/master | sed -e 's/\r$//')
+LAST_MASTER_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags master | sed -e 's/\r$//')
+CURRENT_MASTER_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags origin/master | sed -e 's/\r$//')
 
-LAST_DEVELOP_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags develop | sed -e 's/\r$//')
-CURRENT_DEVELOP_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags origin/develop | sed -e 's/\r$//')
+LAST_DEVELOP_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags develop | sed -e 's/\r$//')
+CURRENT_DEVELOP_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags origin/develop | sed -e 's/\r$//')
 
-LAST_CORE_VERSION=$(docker exec -it -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags master | sed -e 's/\r$//')
-CURRENT_CORE_VERSION=$(docker exec -it -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags origin/master | sed -e 's/\r$//')
+LAST_CORE_VERSION=$(docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags master | sed -e 's/\r$//')
+CURRENT_CORE_VERSION=$(docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags origin/master | sed -e 's/\r$//')
 
 if [ $LAST_MASTER_VERSION != $CURRENT_MASTER_VERSION ]; then
     echo -e "${GREEN}Updating Cloud from master branch: ${LAST_MASTER_VERSION} -> ${CURRENT_MASTER_VERSION}${NC}" && \
