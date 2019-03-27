@@ -11,6 +11,7 @@ services:
     volumes:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - ${VOLUME_DATA}/cloud-local:/var/www/cloud/var/local
+      - ${VOLUME_DATA}/cloud-logs:/var/www/cloud/var/logs
       - supla-server-socket:/supla-server:z
     links:
       - supla-db
