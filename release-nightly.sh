@@ -25,39 +25,55 @@ docker-compose up --build -d supla-cloud-builder >/dev/null 2>&1
 
 sleep 5
 
-update_nightly () {
-  docker cp supla-cloud-builder:/var/www/supla-cloud/supla-cloud.tar.gz cloud/supla-cloud.tar.gz
-  sed -i -r "s/^#(COPY supla-cloud.*\.tar\.gz)/\1/" cloud/Dockerfile
-  sed -i -r "s/^(ENV SERVER_VERSION=).+/\1master/" server/Dockerfile
-  sed -i -r "s/^(ENV SERVER_VERSION=).+/\1master/" server/Dockerfile
-  ./supla.sh restart && \
-  sleep 5
-}
-
 docker exec -u www-data supla-cloud-builder git fetch
+docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git fetch
+
 LAST_MASTER_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags master)
 CURRENT_MASTER_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags origin/master)
 
 LAST_DEVELOP_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags develop)
 CURRENT_DEVELOP_VERSION=$(docker exec -it -u www-data supla-cloud-builder git describe --tags origin/develop)
 
+LAST_CORE_VERSION=$(docker exec -it -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags master)
+CURRENT_CORE_VERSION=$(docker exec -it -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags origin/master)
+
 if [ $LAST_MASTER_VERSION != $CURRENT_MASTER_VERSION ]; then
-    echo -e "${GREEN}Updating from master branch: ${LAST_MASTER_VERSION} -> ${CURRENT_MASTER_VERSION}${NC}" && \
+    echo -e "${GREEN}Updating Cloud from master branch: ${LAST_MASTER_VERSION} -> ${CURRENT_MASTER_VERSION}${NC}" && \
     docker exec -u www-data supla-cloud-builder git checkout -f master && \
     docker exec -u www-data supla-cloud-builder git pull && \
     docker exec -u www-data supla-cloud-builder git fetch origin develop:develop && \
     docker exec -u www-data --env RELEASE_FILENAME=supla-cloud.tar.gz supla-cloud-builder composer run-script release && \
-    update_nightly && \
-    docker cp cloud/supla-cloud.tar.gz supla-cloud:/var/www/cloud/web/supla-cloud-master.tar.gz
+    REBUILD=true
+    CLOUD_PACKAGE_NAME=supla-cloud-master.tar.gz
 elif [ $LAST_DEVELOP_VERSION != $CURRENT_DEVELOP_VERSION ]; then
-    echo -e "${GREEN}Updating from develop branch: ${LAST_DEVELOP_VERSION} -> ${CURRENT_DEVELOP_VERSION}${NC}" && \
+    echo -e "${GREEN}Updating Cloud from develop branch: ${LAST_DEVELOP_VERSION} -> ${CURRENT_DEVELOP_VERSION}${NC}" && \
     docker exec -u www-data supla-cloud-builder git checkout -f develop && \
     docker exec -u www-data supla-cloud-builder git pull && \
     docker exec -u www-data --env RELEASE_FILENAME=supla-cloud.tar.gz --env RELEASE_VERSION=$CURRENT_DEVELOP_VERSION supla-cloud-builder composer run-script release && \
-    update_nightly && \
     docker cp cloud/supla-cloud.tar.gz supla-cloud:/var/www/cloud/web/supla-cloud-develop.tar.gz
+    REBUILD=true
+    CLOUD_PACKAGE_NAME=supla-cloud-develop.tar.gz
+fi
+
+if [ $LAST_CORE_VERSION != $CURRENT_CORE_VERSION ]; then
+    echo -e "${GREEN}Updating Core from master branch: ${LAST_CORE_VERSION} -> ${CURRENT_CORE_VERSION}${NC}" && \
+    docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git pull && \
+    REBUILD=true
+fi
+
+if [ -z "$REBUILD" ]; then
+  echo -e "${YELLOW}Nothing to update. Work faster.${NC}"
 else
-    echo -e "${YELLOW}Nothing to update. Work faster.${NC}"
+  docker cp supla-cloud-builder:/var/www/supla-cloud/supla-cloud.tar.gz cloud/supla-cloud.tar.gz && \
+  sed -i -r "s/^#(COPY supla-cloud.*\.tar\.gz)/\1/" cloud/Dockerfile && \
+  sed -i -r "s/^(ENV SERVER_VERSION=).+/\1master/" server/Dockerfile && \
+  sed -i -r "s/^(ENV SERVER_VERSION_MASTER=).+/\1${CURRENT_CORE_VERSION}/" server/Dockerfile && \
+  sed -i -r "s/^#(ENV SERVER_VERSION_MASTER=)/\1/" server/Dockerfile && \
+  ./supla.sh restart && \
+  sleep 5
+  if [ ! -z "$CLOUD_PACKAGE_NAME" ]; then
+    docker cp cloud/supla-cloud.tar.gz supla-cloud:/var/www/cloud/web/$CLOUD_PACKAGE_NAME
+  fi
 fi
 
 docker-compose stop supla-cloud-builder
