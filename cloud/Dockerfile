@@ -52,9 +52,12 @@ RUN { \
     && a2enmod rewrite expires deflate ssl cgi alias env && a2ensite default-ssl \
     && chmod 0644 /etc/cron.d/supla-cron
 
+###
+# Production build.
+###
 FROM supla_cloud_base AS supla_cloud_prod
 ENV CLOUD_VERSION=2.3.2
-#COPY supla-cloud-develop.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
+#COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
@@ -73,6 +76,10 @@ COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
 
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
 
+
+###
+# Container for preparing SUPLA Cloud tar.
+###
 FROM supla_cloud_base AS supla_cloud_builder
 
 RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
