@@ -27,6 +27,18 @@ sed -i "s+supla_require_regulations_acceptance: false+supla_require_regulations_
 sed -i "s+supla_require_cookie_policy_acceptance: false+supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}+g" app/config/parameters.yml
 sed -i "s+brute_force_auth_prevention_enabled: true+brute_force_auth_prevention_enabled: ${BRUTE_FORCE_AUTH_PREVENTION_ENABLED:-true}+g" app/config/parameters.yml
 
+if [ ${SUPLA_PROTOCOL:-https} = "https" ]; then
+  if ! grep -q "%{HTTPS} off" web/.htaccess; then
+    { \
+      echo 'RewriteCond %{HTTPS} off'; \
+      echo 'RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]'; \
+      cat web/.htaccess; \
+    } > web/.htaccess-tmp
+    rm web/.htaccess
+    mv web/.htaccess-tmp web/.htaccess
+  fi
+fi
+
 rm -fr var/cache/*
 php bin/console supla:initialize
 php bin/console cache:warmup
