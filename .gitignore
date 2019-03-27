@@ -3,3 +3,4 @@
 *.crt
 *.key
 *.tar.gz
+release-posthook.sh
