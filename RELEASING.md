@@ -18,6 +18,7 @@ server for this branch unless you have tried building from `master` already.
 1. Publish the containers by executing the folowing commands on every supported architecture
    (being in `supla-docker` repo, `src` branch)
    ```
+   git checkout .
    git pull
    docker login
    ./release.sh

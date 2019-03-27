@@ -7,6 +7,12 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+if [ -f "./build.lock" ]; then
+  echo -e "${RED}Another build in progress. Aborting.${NC}"
+  exit 1
+fi
+touch build.lock
+
 if [ "$(uname -m)" == "armv6l" ]; then
     ARCH=arm32v6-
     LATEST_TAG=arm32v6
@@ -46,3 +52,5 @@ docker push "supla/supla-cloud:${ARCH}${CLOUD_VERSION}"
 docker push "supla/supla-cloud:${LATEST_TAG}"
 docker push "supla/supla-server:${ARCH}${SERVER_VERSION}"
 docker push "supla/supla-server:${LATEST_TAG}"
+
+rm build.lock
