@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
 COPY apache-conf /etc/apache2/sites-available
 COPY crontab /etc/cron.d/supla-cron
 
+RUN ln -s /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
 		echo 'opcache.interned_strings_buffer=8'; \
