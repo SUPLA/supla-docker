@@ -43,6 +43,7 @@ services:
     volumes:
       - ./ssl/server:/etc/supla-server/ssl:z
       - supla-server-socket:/var/run/supla:z
+      - ${VOLUME_DATA}/server-logs:/var/log/supla
     ports:
       - "2016:2016"
       - "2015:2015"
