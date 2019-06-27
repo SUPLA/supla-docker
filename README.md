@@ -26,7 +26,7 @@ Your home connected. With Docker. www.supla.org
    ```
    * if you have problems getting docker-compose into you Raspberry Pi, try an alternative method:
      ```
-     apt-get -y install python-pip && pip install docker-compose
+     apt-get -y install python-pip libffi && pip install docker-compose
      ```
 1. Clone this repository.
    ```
