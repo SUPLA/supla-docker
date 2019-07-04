@@ -16,6 +16,12 @@ if [ -f "./build.lock" ]; then
   echo -e "${RED}Another build in progress. Aborting.${NC}"
   exit 1
 fi
+
+if [ -f "./nightly.lock" ]; then
+  echo -e "${RED}Continuous deploy turned off. Aborting.${NC}"
+  exit 1
+fi
+
 touch build.lock
 
 echo -e "Checking for new changes..."

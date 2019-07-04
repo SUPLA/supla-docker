@@ -5,3 +5,4 @@
 *.tar.gz
 release-posthook.sh
 build.lock
+nightly.lock

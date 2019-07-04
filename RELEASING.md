@@ -14,6 +14,8 @@ server for this branch unless you have tried building from `master` already.
 1. If the Cloud has been updated, download the release package from [nightly.supla.org/supla-cloud-master.tar.gz](https://nightly.supla.org/supla-cloud-master.tar.gz),
    rename it to `supla-cloud-vVERSION.tar.gz` and upload it to the 
    [SUPLA Cloud latest release](https://github.com/SUPLA/supla-cloud/releases/latest).
+1. Disable night build not to interfere with the update process with `touch nightly.lock`.
+1. Revert the changes instroduced by continuous deploy with `git checkout .`.
 1. Update versions in `cloud/Dockerfile` and `server/Dockerfile` on `src` branch in this repo. Commit the changes to the `src` branch.
 1. Publish the containers by executing the folowing commands on every supported architecture
    (being in `supla-docker` repo, `src` branch)
@@ -22,4 +24,5 @@ server for this branch unless you have tried building from `master` already.
    git pull
    docker login
    ./release.sh
+   rm nightly.lock
    ```
