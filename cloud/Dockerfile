@@ -50,7 +50,7 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini \
-    && a2enmod rewrite expires deflate ssl cgi alias env \
+    && a2enmod headers rewrite expires deflate ssl cgi alias env \
     && chmod 0644 /etc/cron.d/supla-cron
 
 ###
