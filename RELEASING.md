@@ -11,8 +11,11 @@ server for this branch unless you have tried building from `master` already.
 1. Wait for the Night Build to pick up the changes, or force it to build the new package with
    `./release-nightly.sh`. If [nightly.supla.org](https://nightly.supla.org) contains the
    appropriate version (pay attention to the footer), you may proceed.
-1. If the Cloud has been updated, download the release package from [nightly.supla.org/supla-cloud-master.tar.gz](https://nightly.supla.org/supla-cloud-master.tar.gz),
-   rename it to `supla-cloud-vVERSION.tar.gz` and upload it to the 
+1. If the Cloud has been updated:
+    1. download the release package from [nightly.supla.org/supla-cloud-master.tar.gz](https://nightly.supla.org/supla-cloud-master.tar.gz),
+    1. rename it to `supla-cloud-vVERSION.tar.gz`
+    1. calcluate SHA1 checksum with `sha1sum supla-cloud-vVERSION.tar.gz > supla-cloud-vVERSION.tar.gz.sha1` 
+    1. upload both `supla-cloud-vVERSION.tar.gz` and `supla-cloud-vVERSION.tar.gz.sha1` files to the
    [SUPLA Cloud latest release](https://github.com/SUPLA/supla-cloud/releases/latest).
 1. Disable night build not to interfere with the update process with `touch nightly.lock`.
 1. Revert the changes instroduced by continuous deploy with `git checkout .`.
