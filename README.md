@@ -58,6 +58,23 @@ git pull
 ./supla.sh upgrade
 ```
 
+## Configure your SSL certificate
+
+After the first launch, a self-signed certificate will be generated for you to make sure everything works. However,
+web browser will complain when using such certificate so it's good idea to further configure your instance.
+If you have your own SSL certificate, put it in `server.key` and `server.crt` files inside `ssl/cloud` directory
+and restart the application.
+
+If your SSL certificate consists of a chainfile (i.e. there is another certificate file besides the `.crt` and `.key` files):
+
+1. Make a copy of original certificate files.
+1. Prepare one-file certificate by concatenating the certificate file and the chain (in this order!)
+    ```
+    cat server_original.crt rootca_chain.crt > server.crt
+    ```
+1. Store the resulting `server.crt` in `ssl/cloud`.
+1. Restart the application.
+
 ## Launching in proxy mode
 
 If you either
