@@ -43,12 +43,13 @@ COPY crontab /etc/cron.d/supla-cron
 
 RUN ln -s /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 RUN { \
-		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.memory_consumption=192'; \
 		echo 'opcache.interned_strings_buffer=8'; \
-		echo 'opcache.max_accelerated_files=4000'; \
-		echo 'opcache.revalidate_freq=2'; \
+		echo 'opcache.max_accelerated_files=10000'; \
+		echo 'opcache.revalidate_freq=0'; \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
+                echo 'opcache.validate_timestamps=0'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini \
     && a2enmod headers rewrite expires deflate ssl cgi alias env \
     && chmod 0644 /etc/cron.d/supla-cron
