@@ -29,3 +29,21 @@ server for this branch unless you have tried building from `master` already.
    ./release.sh
    rm nightly.lock
    ```
+
+## Deploying a preview version to the nightly
+
+1. Build a release package locally with
+    ```
+    RELEASE_VERSION=2.4.0-preview.1 composer run-script release-dev
+    ```
+1. Copy the resulting tar to the nightly host to the `cloud/supla.tar.gz`.
+1. Disable night build not to interfere with the preview process with `touch nightly.lock`.
+1. Rebuild the `supla-cloud` container
+    ```
+    docker-compose up --build -d supla-cloud
+    ```
+1. Optionally, load fixtures
+    ```
+    docker exec -it -u www-data supla-cloud php bin/console supla:dev:dropAndLoadFixtures -e dev
+    docker exec -it -u www-data supla-cloud php bin/console supla:user:change-limits user@supla.org 1000
+    ```
