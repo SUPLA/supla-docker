@@ -42,6 +42,13 @@ CURRENT_DEVELOP_VERSION=$(docker exec -u www-data supla-cloud-builder git descri
 LAST_CORE_VERSION=$(docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags master | sed -e 's/\r$//')
 CURRENT_CORE_VERSION=$(docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags origin/master | sed -e 's/\r$//')
 
+BRANCH=$1
+if [[ $BRANCH = "master" ]]; then
+  LAST_MASTER_VERSION="force-update"
+elif [[ $BRANCH = "develop" ]]; then
+  LAST_DEVELOP_VERSION="force-update"
+fi
+
 if [ $LAST_MASTER_VERSION != $CURRENT_MASTER_VERSION ]; then
     echo -e "${GREEN}Updating Cloud from master branch: ${LAST_MASTER_VERSION} -> ${CURRENT_MASTER_VERSION}${NC}" && \
     docker exec -u www-data supla-cloud-builder git checkout -f master && \
