@@ -9,16 +9,20 @@ NC='\033[0m'
 
 if [ ! -f .env ]; then
   cp .env.default .env
+  echo -e "${YELLOW}Sample configuration file has been generated for you.${NC}"
   DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
-  SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
-  sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
-  sed -i "s+CHANGE_SECRET_BEFORE_FIRST_LAUNCH+$SECRET+g" .env
+  if [ -z "$DB_PASSWORD" ]; then
+    echo -e "${YELLOW}We could not generate passwords for you. Make sure to change the default DB_PASSWORD and SECRET.${NC}"
+  else
+    SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+    sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
+    sed -i "s+CHANGE_SECRET_BEFORE_FIRST_LAUNCH+$SECRET+g" .env
+  fi
   if [ "$(uname -m)" == "armv6l" ]; then
     sed -i -E "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.arm32v6.yml/" .env
   elif [ "$(expr substr $(uname -m) 1 3)" == "arm" ]; then
     sed -i -E "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.arm32v7.yml/" .env
   fi
-  echo -e "${YELLOW}Sample configuration file has been generated for you.${NC}"
   echo -e "${YELLOW}Please check if the .env file matches your needs and run this command again.${NC}"
   exit
 fi
