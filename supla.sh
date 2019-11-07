@@ -9,10 +9,10 @@ NC='\033[0m'
 
 if [ ! -f .env ]; then
   cp .env.default .env
-  echo -e "${YELLOW}Sample configuration file has been generated for you.${NC}"
+  echo -e "${YELLOW}Sample configuration file is being generated for you.${NC}"
   DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
   if [ -z "$DB_PASSWORD" ]; then
-    echo -e "${YELLOW}We could not generate passwords for you. Make sure to change the default DB_PASSWORD and SECRET.${NC}"
+    echo -e "${YELLOW}We could not generate passwords. Make sure to change the default DB_PASSWORD and SECRET.${NC}"
   else
     SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
     sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
