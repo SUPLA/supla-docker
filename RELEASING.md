@@ -47,3 +47,17 @@ server for this branch unless you have tried building from `master` already.
     docker exec -it -u www-data supla-cloud php bin/console supla:dev:dropAndLoadFixtures -e dev
     docker exec -it -u www-data supla-cloud php bin/console supla:user:change-limits user@supla.org 1000
     ```
+    
+## Turning on the maintenance mode in SUPLA Cloud
+
+When SUPLA Cloud operates in maintenance mode, users are not allowed to make any modifications to 
+their accounts configuration. User Interface displays appropriate warning.
+
+In order to turn on the maintenance mode:
+
+1. Open the `app/config/config_local.yml`.
+1. Add `supla.maintenance_mode: true` setting and save changes.
+1. Clear the cache with `php bin/console cache:clear`.
+
+Then, perform the required maintenance and turn off the maintenance mode by setting the `supla.maintenance_mode`
+to `false.
