@@ -22,6 +22,7 @@ sed -i "s+mailer_from: ~+mailer_from: ${MAILER_FROM:-~}+g" app/config/parameters
 sed -i "s+admin_email: ~+admin_email: ${ADMIN_EMAIL:-~}+g" app/config/parameters.yml
 sed -i "s+supla_protocol: https+supla_protocol: ${SUPLA_PROTOCOL:-https}+g" app/config/config.yml
 sed -E -i "s@supla_url: '(.+)'@supla_url: '${SUPLA_URL:-\1}'@g" app/config/config.yml
+sed -i "s+accounts_registration_enabled: true+accounts_registration_enabled: ${ACCOUNTS_REGISTRATION_ENABLED:-true}+g" app/config/config.yml
 
 sed -i "s+supla_require_regulations_acceptance: false+supla_require_regulations_acceptance: ${REQUIRE_REGULATIONS_ACCEPTANCE:-false}+g" app/config/parameters.yml
 sed -i "s+supla_require_cookie_policy_acceptance: false+supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}+g" app/config/parameters.yml
