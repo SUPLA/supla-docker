@@ -20,7 +20,7 @@ fi
 
 source .env >/dev/null 2>&1
 
-if [ "MQTT_BROKER_ENABLED" = "true" ]; then
+if [ "$MQTT_BROKER_ENABLED" = "true" ]; then
   if [ "$MQTT_BROKER_CLIENT_ID" = "" ]; then
     MQTT_BROKER_CLIENT_ID="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)"
     echo "MQTT_BROKER_CLIENT_ID=$MQTT_BROKER_CLIENT_ID" >> .env
