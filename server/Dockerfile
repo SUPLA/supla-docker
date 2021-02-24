@@ -16,7 +16,7 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
-ENV SERVER_VERSION=v2.3.30
+ENV SERVER_VERSION=v2.3.35
 #ENV SERVER_VERSION_MASTER=XXX
 RUN git clone https://github.com/SUPLA/supla-core.git --branch ${SERVER_VERSION} /src \
     && cd /src/supla-scheduler/Release && make all \
@@ -26,7 +26,7 @@ RUN git clone https://github.com/SUPLA/supla-core.git --branch ${SERVER_VERSION}
     && mkdir -p /etc/supla-server
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY supla.cfg /etc/supla-server/supla.cfg
+COPY supla.cfg /etc/supla-server/supla.cfg.initial
 COPY server-entrypoint.sh /usr/bin/server-entrypoint
 
 ENTRYPOINT ["/usr/bin/server-entrypoint"]

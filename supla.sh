@@ -18,6 +18,14 @@ if [ ! -f .env ]; then
   exit
 fi
 
+if [ "MQTT_BROKER_ENABLED" = "true" ]; then
+  if [ "$MQTT_BROKER_CLIENT_ID" = "" ]; then
+    MQTT_BROKER_CLIENT_ID="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)"
+    echo "MQTT_BROKER_CLIENT_ID=$MQTT_BROKER_CLIENT_ID" >> .env
+    echo -e "${YELLOW}We have generateed random MQTT_BROKER_CLIENT_ID for you.${NC}"
+  fi
+fi
+
 if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
   echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
   sed -i "s#mysql:5.7.20#hypriot/rpi-mysql:5.5#g" docker-compose.yml
