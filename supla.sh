@@ -18,6 +18,8 @@ if [ ! -f .env ]; then
   exit
 fi
 
+source .env >/dev/null 2>&1
+
 if [ "MQTT_BROKER_ENABLED" = "true" ]; then
   if [ "$MQTT_BROKER_CLIENT_ID" = "" ]; then
     MQTT_BROKER_CLIENT_ID="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)"
@@ -30,8 +32,6 @@ if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
   echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
   sed -i "s#mysql:5.7.20#hypriot/rpi-mysql:5.5#g" docker-compose.yml
 fi
-
-source .env >/dev/null 2>&1
 
 # remove \r at the end of the env, if exists
 CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
