@@ -91,7 +91,7 @@ RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
   && apt-get autoremove \
   && rm -r /var/lib/apt/lists/* \
   && apt-get clean \
-  && curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  && curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --1
 
 RUN git clone https://github.com/SUPLA/supla-cloud.git /var/www/supla-cloud \
   && git clone https://github.com/SUPLA/supla-core.git --branch master --single-branch /var/www/supla-core \
