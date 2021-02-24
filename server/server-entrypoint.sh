@@ -10,10 +10,11 @@ sed -i "s+DEFAULT_PASSWORD_IS_BAD_IDEA+$PASSWORD+g" /etc/supla-server/supla.cfg
 sed -i "s+url=https://cloud.supla.org+url=$CLOUD_URL+g" /etc/supla-server/supla.cfg
 
 
-MQTT_BROKER_ENABLED_01=$([ "${MQTT_BROKER_ENABLED:-false}" == "true" ] && echo "1" || echo "0")
-MQTT_BROKER_TLS_01=$([ "${MQTT_BROKER_TLS:-false}" == "true" ] && echo "1" || echo "0")
+MQTT_BROKER_ENABLED_01=$([ "${MQTT_BROKER_ENABLED:-false}" = "true" ] && echo "1" || echo "0")
+MQTT_BROKER_TLS_01=$([ "${MQTT_BROKER_TLS:-false}" = "true" ] && echo "1" || echo "0")
 
-echo "[MQTT-BROKER]
+echo "
+[MQTT-BROKER]
 enabled=${MQTT_BROKER_ENABLED_01}
 host=${MQTT_BROKER_HOST:-}
 port=${MQTT_BROKER_PORT:-8883}

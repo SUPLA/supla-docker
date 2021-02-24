@@ -24,7 +24,7 @@ if [ "$MQTT_BROKER_ENABLED" = "true" ]; then
   if [ "$MQTT_BROKER_CLIENT_ID" = "" ]; then
     MQTT_BROKER_CLIENT_ID="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)"
     echo "MQTT_BROKER_CLIENT_ID=$MQTT_BROKER_CLIENT_ID" >> .env
-    echo -e "${YELLOW}We have generateed random MQTT_BROKER_CLIENT_ID for you.${NC}"
+    echo -e "${YELLOW}We have generated random MQTT_BROKER_CLIENT_ID for you.${NC}"
   fi
 fi
 
