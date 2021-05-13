@@ -85,9 +85,9 @@ CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/c
 ###
 FROM supla_cloud_base AS supla_cloud_builder
 
-RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
   && apt-get install -y --no-install-recommends nodejs \
-  && npm install -g npm@5 \
+  && npm install -g npm@7 \
   && apt-get autoremove \
   && rm -r /var/lib/apt/lists/* \
   && apt-get clean \
