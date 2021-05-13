@@ -54,6 +54,7 @@ if [ $LAST_MASTER_VERSION != $CURRENT_MASTER_VERSION ]; then
     docker exec -u www-data supla-cloud-builder git checkout -f master && \
     docker exec -u www-data supla-cloud-builder git pull && \
     docker exec -u www-data supla-cloud-builder git fetch origin develop:develop && \
+    docker exec -u www-data supla-cloud-builder composer install && \
     docker exec -u www-data --env RELEASE_FILENAME=supla-cloud.tar.gz supla-cloud-builder composer run-script release && \
     REBUILD=true
     CLOUD_PACKAGE_NAME=supla-cloud-master.tar.gz
@@ -61,6 +62,7 @@ elif [ $LAST_DEVELOP_VERSION != $CURRENT_DEVELOP_VERSION ]; then
     echo -e "${GREEN}Updating Cloud from develop branch: ${LAST_DEVELOP_VERSION} -> ${CURRENT_DEVELOP_VERSION}${NC}" && \
     docker exec -u www-data supla-cloud-builder git checkout -f develop && \
     docker exec -u www-data supla-cloud-builder git pull && \
+    docker exec -u www-data supla-cloud-builder composer install && \
     docker exec -u www-data --env RELEASE_FILENAME=supla-cloud.tar.gz --env RELEASE_VERSION=$CURRENT_DEVELOP_VERSION supla-cloud-builder composer run-script release && \
     docker cp cloud/supla-cloud.tar.gz supla-cloud:/var/www/cloud/web/supla-cloud-develop.tar.gz
     REBUILD=true
