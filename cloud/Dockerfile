@@ -58,7 +58,7 @@ RUN { \
 # Production build.
 ###
 FROM supla_cloud_base AS supla_cloud_prod
-ENV CLOUD_VERSION=2.3.27
+ENV CLOUD_VERSION=2.3.28
 #COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN a2ensite default-ssl \
