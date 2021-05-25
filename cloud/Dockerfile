@@ -1,4 +1,4 @@
-FROM php:7.0.33-apache AS supla_cloud_base
+FROM php:7.3.28-apache AS supla_cloud_base
 
 WORKDIR /var/www
 
@@ -11,11 +11,12 @@ RUN apt-get update \
       libcurl4-gnutls-dev \
       git \
       unzip \
-      mysql-client \
+      mariadb-client \
       wget \
       supervisor \
       cron \
-      zlib1g-dev \
+      libzip-dev \
+      zip \
     && update-ca-certificates \
     && docker-php-ext-install \
       pdo_mysql \
