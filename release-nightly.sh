@@ -37,7 +37,6 @@ LAST_MASTER_VERSION=$(docker exec -u www-data supla-cloud-builder git describe -
 CURRENT_MASTER_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags origin/master | sed -e 's/\r$//')
 
 LAST_DEVELOP_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags develop | sed -e 's/\r$//')
-CURRENT_DEVELOP_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags origin/develop | sed -e 's/\r$//')
 
 LAST_CORE_VERSION=$(docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags master | sed -e 's/\r$//')
 CURRENT_CORE_VERSION=$(docker exec -u www-data -w /var/www/supla-core supla-cloud-builder git describe --tags origin/master | sed -e 's/\r$//')
@@ -45,9 +44,11 @@ CURRENT_CORE_VERSION=$(docker exec -u www-data -w /var/www/supla-core supla-clou
 BRANCH=$1
 if [[ $BRANCH = "master" ]]; then
   LAST_MASTER_VERSION="force-update"
-elif [[ $BRANCH = "develop" ]]; then
+elif [[ "$BRANCH" != "" ]]; then
   LAST_DEVELOP_VERSION="force-update"
 fi
+
+CURRENT_DEVELOP_VERSION=$(docker exec -u www-data supla-cloud-builder git describe --tags origin/${BRANCH:-develop} | sed -e 's/\r$//')
 
 if [ $LAST_MASTER_VERSION != $CURRENT_MASTER_VERSION ]; then
     echo -e "${GREEN}Updating Cloud from master branch: ${LAST_MASTER_VERSION} -> ${CURRENT_MASTER_VERSION}${NC}" && \
@@ -59,8 +60,9 @@ if [ $LAST_MASTER_VERSION != $CURRENT_MASTER_VERSION ]; then
     REBUILD=true
     CLOUD_PACKAGE_NAME=supla-cloud-master.tar.gz
 elif [ $LAST_DEVELOP_VERSION != $CURRENT_DEVELOP_VERSION ]; then
-    echo -e "${GREEN}Updating Cloud from develop branch: ${LAST_DEVELOP_VERSION} -> ${CURRENT_DEVELOP_VERSION}${NC}" && \
-    docker exec -u www-data supla-cloud-builder git checkout -f develop && \
+    echo -e "${GREEN}Updating Cloud from ${BRANCH:-develop} branch: ${LAST_DEVELOP_VERSION} -> ${CURRENT_DEVELOP_VERSION}${NC}" && \
+    docker exec -u www-data supla-cloud-builder git checkout -f ${BRANCH:-develop} && \
+    docker exec -u www-data supla-cloud-builder git reset --hard origin/${BRANCH:-develop} && \
     docker exec -u www-data supla-cloud-builder git pull && \
     docker exec -u www-data supla-cloud-builder composer install && \
     docker exec -u www-data --env RELEASE_FILENAME=supla-cloud.tar.gz --env RELEASE_VERSION=$CURRENT_DEVELOP_VERSION supla-cloud-builder composer run-script release && \
