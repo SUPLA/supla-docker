@@ -82,7 +82,7 @@ if [ -z "$REBUILD" ]; then
 else
   docker cp supla-cloud-builder:/var/www/supla-cloud/supla-cloud.tar.gz cloud/supla-cloud.tar.gz && \
   sed -i -r "s/^#(COPY supla-cloud.*\.tar\.gz)/\1/" cloud/Dockerfile && \
-  sed -i -r "s/^(ENV SERVER_VERSION=).+/\1master/" server/Dockerfile && \
+  sed -i -r "s/^(ENV SERVER_VERSION=).+/\1develop/" server/Dockerfile && \
   sed -i -r "s/^(ENV SERVER_VERSION_MASTER=).+/\1${CURRENT_CORE_VERSION}/" server/Dockerfile && \
   sed -i -r "s/^#(ENV SERVER_VERSION_MASTER=)/\1/" server/Dockerfile && \
   ./supla.sh restart && \
