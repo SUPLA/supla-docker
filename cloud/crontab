@@ -1,1 +1,2 @@
 * * * * * root su - www-data -s /bin/bash -c "/usr/local/bin/php /var/www/cloud/bin/console supla:dispatch-cyclic-tasks" > /proc/1/fd/1 2>/proc/1/fd/2
+* * * * * root su - www-data -s /bin/bash -c "/usr/local/bin/php /var/www/cloud/bin/console messenger:consume --memory-limit=128M --time-limit=59 -q" > /proc/1/fd/1 2>/proc/1/fd/2
