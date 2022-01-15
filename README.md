@@ -122,3 +122,7 @@ It means that you have another application running on the port 80 or 443. You ca
 * turn it off and try to launch SUPLA again or
 * change the ports that supla-cloud container listens on in the .env file or
 * try to run them both with proxy configuration described above.
+
+### Can't connect to the server from a mobile client
+
+Make sure that ports `2015` and `2016` are open and reachable. If it seems like everything is configured properly, but they still appear to be closed, try starting the server with root permissions, i.e. `sudo ./supla-docker/supla.sh start`.
