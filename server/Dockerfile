@@ -16,11 +16,24 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
+ENV LIBRESSL_VERSION=3.4.2
+RUN cd /usr/src \
+    && wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRESSL_VERSION}.tar.gz \
+    && tar zxvf libressl-${LIBRESSL_VERSION}.tar.gz && rm libressl-${LIBRESSL_VERSION}.tar.gz \
+    && cd libressl-${LIBRESSL_VERSION} \
+    && ./configure --prefix=/usr/src/libressl \
+    && make && make install \
+    && cp /usr/src/libressl/lib/libcrypto.so.47.0.0 /lib/x86_64-linux-gnu/ \
+    && cp /usr/src/libressl/lib/libssl.so.50.0.0 /lib/x86_64-linux-gnu/ \
+    && cd /lib/x86_64-linux-gnu/ \
+    && ln -s libssl.so.50.0.0 libssl.so.50 \
+    && ln -s libcrypto.so.47.0.0 libcrypto.so.47
+
 ENV SERVER_VERSION=v2.3.50
 #ENV SERVER_VERSION_MASTER=XXX
 RUN git clone https://github.com/SUPLA/supla-core.git --branch ${SERVER_VERSION} /src \
-    && cd /src/supla-scheduler/Release && make all \
-    && cd /src/supla-server/Release && make all \
+    && cd /src/supla-scheduler/Release && make all SSLDIR=/usr/src/libressl \
+    && cd /src/supla-server/Release && make all SSLDIR=/usr/src/libressl \
     && cp /src/supla-scheduler/Release/supla-scheduler /src/supla-server/Release/supla-server /usr/local/bin \
     && rm -fr /src \
     && mkdir -p /etc/supla-server
