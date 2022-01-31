@@ -28,17 +28,21 @@ sed -i "s+supla_require_regulations_acceptance: false+supla_require_regulations_
 sed -i "s+supla_require_cookie_policy_acceptance: false+supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}+g" app/config/parameters.yml
 sed -i "s+brute_force_auth_prevention_enabled: true+brute_force_auth_prevention_enabled: ${BRUTE_FORCE_AUTH_PREVENTION_ENABLED:-true}+g" app/config/parameters.yml
 
-echo "supla:
-  mqtt_broker:
-    enabled: ${MQTT_BROKER_ENABLED:-false}
-    host: ${MQTT_BROKER_HOST:-~}
-    integrated_auth: ${MQTT_BROKER_INTEGRATED_AUTH:-false}
-    protocol: ${MQTT_BROKER_PROTOCOL:-mqtt}
-    port: ${MQTT_BROKER_PORT:-8883}
-    tls: ${MQTT_BROKER_TLS:-true}
-    username: '${MQTT_BROKER_USERNAME:-}'
-    password: '${MQTT_BROKER_PASSWORD:-}'
-" > app/config/config_local.yml
+echo "    mqtt_broker:
+        enabled: ${MQTT_BROKER_ENABLED:-false}
+        host: ${MQTT_BROKER_HOST:-~}
+        integrated_auth: ${MQTT_BROKER_INTEGRATED_AUTH:-false}
+        protocol: ${MQTT_BROKER_PROTOCOL:-mqtt}
+        port: ${MQTT_BROKER_PORT:-8883}
+        tls: ${MQTT_BROKER_TLS:-true}
+        username: '${MQTT_BROKER_USERNAME:-}'
+        password: '${MQTT_BROKER_PASSWORD:-}'
+" >> app/config/config_build.yml
+
+if [ -f var/local/config_local.yml ]; then
+  cp var/local/config_local.yml app/config/config_local.yml
+  chown www-data:www-data app/config/config_local.yml
+fi
 
 if [ ${SUPLA_PROTOCOL:-https} = "https" ]; then
   if ! grep -q "%{HTTPS} off" web/.htaccess; then
