@@ -55,7 +55,7 @@ RUN ln -s /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
 # Production build.
 ###
 FROM supla_cloud_base AS supla_cloud_prod
-ENV CLOUD_VERSION=2.3.35
+ENV CLOUD_VERSION=2.3.36
 #COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN a2ensite default-ssl \
