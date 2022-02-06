@@ -22,12 +22,7 @@ RUN cd /usr/src \
     && tar zxvf libressl-${LIBRESSL_VERSION}.tar.gz && rm libressl-${LIBRESSL_VERSION}.tar.gz \
     && cd libressl-${LIBRESSL_VERSION} \
     && ./configure --prefix=/usr/src/libressl \
-    && make && make install \
-    && cp /usr/src/libressl/lib/libcrypto.so.47.0.0 /lib/x86_64-linux-gnu/ \
-    && cp /usr/src/libressl/lib/libssl.so.50.0.0 /lib/x86_64-linux-gnu/ \
-    && cd /lib/x86_64-linux-gnu/ \
-    && ln -s libssl.so.50.0.0 libssl.so.50 \
-    && ln -s libcrypto.so.47.0.0 libcrypto.so.47
+    && make && make install
 
 ENV SERVER_VERSION=v2.3.51
 #ENV SERVER_VERSION_MASTER=XXX

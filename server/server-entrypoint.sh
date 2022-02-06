@@ -24,6 +24,12 @@ password=${MQTT_BROKER_PASSWORD:-}
 client_id=${MQTT_BROKER_CLIENT_ID:-}
 " >> /etc/supla-server/supla.cfg
 
+LIBSSL_PATH=$(dirname $(ldconfig -p |grep libc.so| sed 's/.*=> //'))
+cp /usr/src/libressl/lib/libcrypto.so.47.0.0 $LIBSSL_PATH
+cp /usr/src/libressl/lib/libssl.so.50.0.0 $LIBSSL_PATH
+cd $LIBSSL_PATH
+ln -s libssl.so.50.0.0 libssl.so.50
+ln -s libcrypto.so.47.0.0 libcrypto.so.47
 
 if [ ! -f /etc/supla-server/ssl/cert.crt ]; then
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/supla-server/ssl/private.key -out /etc/supla-server/ssl/cert.crt -subj "/C=PL/ST=SUPLA/L=SUPLA/O=SUPLA/CN=SUPLA"
