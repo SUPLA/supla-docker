@@ -4,9 +4,7 @@ services:
   supla-cloud:
     container_name: ${COMPOSE_PROJECT_NAME}-cloud
     restart: unless-stopped
-    build:
-      context: ./cloud
-      target: supla_cloud_prod
+    build: ./cloud
     env_file:
       - .env.default
       - .env

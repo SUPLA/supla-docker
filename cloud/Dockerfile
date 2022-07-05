@@ -1,4 +1,6 @@
-FROM php:7.3.28-apache AS supla_cloud_base
+FROM php:7.3.33-apache
+
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/1.5.29/install-php-extensions /usr/local/bin/
 
 WORKDIR /var/www
 
@@ -18,26 +20,19 @@ RUN apt-get update \
       libzip-dev \
       zip \
     && update-ca-certificates \
-    && docker-php-ext-install \
+    && chmod +x /usr/local/bin/install-php-extensions \
+    && install-php-extensions \
       pdo_mysql \
       mbstring \
       opcache \
       intl \
       curl \
       zip \
+      gd \
+      iconv \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
-
-RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-    && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd \
-    && apt-get autoremove \
-    && rm -r /var/lib/apt/lists/*
 
 COPY apache-conf /etc/apache2/sites-available
 COPY crontab /etc/cron.d/supla-cron
@@ -51,10 +46,6 @@ RUN ln -s /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
     && a2enmod headers rewrite expires deflate ssl cgi alias env \
     && chmod 0644 /etc/cron.d/supla-cron
 
-###
-# Production build.
-###
-FROM supla_cloud_base AS supla_cloud_prod
 ENV CLOUD_VERSION=2.3.37
 #COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
@@ -75,26 +66,3 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
 
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
-
-
-###
-# Container for preparing SUPLA Cloud tar.
-###
-FROM supla_cloud_base AS supla_cloud_builder
-
-RUN mkdir .npm && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-  && apt-get install -y --no-install-recommends nodejs \
-  && npm install -g npm@7 \
-  && apt-get autoremove \
-  && rm -r /var/lib/apt/lists/* \
-  && apt-get clean \
-  && curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --2
-
-RUN git clone https://github.com/SUPLA/supla-cloud.git /var/www/supla-cloud \
-  && git clone https://github.com/SUPLA/supla-core.git --branch master --single-branch /var/www/supla-core \
-  && cd supla-cloud && git checkout develop && git checkout master \
-  && cp app/config/parameters.yml.dist app/config/parameters.yml \
-  && sed -i "s#supla_server: ~#supla_server: supla.local#" /var/www/supla-cloud/app/config/parameters.yml \
-  && cd .. && chown -hR www-data:www-data .
-
-WORKDIR /var/www/supla-cloud
