@@ -7,15 +7,15 @@ server for this branch unless you have tried building from `master` already.
 
 1. Make sure everything that is going to be released is included in the `master` branch
    (supla-cloud and supla-core).
-2. Tag new versions of the products according to the chosen flow (e.g. `v2.3.4`).
+2. Tag new versions of the products according to the chosen flow (e.g. `v22.07`).
 3. If the Cloud has been updated:
-    1. Release the Cloud with `./release.sh` script after cloning `supla-cloud` repo.
-    1. upload both `supla-cloud-vVERSION.tar.gz` and `supla-cloud-vVERSION.tar.gz.sha1` files to the
+    1. Release the Cloud with `./release.sh VERSION` script after cloning `supla-cloud` repo, e.g. `./release.sh 22.07`.
+    1. upload both `supla-cloud-vVERSION.tar.gz` and `supla-cloud-vVERSION.tar.gz.sha1` files produced by the previous script to the
    [SUPLA Cloud latest release](https://github.com/SUPLA/supla-cloud/releases/latest).
 4. Disable night build not to interfere with the update process with `touch nightly.lock`.
 5. Revert the changes introduced by continuous deploy with `git checkout .`.
 6. Update versions in `cloud/Dockerfile` and `server/Dockerfile` on `src` branch in this repo. Commit the changes to the `src` branch.
-7. Publish the containers by executing the folowing commands on every supported architecture
+7. Publish the containers by executing the following commands on every supported architecture
    (being in `supla-docker` repo, `src` branch)
    ```
    git checkout .
