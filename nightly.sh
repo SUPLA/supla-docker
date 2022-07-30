@@ -84,6 +84,8 @@ else
   ./supla.sh restart && \
   sleep 5
   if [ -f "./release-posthook.sh" ]; then
+    export CURRENT_CLOUD_VERSION=$CURRENT_CLOUD_VERSION
+    export CURRENT_CORE_VERSION=$CURRENT_CORE_VERSION
     ./release-posthook.sh nightly
   fi
 fi
