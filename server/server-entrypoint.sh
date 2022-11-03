@@ -25,12 +25,12 @@ client_id=${MQTT_BROKER_CLIENT_ID:-}
 " >> /etc/supla-server/supla.cfg
 
 LIBSSL_PATH=$(dirname $(ldconfig -p |grep libc.so| sed 's/.*=> //'))
-if [ ! -f $LIBSSL_PATH/libssl.so.50.0.0 ]; then
-  cp /usr/src/libressl/lib/libcrypto.so.47.0.0 $LIBSSL_PATH
-  cp /usr/src/libressl/lib/libssl.so.50.0.0 $LIBSSL_PATH
+if [ ! -f $LIBSSL_PATH/libssl.so.52.0.0 ]; then
+  cp /usr/src/libressl/lib/libcrypto.so.49.0.0 $LIBSSL_PATH
+  cp /usr/src/libressl/lib/libssl.so.52.0.0 $LIBSSL_PATH
   cd $LIBSSL_PATH
-  ln -s libssl.so.50.0.0 libssl.so.50
-  ln -s libcrypto.so.47.0.0 libcrypto.so.47
+  ln -s libssl.so.52.0.0 libssl.so.52
+  ln -s libcrypto.so.49.0.0 libcrypto.so.49
 fi
 
 if [ ! -f /etc/supla-server/ssl/cert.crt ]; then
