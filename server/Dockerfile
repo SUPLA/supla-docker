@@ -16,7 +16,7 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
-ENV LIBRESSL_VERSION=3.4.2
+ENV LIBRESSL_VERSION=3.5.3
 RUN cd /usr/src \
     && wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRESSL_VERSION}.tar.gz \
     && tar zxvf libressl-${LIBRESSL_VERSION}.tar.gz && rm libressl-${LIBRESSL_VERSION}.tar.gz \
