@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  supla-cloud:
+    image: supla/supla-cloud:arm32v7
+
+  supla-db:
+    image: mariadb
+
+  supla-server:
+    image: supla/supla-server:arm32v7
