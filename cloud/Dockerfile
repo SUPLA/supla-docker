@@ -62,7 +62,7 @@ WORKDIR /var/www/cloud
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
 
-HEALTHCHECK --interval=1m --timeout=5s --retries=3 --start-period=30s \
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 --start-period=30s \
     CMD wget --no-verbose --tries=1 --spider http://localhost/api/server-info || exit 1
 
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
