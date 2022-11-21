@@ -36,5 +36,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY supla.cfg /etc/supla-server/supla.cfg.initial
 COPY server-entrypoint.sh /usr/bin/server-entrypoint
 
+HEALTHCHECK --interval=1m --timeout=5s --retries=3 --start-period=30s \
+    CMD wget --no-verbose --tries=1 --spider http://supla-cloud/api/server-status || exit 1
+
 ENTRYPOINT ["/usr/bin/server-entrypoint"]
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
