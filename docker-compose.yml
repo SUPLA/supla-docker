@@ -16,8 +16,6 @@ services:
     logging:
       options:
         max-size: 50m
-    links:
-      - supla-db
     depends_on:
       - supla-db
 
@@ -56,10 +54,9 @@ services:
     logging:
       options:
         max-size: 50m
-    links:
-      - supla-db
     depends_on:
-      - supla-cloud
+      supla-cloud:
+        condition: service_healthy
 
 volumes:
   supla-server-socket: {}
