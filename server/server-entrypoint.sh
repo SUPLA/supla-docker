@@ -3,11 +3,19 @@ set -e
 
 cp /etc/supla-server/supla.cfg.initial /etc/supla-server/supla.cfg
 
-PASSWORD=${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
 CLOUD_URL=${SUPLA_PROTOCOL:-https}://${CLOUD_DOMAIN:-cloud.supla.org}
 
-sed -i "s+DEFAULT_PASSWORD_IS_BAD_IDEA+$PASSWORD+g" /etc/supla-server/supla.cfg
 sed -i "s+url=https://cloud.supla.org+url=$CLOUD_URL+g" /etc/supla-server/supla.cfg
+
+
+echo "
+[MySQL]
+host=${DB_HOST:-supla-db}
+port=${DB_PORT:-3306}
+database=${DB_NAME:-supla}
+user=${DB_USER:-supla}
+password=${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
+" >> /etc/supla-server/supla.cfg
 
 
 MQTT_BROKER_ENABLED_01=$([ "${MQTT_BROKER_ENABLED:-false}" = "true" ] && echo "1" || echo "0")
@@ -23,6 +31,7 @@ username=${MQTT_BROKER_USERNAME:-}
 password=${MQTT_BROKER_PASSWORD:-}
 client_id=${MQTT_BROKER_CLIENT_ID:-}
 " >> /etc/supla-server/supla.cfg
+
 
 LIBSSL_PATH=$(dirname $(ldconfig -p |grep libc.so| sed 's/.*=> //'))
 if [ ! -f $LIBSSL_PATH/libssl.so.52.0.0 ]; then

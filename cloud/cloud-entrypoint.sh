@@ -5,7 +5,12 @@ if [ ! -f /etc/apache2/ssl/server.crt ]; then
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj "/C=PL/ST=SUPLA/L=SUPLA/O=SUPLA/CN=SUPLA"
 fi
 
+sed -i "s+database_host: 127.0.0.1+database_host: ${DB_HOST:-supla-db}+g" app/config/parameters.yml
+sed -i "s+database_port: null+database_port: ${DB_PORT:-null}+g" app/config/parameters.yml
+sed -i "s+database_name: supla+database_name: ${DB_NAME:-supla}+g" app/config/parameters.yml
+sed -i "s+database_user: root+database_user: ${DB_USER:-supla}+g" app/config/parameters.yml
 sed -i "s+database_password: ~+database_password: ${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}+g" app/config/parameters.yml
+
 sed -i "s+secret: ThisTokenIsNotSoSecretChangeIt+secret: ${SECRET:-DEFAULT_SECRET_IS_BAD_IDEA}+g" app/config/parameters.yml
 sed -i "s+supla_server: ~+supla_server: ${CLOUD_DOMAIN:-cloud.supla.org}+g" app/config/parameters.yml
 

@@ -56,13 +56,14 @@ RUN a2ensite default-ssl \
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && cp cloud/app/config/parameters.yml.dist cloud/app/config/parameters.yml \
     && sed -i "s+/var/run/supla/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
-    && sed -i "s#database_host: 127.0.0.1#database_host: supla-db#" cloud/app/config/parameters.yml \
-    && sed -i "s#database_user: root#database_user: supla#" cloud/app/config/parameters.yml \
     && chown -hR www-data:www-data cloud
 
 WORKDIR /var/www/cloud
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY cloud-entrypoint.sh /usr/local/bin/docker-php-entrypoint
+
+HEALTHCHECK --interval=1m --timeout=5s --retries=3 --start-period=30s \
+    CMD wget --no-verbose --tries=1 --spider http://localhost/api/server-status || exit 1
 
 CMD ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisor/conf.d/supervisord.conf"]
