@@ -54,7 +54,6 @@ RUN a2ensite default-ssl \
     && mkdir cloud \
     && tar -xzf supla-cloud-v${CLOUD_VERSION}.tar.gz -C cloud \
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
-    && cp cloud/app/config/parameters.yml.dist cloud/app/config/parameters.yml \
     && sed -i "s+/var/run/supla/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
     && chown -hR www-data:www-data cloud
 
