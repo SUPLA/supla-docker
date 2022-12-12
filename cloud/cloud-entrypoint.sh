@@ -7,52 +7,56 @@ fi
 
 echo "
 parameters:
-    database_driver: pdo_mysql
-    database_host: ${DB_HOST:-supla-db}
-    database_port: ${DB_PORT:-null}
-    database_name: ${DB_NAME:-supla}
-    database_user: ${DB_USER:-supla}
-    database_password: ${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
-    mailer_transport: smtp
-    mailer_host: ${MAILER_HOST:-127.0.0.1}
-    mailer_user: ${MAILER_USER:-~}
-    mailer_password: ${MAILER_PASSWORD:-~}
-    mailer_port: ${MAILER_PORT:-25}
-    mailer_encryption: ${MAILER_ENCRYPTION:-~}
-    mailer_from: ${MAILER_FROM:-~}
-    admin_email: ${ADMIN_EMAIL:-~}
-    supla_server: ${CLOUD_DOMAIN:-cloud.supla.org}
-    supla_require_regulations_acceptance: ${REQUIRE_REGULATIONS_ACCEPTANCE:-false}
-    supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}
-    brute_force_auth_prevention_enabled: ${BRUTE_FORCE_AUTH_PREVENTION_ENABLED:-true}
-    recaptcha_enabled: ${RECAPTCHA_ENABLED:-false}
-    recaptcha_site_key: ${RECAPTCHA_PUBLIC_KEY:-~}
-    recaptcha_secret: ${RECAPTCHA_PRIVATE_KEY:-~}
-    locale: en
-    secret: ${SECRET:-DEFAULT_SECRET_IS_BAD_IDEA}
-    cors_allow_origin_regex:
-        - supla2.+
-        - localhost.+
+  database_driver: pdo_mysql
+  database_host: ${DB_HOST:-supla-db}
+  database_port: ${DB_PORT:-null}
+  database_name: ${DB_NAME:-supla}
+  database_user: ${DB_USER:-supla}
+  database_password: ${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
+  mailer_transport: smtp
+  mailer_host: ${MAILER_HOST:-127.0.0.1}
+  mailer_user: ${MAILER_USER:-~}
+  mailer_password: ${MAILER_PASSWORD:-~}
+  mailer_port: ${MAILER_PORT:-25}
+  mailer_encryption: ${MAILER_ENCRYPTION:-~}
+  mailer_from: ${MAILER_FROM:-~}
+  admin_email: ${ADMIN_EMAIL:-~}
+  supla_server: ${CLOUD_DOMAIN:-cloud.supla.org}
+  supla_require_regulations_acceptance: ${REQUIRE_REGULATIONS_ACCEPTANCE:-false}
+  supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}
+  brute_force_auth_prevention_enabled: ${BRUTE_FORCE_AUTH_PREVENTION_ENABLED:-true}
+  recaptcha_enabled: ${RECAPTCHA_ENABLED:-false}
+  recaptcha_site_key: ${RECAPTCHA_PUBLIC_KEY:-~}
+  recaptcha_secret: ${RECAPTCHA_PRIVATE_KEY:-~}
+  locale: en
+  secret: ${SECRET:-DEFAULT_SECRET_IS_BAD_IDEA}
+  cors_allow_origin_regex:
+    - supla2.+
+    - localhost.+
 " > app/config/parameters.yml
 
 sed -i "s+supla_protocol: https+supla_protocol: ${SUPLA_PROTOCOL:-https}+g" app/config/config.yml
 sed -E -i "s@supla_url: '(.+)'@supla_url: '${SUPLA_URL:-\1}'@g" app/config/config.yml
-sed -i "s+accounts_registration_enabled: true+accounts_registration_enabled: ${ACCOUNTS_REGISTRATION_ENABLED:-true}+g" app/config/config.yml
 
-if ! grep -q mqtt app/config/config_build.yml; then
-  echo "    mqtt_broker:
-        enabled: ${MQTT_BROKER_ENABLED:-false}
-        host: ${MQTT_BROKER_HOST:-~}
-        integrated_auth: ${MQTT_BROKER_INTEGRATED_AUTH:-false}
-        protocol: ${MQTT_BROKER_PROTOCOL:-mqtt}
-        port: ${MQTT_BROKER_PORT:-8883}
-        tls: ${MQTT_BROKER_TLS:-true}
-        username: '${MQTT_BROKER_USERNAME:-}'
-        password: '${MQTT_BROKER_PASSWORD:-}'
-" >> app/config/config_build.yml
-fi
+echo "
+supla:
+  accounts_registration_enabled: ${ACCOUNTS_REGISTRATION_ENABLED:-true}
+  measurement_logs_retention:
+    em_voltage_aberrations: ${MEASUREMENT_LOGS_RETENTION_EM_VOLTAGE_ABERRATIONS:-1000}
+  mqtt_broker:
+    enabled: ${MQTT_BROKER_ENABLED:-false}
+    host: ${MQTT_BROKER_HOST:-~}
+    integrated_auth: ${MQTT_BROKER_INTEGRATED_AUTH:-false}
+    protocol: ${MQTT_BROKER_PROTOCOL:-mqtt}
+    port: ${MQTT_BROKER_PORT:-8883}
+    tls: ${MQTT_BROKER_TLS:-true}
+    username: '${MQTT_BROKER_USERNAME:-}'
+    password: '${MQTT_BROKER_PASSWORD:-}'
+" > app/config/config_local.yml
 
 if [ -f var/local/config_local.yml ]; then
+  echo 'Local configuration file exists, so the app will use it.'
+  echo 'Some of the .env configuration variables have not been taken into consideration, though.'
   cp var/local/config_local.yml app/config/config_local.yml
   chown www-data:www-data app/config/config_local.yml
 fi
