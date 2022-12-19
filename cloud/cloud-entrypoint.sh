@@ -52,11 +52,10 @@ supla:
     tls: ${MQTT_BROKER_TLS:-true}
     username: '${MQTT_BROKER_USERNAME:-}'
     password: '${MQTT_BROKER_PASSWORD:-}'
-" > app/config/config_local.yml
+" > app/config/config_docker.yml
 
+# Copy local configuration file if exists
 if [ -f var/local/config_local.yml ]; then
-  echo 'Local configuration file exists, so the app will use it.'
-  echo 'Some of the .env configuration variables have not been taken into consideration, though.'
   cp var/local/config_local.yml app/config/config_local.yml
   chown www-data:www-data app/config/config_local.yml
 fi
