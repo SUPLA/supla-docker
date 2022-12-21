@@ -35,7 +35,6 @@ parameters:
     - localhost.+
 " > app/config/parameters.yml
 
-sed -i "s+supla_protocol: https+supla_protocol: ${SUPLA_PROTOCOL:-https}+g" app/config/config.yml
 sed -E -i "s@supla_url: '(.+)'@supla_url: '${SUPLA_URL:-\1}'@g" app/config/config.yml
 
 echo "
@@ -52,6 +51,8 @@ supla:
     tls: ${MQTT_BROKER_TLS:-true}
     username: '${MQTT_BROKER_USERNAME:-}'
     password: '${MQTT_BROKER_PASSWORD:-}'
+parameters:
+  supla_protocol: ${SUPLA_PROTOCOL:-https}
 " > app/config/config_docker.yml
 
 # Copy local configuration file if exists
