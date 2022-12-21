@@ -55,8 +55,7 @@ services:
       options:
         max-size: 50m
     depends_on:
-      supla-cloud:
-        condition: service_healthy
+      - supla-cloud
 
 volumes:
   supla-server-socket: {}
