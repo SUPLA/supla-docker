@@ -13,8 +13,9 @@ services:
       - ${VOLUME_DATA}/cloud-local:/var/www/cloud/var/local
       - ${VOLUME_DATA}/cloud-logs:/var/www/cloud/var/logs
       - supla-server-socket:/supla-server:z
-    links:
-      - supla-db
+    logging:
+      options:
+        max-size: 50m
     depends_on:
       - supla-db
 
@@ -32,6 +33,9 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ${VOLUME_DATA}/mysql:/var/lib/mysql:z
+    logging:
+      options:
+        max-size: 50m
 
   supla-server:
     container_name: ${COMPOSE_PROJECT_NAME}-server
@@ -46,8 +50,9 @@ services:
     ports:
       - "2016:2016"
       - "2015:2015"
-    links:
-      - supla-db
+    logging:
+      options:
+        max-size: 50m
     depends_on:
       - supla-cloud
 
