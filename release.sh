@@ -28,7 +28,7 @@ else
 fi
 
 CLOUD_VERSION=$(cat cloud/Dockerfile | grep "ENV CLOUD_VERSION=" | grep -oP "\d+\.\d+(\.\d+)?$")
-SERVER_VERSION=$(cat server/Dockerfile | grep "ENV SERVER_VERSION=" | grep -oP "\d+\.\d(\.\d+)?+$")
+SERVER_VERSION=$(cat server/Dockerfile | grep "ENV SERVER_VERSION=" | grep -oP "\d+\.\d+(\.\d+)?$")
 
 echo -e "Releasing supla-cloud ${GREEN}${ARCH}${CLOUD_VERSION}${NC}"
 echo -e "Releasing supla-server ${GREEN}${ARCH}${SERVER_VERSION}${NC}"
