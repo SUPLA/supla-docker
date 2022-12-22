@@ -22,6 +22,8 @@ if [ ! -f .env ]; then
     sed -i -r "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.arm32v6.yml/" .env
   elif [ "$(expr substr $(uname -m) 1 3)" == "arm" ]; then
     sed -i -r "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.arm32v7.yml/" .env
+  elif [ "$(expr substr $(uname -m) 1 3)" == "aar" ]; then
+    sed -i -r "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.aarch64.yml/" .env
   fi
   echo -e "${YELLOW}Please check if the .env file matches your needs and run this command again.${NC}"
   exit
