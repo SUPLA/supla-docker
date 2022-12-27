@@ -31,7 +31,7 @@ server for this branch unless you have tried building from `master` already.
     ```
     RELEASE_VERSION=2.4.0-preview.1 composer run-script release-dev
     ```
-1. Copy the resulting tar to the nightly host to the `cloud/supla.tar.gz`.
+1. Copy the resulting tar to the nightly host to the `cloud/supla-cloud.tar.gz`.
 1. Disable night build not to interfere with the preview process with `touch nightly.lock`.
 1. Rebuild the `supla-cloud` container
     ```
