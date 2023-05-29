@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:11.6
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -12,11 +12,12 @@ RUN apt-get update \
         supervisor \
         ca-certificates \
         ssl-cert \
+        libcurl4-openssl-dev \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
-ENV LIBRESSL_VERSION=3.5.3
+ENV LIBRESSL_VERSION=3.5.4
 RUN cd /usr/src \
     && wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRESSL_VERSION}.tar.gz \
     && tar zxvf libressl-${LIBRESSL_VERSION}.tar.gz && rm libressl-${LIBRESSL_VERSION}.tar.gz \
