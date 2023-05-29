@@ -31,7 +31,7 @@ else
 fi
 
 CLOUD_BRANCH=${1-develop}
-CORE_BRANCH=master
+CORE_BRANCH=${2-master}
 
 if [ -d "var/repos/supla-cloud" ]; then
   git --git-dir var/repos/supla-cloud/.git --work-tree var/repos/supla-cloud checkout -f $CLOUD_BRANCH >/dev/null 2>&1
