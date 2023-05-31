@@ -22,6 +22,7 @@ RUN cd /usr/src \
     && wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${LIBRESSL_VERSION}.tar.gz \
     && tar zxvf libressl-${LIBRESSL_VERSION}.tar.gz && rm libressl-${LIBRESSL_VERSION}.tar.gz \
     && cd libressl-${LIBRESSL_VERSION} \
+    && sed -ri 's/(\{ \global\:)/LIBRESSL \1/' configure \
     && ./configure --prefix=/usr/src/libressl \
     && make && make install
 
