@@ -7,6 +7,15 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+function executeDockerCompose(){
+  which docker-compose
+  if [ $? -eq 0 ]; then
+    docker-compose $@
+  else
+    docker compose $@
+  fi
+}
+
 if [ ! -f .env ]; then
   cp .env.default .env
   echo -e "${YELLOW}Sample configuration file is being generated for you.${NC}"
@@ -34,12 +43,12 @@ CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
 
 if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}" && \
-  docker compose up --build -d && \
+  executeDockerCompose 'up' --build -d && \
   echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then
   echo -e "${GREEN}Stopping SUPLA containers${NC}"
-  docker compose stop && echo -e "${GREEN}SUPLA containers has been stopped.${NC}"
+  executeDockerCompose 'stop' && echo -e "${GREEN}SUPLA containers has been stopped.${NC}"
 
 elif [ "$1" = "restart" ]; then
   "./$(basename "$0")" stop
@@ -58,7 +67,7 @@ elif [ "$1" = "backup" ]; then
 elif [ "$1" = "upgrade" ]; then
   "./$(basename "$0")" backup && \
   "./$(basename "$0")" stop && \
-  docker compose pull && \
+  executeDockerCompose 'pull' && \
   "./$(basename "$0")" start
 
 elif [ "$1" = "create-confirmed-user" ]; then
