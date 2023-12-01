@@ -46,7 +46,7 @@ RUN ln -s /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
     && a2enmod headers rewrite expires deflate ssl cgi alias env \
     && chmod 0644 /etc/cron.d/supla-cron
 
-ENV CLOUD_VERSION=23.09.01
+ENV CLOUD_VERSION=23.11.02
 #COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN a2ensite default-ssl \
