@@ -1,10 +1,7 @@
 # SUPLA-Docker
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/supla/supla-cloud.svg)](https://hub.docker.com/r/supla/supla-cloud/)
- 
-| SUPLA-Cloud        | SUPLA-Core           |
-| ------------- |:-------------|
-| [![Current Supla-Cloud version](https://img.shields.io/github/release/SUPLA/supla-cloud.svg)](https://github.com/SUPLA/supla-cloud/releases/latest) | [![Current SUPLA-Server version](https://img.shields.io/github/release/SUPLA/supla-core.svg)](https://github.com/SUPLA/supla-core/releases/latest) |
+[![Current SUPLA versin on Docker](https://img.shields.io/github/release/SUPLA/supla-docker.svg)](https://github.com/SUPLA/supla-docker/releases/latest)
 
 Your home connected. With Docker. www.supla.org
 
