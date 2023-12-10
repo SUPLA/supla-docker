@@ -85,7 +85,7 @@ If you either
     ```
     COMPOSE_FILE=docker-compose.yml:docker-compose.proxy.yml
     ```
-1. In the file `supla-docker/.env` make sure that `CLOUD_DOMAIN` is valid domain name that should point to the SUPLA instance (can not be an IP address!) and the `ADMIN_EMAIL` is a correct e-mail address.
+1. In the file `supla-docker/.env` make sure that `CLOUD_DOMAIN` is valid domain name that should point to the SUPLA instance and the `ADMIN_EMAIL` is a correct e-mail address. For local development put real local IP of your machine, NOT the localhost, http(s)://localhost, 127.0.0.1 or internal Docker network address. You can use the same IP in SuplaDevice based client.
 1. Start SUPLA!
    ```
    ./supla-docker/supla.sh start
