@@ -1,4 +1,4 @@
-FROM php:7.3.33-apache
+FROM php:7.4.33-apache
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/1.5.29/install-php-extensions /usr/local/bin/
 
