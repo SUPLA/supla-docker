@@ -42,6 +42,7 @@ supla:
   accounts_registration_enabled: ${ACCOUNTS_REGISTRATION_ENABLED:-true}
   measurement_logs_retention:
     em_voltage_aberrations: ${MEASUREMENT_LOGS_RETENTION_EM_VOLTAGE_ABERRATIONS:-1000}
+    em_voltage: ${MEASUREMENT_LOGS_RETENTION_EM_VOLTAGE:-1000}
   mqtt_broker:
     enabled: ${MQTT_BROKER_ENABLED:-false}
     host: ${MQTT_BROKER_HOST:-~}
