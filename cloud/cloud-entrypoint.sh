@@ -43,6 +43,8 @@ supla:
   measurement_logs_retention:
     em_voltage_aberrations: ${MEASUREMENT_LOGS_RETENTION_EM_VOLTAGE_ABERRATIONS:-1000}
     em_voltage: ${MEASUREMENT_LOGS_RETENTION_EM_VOLTAGE:-1000}
+    em_current: ${MEASUREMENT_LOGS_RETENTION_EM_CURRENT:-1000}
+    em_power_active: ${MEASUREMENT_LOGS_RETENTION_EM_POWER_ACTIVE:-1000}
   mqtt_broker:
     enabled: ${MQTT_BROKER_ENABLED:-false}
     host: ${MQTT_BROKER_HOST:-~}
