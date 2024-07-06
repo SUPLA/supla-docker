@@ -20,6 +20,7 @@ RUN apt-get update \
 ENV SERVER_VERSION=v24.06.01
 RUN git clone https://github.com/SUPLA/supla-core.git --branch ${SERVER_VERSION} /src \
     && cd /src \
+    && git config user.email "foo@bar.com" \
     && git cherry-pick 1fb8cc00fc13580375527c8d1c60290f8e1ad7c6 \
     && cd /src/supla-scheduler/Release \
     && make all \
