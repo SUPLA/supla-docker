@@ -1,4 +1,4 @@
-FROM php:8.2.26-apache
+FROM php:8.3.15-apache
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/2.6.4/install-php-extensions /usr/local/bin/
 
