@@ -20,6 +20,12 @@ fi
 
 source .env >/dev/null 2>&1
 
+if [ "${MAILER_HOST}" != "" ]; then
+  echo -e "${YELLOW}[WARN] You are using deprecated e-mail configuration.${NC}"
+  echo -e "${YELLOW}[WARN] Please use MAILER_DSN environment variable to configure it.${NC}"
+  echo -e "${YELLOW}[WARN] See .env.default for examples.${NC}"
+fi
+
 if [ "$MQTT_BROKER_ENABLED" = "true" ]; then
   if [ "$MQTT_BROKER_CLIENT_ID" = "" ]; then
     MQTT_BROKER_CLIENT_ID="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)"
