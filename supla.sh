@@ -29,6 +29,12 @@ fi
 
 source .env >/dev/null 2>&1
 
+if [ "${MAILER_HOST}" != "" ]; then
+  echo -e "${YELLOW}[WARN] You are using deprecated e-mail configuration.${NC}"
+  echo -e "${YELLOW}[WARN] Please use MAILER_DSN environment variable to configure it.${NC}"
+  echo -e "${YELLOW}[WARN] See .env.default for examples.${NC}"
+fi
+
 # remove \r at the end of the env, if exists
 CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
 
