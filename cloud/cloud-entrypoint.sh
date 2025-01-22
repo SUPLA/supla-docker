@@ -2,7 +2,11 @@
 set -e
 
 if [ ! -f /etc/apache2/ssl/server.crt ]; then
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj "/C=PL/ST=SUPLA/L=SUPLA/O=SUPLA/CN=SUPLA"
+  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj "/C=PL/ST=SUPLA/L=SUPLA/O=SUPLA/CN=SUPLA"
+fi
+
+if [ "${MAILER_HOST}" != "" ]; then
+  echo "[WARN] You are using deprecated e-mail configuration. Please use MAILER_DSN environment variable to configure it."
 fi
 
 echo "
@@ -13,12 +17,7 @@ parameters:
   database_name: ${DB_NAME:-supla}
   database_user: ${DB_USER:-supla}
   database_password: ${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
-  mailer_transport: smtp
-  mailer_host: ${MAILER_HOST:-127.0.0.1}
-  mailer_user: ${MAILER_USER:-~}
-  mailer_password: ${MAILER_PASSWORD:-~}
-  mailer_port: ${MAILER_PORT:-25}
-  mailer_encryption: ${MAILER_ENCRYPTION:-~}
+  mailer_dsn: ${MAILER_DSN:-null://null}
   mailer_from: ${MAILER_FROM:-~}
   admin_email: ${ADMIN_EMAIL:-~}
   supla_server: ${CLOUD_DOMAIN:-cloud.supla.org}
