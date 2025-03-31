@@ -2,7 +2,7 @@ services:
   supla-cloud:
     container_name: ${COMPOSE_PROJECT_NAME}-cloud
     restart: unless-stopped
-    image: supla/supla-cloud
+    image: supla/supla-cloud:${SUPLA_CLOUD_VERSION:-latest}
     env_file:
       - .env.default
       - .env
@@ -40,7 +40,7 @@ services:
   supla-server:
     container_name: ${COMPOSE_PROJECT_NAME}-server
     restart: unless-stopped
-    image: supla/supla-server
+    image: supla/supla-server:${SUPLA_SERVER_VERSION:-latest}
     env_file:
       - .env.default
       - .env
