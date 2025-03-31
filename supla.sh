@@ -7,6 +7,19 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+if command -v docker-compose >/dev/null 2>&1; then
+  DOCKER_COMPOSE="docker-compose"
+elif docker compose version >/dev/null 2>&1; then
+  DOCKER_COMPOSE="docker compose" 
+else
+  echo -e "${RED}Neither docker-compose nor docker compose found. Please install Docker.${NC}"
+  exit 1
+fi
+
+function docker-compose() {
+  $DOCKER_COMPOSE "$@"
+}
+
 if [ ! -f .env ]; then
   cp .env.default .env
   echo -e "${YELLOW}Sample configuration file is being generated for you.${NC}"
@@ -18,16 +31,25 @@ if [ ! -f .env ]; then
     sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
     sed -i "s+CHANGE_SECRET_BEFORE_FIRST_LAUNCH+$SECRET+g" .env
   fi
-  if [ "$(uname -m)" == "armv6l" ]; then
-    sed -i -r "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.arm32v6.yml/" .env
-  elif [ "$(expr substr $(uname -m) 1 3)" == "arm" ]; then
-    sed -i -r "s/COMPOSE_FILE=(.+)/COMPOSE_FILE=\1:docker-compose.arm32v7.yml/" .env
-  fi
   echo -e "${YELLOW}Please check if the .env file matches your needs and run this command again.${NC}"
   exit
 fi
 
 source .env >/dev/null 2>&1
+
+if [ -z "$DB_IMAGE" ]; then
+  DB_IMAGE="mysql:5.7.20"
+fi
+
+if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
+  echo -e "${YELLOW}[WARN] Using the outdated MySQL image 5.7.20.${NC}"
+  echo -e "${YELLOW}[WARN] Please consider upgrading your SUPLA stack.${NC}"
+  echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of 2025.${NC}"
+  echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
+  if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
+    DB_IMAGE="hypriot/rpi-mysql:5.5"
+  fi
+fi
 
 if [ "${MAILER_HOST}" != "" ]; then
   echo -e "${YELLOW}[WARN] You are using deprecated e-mail configuration.${NC}"

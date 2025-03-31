@@ -23,7 +23,7 @@ services:
   supla-db:
     container_name: ${COMPOSE_PROJECT_NAME}-db
     restart: unless-stopped
-    image: mysql:5.7.20
+    image: ${DB_IMAGE}
     env_file:
       - .env.default
       - .env
