@@ -7,6 +7,19 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+if command -v docker-compose >/dev/null 2>&1; then
+  DOCKER_COMPOSE="docker-compose"
+elif docker compose version >/dev/null 2>&1; then
+  DOCKER_COMPOSE="docker compose" 
+else
+  echo -e "${RED}Neither docker-compose nor docker compose found. Please install Docker Compose.${NC}"
+  exit 1
+fi
+
+function docker-compose() {
+  $DOCKER_COMPOSE "$@"
+}
+
 if [ ! -f .env ]; then
   cp .env.default .env
   DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
@@ -34,9 +47,18 @@ if [ "$MQTT_BROKER_ENABLED" = "true" ]; then
   fi
 fi
 
-if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
-  echo -e "${YELLOW}ARM architecture detected. Adjusting configuration.${NC}"
-  sed -i "s#mysql:5.7.20#hypriot/rpi-mysql:5.5#g" docker-compose.yml
+if [ -z "$DB_IMAGE" ]; then
+  DB_IMAGE="mysql:5.7.20"
+fi
+
+if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
+  echo -e "${YELLOW}Using the outdated MySQL image 5.7.20.${NC}"
+  echo -e "${YELLOW}Please consider upgrading your SUPLA stack.${NC}"
+  echo -e "${YELLOW}The support for current configuration will be dropped at the end of 2025.${NC}"
+  echo -e "${YELLOW}See https://github.com/SUPLA/supla-docker/wiki/Database-upgrade-v25.04 for more information.${NC}"
+  if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
+    DB_IMAGE="hypriot/rpi-mysql:5.5"
+  fi
 fi
 
 # remove \r at the end of the env, if exists

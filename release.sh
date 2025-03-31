@@ -13,25 +13,11 @@ if [ -f "./build.lock" ]; then
 fi
 touch build.lock
 
-if [ "$(uname -m)" == "armv6l" ]; then
-    ARCH=arm32v6-
-    LATEST_TAG=arm32v6
-elif [ "$(uname -m)" == "armv7l" ]; then
-    ARCH=arm32v7-
-    LATEST_TAG=arm32v7
-elif [ "$(uname -m)" == "x86_64" ]; then
-    ARCH=
-    LATEST_TAG=latest
-else
-    echo -e "${RED}Unsupported release architecture: $(uname -m)${NC}"
-    exit
-fi
-
 CLOUD_VERSION=$(cat cloud/Dockerfile | grep "ENV CLOUD_VERSION=" | grep -oP "\d+\.\d+(\.\d+)?$")
 SERVER_VERSION=$(cat server/Dockerfile | grep "ENV SERVER_VERSION=" | grep -oP "\d+\.\d+(\.\d+)?$")
 
-echo -e "Releasing supla-cloud ${GREEN}${ARCH}${CLOUD_VERSION}${NC}"
-echo -e "Releasing supla-server ${GREEN}${ARCH}${SERVER_VERSION}${NC}"
+echo -e "Releasing supla-cloud ${GREEN}${CLOUD_VERSION}${NC}"
+echo -e "Releasing supla-server ${GREEN}${SERVER_VERSION}${NC}"
 echo -e "${YELLOW}If you made a mistake, it's a good time to hit Ctrl+C${NC}"
 echo "... waiting 10s"
 sleep 10
@@ -43,14 +29,9 @@ git checkout server
 
 sleep 5
 
-docker tag supla_supla-cloud "supla/supla-cloud:${ARCH}${CLOUD_VERSION}"
-docker tag supla_supla-cloud "supla/supla-cloud:${LATEST_TAG}"
-docker tag supla_supla-server "supla/supla-server:${ARCH}${SERVER_VERSION}"
-docker tag supla_supla-server "supla/supla-server:${LATEST_TAG}"
-
-docker push "supla/supla-cloud:${ARCH}${CLOUD_VERSION}"
-docker push "supla/supla-cloud:${LATEST_TAG}"
-docker push "supla/supla-server:${ARCH}${SERVER_VERSION}"
-docker push "supla/supla-server:${LATEST_TAG}"
+docker buildx build --push --platform linux/arm/v7,linux/arm64,linux/amd64 --tag supla/supla-cloud:${CLOUD_VERSION} cloud
+docker buildx build --push --platform linux/arm/v7,linux/arm64,linux/amd64 --tag supla/supla-cloud:latest cloud
+docker buildx build --push --platform linux/arm/v7,linux/arm64,linux/amd64 --tag supla/supla-server:${SERVER_VERSION} server
+docker buildx build --push --platform linux/arm/v7,linux/arm64,linux/amd64 --tag supla/supla-server:latest server
 
 rm build.lock
