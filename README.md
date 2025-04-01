@@ -13,8 +13,7 @@ Your home connected. With Docker. www.supla.org
 
 ## Installation
 
-1. Install [Docker CE](https://docs.docker.com/engine/installation/) 17.09+,
-  [docker-compose](https://docs.docker.com/compose/install/other/) 1.25+ and Git.
+1. Install [Docker CE](https://docs.docker.com/engine/installation/) 24+ with `docker-compose-plugin` and Git.
 1. Clone this repository.
    ```
    git clone https://github.com/SUPLA/supla-docker.git
