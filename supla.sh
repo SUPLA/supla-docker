@@ -7,18 +7,14 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-if command -v docker-compose >/dev/null 2>&1; then
+if docker compose version >/dev/null 2>&1; then
+  DOCKER_COMPOSE="docker compose"
+elif command -v docker-compose >/dev/null 2>&1; then
   DOCKER_COMPOSE="docker-compose"
-elif docker compose version >/dev/null 2>&1; then
-  DOCKER_COMPOSE="docker compose" 
 else
-  echo -e "${RED}Neither docker-compose nor docker compose found. Please install Docker.${NC}"
+  echo -e "${RED}Neither docker-compose nor docker compose found. Please install Docker with docker compose plugin.${NC}"
   exit 1
 fi
-
-function docker-compose() {
-  $DOCKER_COMPOSE "$@"
-}
 
 if [ ! -f .env ]; then
   cp .env.default .env
@@ -36,20 +32,30 @@ if [ ! -f .env ]; then
 fi
 
 source .env >/dev/null 2>&1
+DB_IMAGE_MISSING=0
 
 if [ -z "$DB_IMAGE" ]; then
-  DB_IMAGE="mysql:5.7.20"
+  export DB_IMAGE="mysql:5.7.20"
+  DB_IMAGE_MISSING=1
 fi
 
 if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
   echo -e "${YELLOW}[WARN] Using the outdated MySQL image 5.7.20.${NC}"
   echo -e "${YELLOW}[WARN] Please consider upgrading your SUPLA stack.${NC}"
-  echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of 2025.${NC}"
+  echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of June 2025.${NC}"
   echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
   if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
-    DB_IMAGE="hypriot/rpi-mysql:5.5"
+    echo -e "${YELLOW}[WARN] You are using the ARM x32 architecture.${NC}"
+    echo -e "${YELLOW}[WARN] Please consider using the x64 OS on your device.${NC}"
+    echo -e "${YELLOW}[WARN] Support for ARM x32 will be dropped at the end of December 2025.${NC}"
+    echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
+    export DB_IMAGE="hypriot/rpi-mysql:5.5"
   fi
 fi
+
+if [ "$DB_IMAGE_MISSING" = 1 ]; then
+  echo "DB_IMAGE=$DB_IMAGE" >> .env
+fi 
 
 if [ "${MAILER_HOST}" != "" ]; then
   echo -e "${YELLOW}[WARN] You are using deprecated e-mail configuration.${NC}"
@@ -62,12 +68,12 @@ CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
 
 if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}" && \
-  docker-compose up --build -d && \
+  $DOCKER_COMPOSE up --build -d && \
   echo -e "${GREEN}SUPLA containers has been started.${NC}"
 
 elif [ "$1" = "stop" ]; then
   echo -e "${GREEN}Stopping SUPLA containers${NC}"
-  docker-compose stop && echo -e "${GREEN}SUPLA containers has been stopped.${NC}"
+  $DOCKER_COMPOSE stop && echo -e "${GREEN}SUPLA containers has been stopped.${NC}"
 
 elif [ "$1" = "restart" ]; then
   "./$(basename "$0")" stop
@@ -86,7 +92,7 @@ elif [ "$1" = "backup" ]; then
 elif [ "$1" = "upgrade" ]; then
   "./$(basename "$0")" backup && \
   "./$(basename "$0")" stop && \
-  docker-compose pull && \
+  $DOCKER_COMPOSE pull && \
   "./$(basename "$0")" start
 
 elif [ "$1" = "create-confirmed-user" ]; then
