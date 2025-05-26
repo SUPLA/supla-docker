@@ -4,13 +4,13 @@ services:
   supla-cloud:
     networks: [default, proxy]
     environment:
-      - VIRTUAL_HOST=${CLOUD_DOMAIN}
-      - LETSENCRYPT_HOST=${CLOUD_DOMAIN}
-      - LETSENCRYPT_EMAIL=${ADMIN_EMAIL}
+      - VIRTUAL_HOST=${CLOUD_DOMAIN:-}
+      - LETSENCRYPT_HOST=${CLOUD_DOMAIN:-}
+      - LETSENCRYPT_EMAIL=${ADMIN_EMAIL:-}
       - SUPLA_PROTOCOL=http
       - SUPLA_URL=https://${CLOUD_DOMAIN}
 
 networks:
   proxy:
     external:
-      name: webproxy
+      name: ${DOCKER_NETWORK_NAME:-webproxy}
