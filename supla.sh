@@ -32,25 +32,14 @@ if [ ! -f .env ]; then
 fi
 
 source .env >/dev/null 2>&1
-DB_IMAGE_MISSING=0
 
 if [ -z "$DB_IMAGE" ]; then
-  export DB_IMAGE="mysql:5.7.20"
-  DB_IMAGE_MISSING=1
-fi
-
-if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
-  echo -e "${YELLOW}[WARN] Using the outdated MySQL image 5.7.20.${NC}"
-  echo -e "${YELLOW}[WARN] Please consider upgrading your SUPLA stack.${NC}"
-  echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of August 2025.${NC}"
-  echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
   if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
-    echo -e "${YELLOW}[WARN] You are using the ARM x32 architecture.${NC}"
-    echo -e "${YELLOW}[WARN] Please consider using the x64 OS on your device.${NC}"
-    echo -e "${YELLOW}[WARN] Support for ARM x32 will be dropped at the end of December 2025.${NC}"
-    echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
     export DB_IMAGE="hypriot/rpi-mysql:5.5"
+  else
+    export DB_IMAGE="mysql:5.7.20"
   fi
+  echo "DB_IMAGE=$DB_IMAGE" >> .env
 fi
 
 if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ] && [ "$DB_IMAGE" != "hypriot/rpi-mysql:5.5" ]; then
@@ -59,8 +48,18 @@ if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ] && [ "$DB_IMAG
   exit 1
 fi
 
-if [ "$DB_IMAGE_MISSING" = 1 ]; then
-  echo "DB_IMAGE=$DB_IMAGE" >> .env
+if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
+  echo -e "${YELLOW}[WARN] Using the outdated MySQL image 5.7.20.${NC}"
+  echo -e "${YELLOW}[WARN] Please consider upgrading your SUPLA stack.${NC}"
+  echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of August 2025.${NC}"
+  echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
+fi
+
+if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
+  echo -e "${YELLOW}[WARN] You are using the ARM x32 architecture.${NC}"
+  echo -e "${YELLOW}[WARN] Please consider using the x64 OS on your device.${NC}"
+  echo -e "${YELLOW}[WARN] Support for ARM x32 will be dropped at the end of December 2025.${NC}"
+  echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
 fi
 
 if [ "${MAILER_HOST}" != "" ]; then
