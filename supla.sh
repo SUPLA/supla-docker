@@ -42,7 +42,7 @@ fi
 if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
   echo -e "${YELLOW}[WARN] Using the outdated MySQL image 5.7.20.${NC}"
   echo -e "${YELLOW}[WARN] Please consider upgrading your SUPLA stack.${NC}"
-  echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of June 2025.${NC}"
+  echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of August 2025.${NC}"
   echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
   if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ]; then
     echo -e "${YELLOW}[WARN] You are using the ARM x32 architecture.${NC}"
@@ -55,7 +55,7 @@ fi
 
 if [ "$DB_IMAGE_MISSING" = 1 ]; then
   echo "DB_IMAGE=$DB_IMAGE" >> .env
-fi 
+fi
 
 if [ "${MAILER_HOST}" != "" ]; then
   echo -e "${YELLOW}[WARN] You are using deprecated e-mail configuration.${NC}"
