@@ -49,8 +49,13 @@ if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
     echo -e "${YELLOW}[WARN] Please consider using the x64 OS on your device.${NC}"
     echo -e "${YELLOW}[WARN] Support for ARM x32 will be dropped at the end of December 2025.${NC}"
     echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
-    export DB_IMAGE="hypriot/rpi-mysql:5.5"
   fi
+fi
+
+if [ "$(expr substr $(dpkg --print-architecture) 1 3)" == "arm" ] && [ "$DB_IMAGE" != "hypriot/rpi-mysql:5.5" ]; then
+  echo -e "${RED}[ERROR] You are using unsupported ARM x32 architecture.${NC}"
+  echo -e "${RED}[ERROR] Please install x64 OS.${NC}"
+  exit 1
 fi
 
 if [ "$DB_IMAGE_MISSING" = 1 ]; then
