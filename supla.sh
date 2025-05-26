@@ -66,6 +66,8 @@ fi
 # remove \r at the end of the env, if exists
 CONTAINER_NAME="$(echo -e "${COMPOSE_PROJECT_NAME}" | sed -e 's/\r$//')"
 
+mkdir -p "$VOLUME_DATA/backups"
+
 if [ "$1" = "start" ]; then
   echo -e "${GREEN}Starting SUPLA containers${NC}" && \
   $DOCKER_COMPOSE up --build -d && \
@@ -82,7 +84,6 @@ elif [ "$1" = "restart" ]; then
 
 elif [ "$1" = "backup" ]; then
   echo -e "${GREEN}Making database backup${NC}"
-  mkdir -p "$VOLUME_DATA/backups"
   BACKUP_FILE="$VOLUME_DATA/backups/supla$(date +"%m%d%Y%H%M%S").sql"
   docker exec "$CONTAINER_NAME-db" mysqldump --routines -u supla --password=$DB_PASSWORD supla > "$BACKUP_FILE" && \
   gzip "$BACKUP_FILE" && \
