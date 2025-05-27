@@ -25,7 +25,6 @@ echo ""
 
 git checkout cloud
 git checkout server
-./supla.sh restart
 
 sleep 5
 
