@@ -17,6 +17,7 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/install-php-extensions \
     && install-php-extensions \
       pdo_mysql \
+      pdo_pgsql \
       mbstring \
       intl \
       curl \
