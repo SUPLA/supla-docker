@@ -1,4 +1,4 @@
-FROM php:8.3.15-apache
+FROM php:8.3.22-apache
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/2.6.4/install-php-extensions /usr/local/bin/
 
@@ -23,6 +23,7 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/install-php-extensions \
     && install-php-extensions \
       pdo_mysql \
+      pdo_pgsql \
       mbstring \
       opcache \
       intl \
