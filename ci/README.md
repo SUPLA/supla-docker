@@ -31,3 +31,10 @@ docker push supla/supla-cloud:ci-php8.2
 docker build -t supla/supla-cloud:ci-php8.3 -f supla-cloud-ci-php8.3.Dockerfile .
 docker push supla/supla-cloud:ci-php8.3
 ```
+
+### PHP 8.4
+
+```sh
+docker build -t supla/supla-cloud:ci-php8.4 -f supla-cloud-ci-php8.4.Dockerfile .
+docker push supla/supla-cloud:ci-php8.4
+```
