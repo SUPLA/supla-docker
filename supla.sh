@@ -33,37 +33,15 @@ fi
 
 source .env >/dev/null 2>&1
 
-IS_ARM_V6_V7=false
-if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "armv6l" ] || [ "$(expr substr $(dpkg --print-architecture) 1 5)" == "armhf" ]; then
-  IS_ARM_V6_V7=true
-fi
-
 if [ -z "$DB_IMAGE" ]; then
-  if [ "$IS_ARM_V6_V7" = true ]; then
-    export DB_IMAGE="hypriot/rpi-mysql:5.5"
-  else
-    export DB_IMAGE="mysql:5.7.20"
-  fi
+  export DB_IMAGE="mysql:5.7.20"
   echo "DB_IMAGE=$DB_IMAGE" >> .env
-fi
-
-if [ "$IS_ARM_V6_V7" = true ] && [ "$DB_IMAGE" != "hypriot/rpi-mysql:5.5" ]; then
-  echo -e "${RED}[ERROR] You are using unsupported ARM x32 architecture.${NC}"
-  echo -e "${RED}[ERROR] Please install x64 OS.${NC}"
-  exit 1
 fi
 
 if [ "$DB_IMAGE" = "mysql:5.7.20" ]; then
   echo -e "${YELLOW}[WARN] Using the outdated MySQL image 5.7.20.${NC}"
   echo -e "${YELLOW}[WARN] Please consider upgrading your SUPLA stack.${NC}"
   echo -e "${YELLOW}[WARN] The support for current configuration will be dropped at the end of August 2025.${NC}"
-  echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
-fi
-
-if [ "$IS_ARM_V6_V7" = true ]; then
-  echo -e "${YELLOW}[WARN] You are using the ARM x32 architecture.${NC}"
-  echo -e "${YELLOW}[WARN] Please consider using the x64 OS on your device.${NC}"
-  echo -e "${YELLOW}[WARN] Support for ARM x32 will be dropped at the end of December 2025.${NC}"
   echo -e "${YELLOW}[WARN] See https://github.com/SUPLA/supla-docker/wiki/Docker-stack-upgrade-2025 for more information.${NC}"
 fi
 
