@@ -17,6 +17,7 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/install-php-extensions \
     && install-php-extensions \
       pdo_mysql \
+      pdo_pgsql \
       mbstring \
       intl \
       curl \
@@ -27,4 +28,5 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
+COPY --link --from=ghcr.io/symfony-cli/symfony-cli:latest /usr/local/bin/symfony /usr/local/bin/symfony
 COPY --from=composer:2.8.2 /usr/bin/composer /usr/local/bin/composer
