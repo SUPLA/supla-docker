@@ -7,5 +7,5 @@ services:
 
 networks:
   proxy:
-    external:
-      name: ${DOCKER_NETWORK_NAME:-webproxy}
+    external: true
+    name: ${DOCKER_NETWORK_NAME:-webproxy}
