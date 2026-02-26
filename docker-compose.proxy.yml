@@ -10,5 +10,5 @@ services:
 
 networks:
   proxy:
-    external:
-      name: webproxy
+    external: true
+    name: webproxy
