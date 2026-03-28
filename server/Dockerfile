@@ -14,6 +14,8 @@ RUN apt-get update \
         ssl-cert \
         libcurl4-openssl-dev \
         nlohmann-json3-dev \
+        libpqxx-dev \
+        libpq-dev \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
