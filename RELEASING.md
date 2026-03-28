@@ -31,7 +31,7 @@ server for this branch unless you have tried building from `master` already.
 1. Disable night build not to interfere with the preview process with `touch nightly.lock`.
 1. Rebuild the `supla-cloud` container
     ```
-    docker-compose up --build -d supla-cloud
+    docker compose up --build -d supla-cloud
     ```
 1. Optionally, load fixtures
     ```
