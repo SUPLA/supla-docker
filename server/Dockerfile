@@ -13,6 +13,7 @@ RUN apt-get update \
         ca-certificates \
         ssl-cert \
         libcurl4-openssl-dev \
+        nlohmann-json3-dev \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
