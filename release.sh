@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# before first run:
+# docker context create rpi --docker "host=ssh://pi@raspberrypi.local"
+# docker buildx create --name supla-builder --use --platform linux/amd64
+# docker buildx create --name supla-builder --append rpi --platform linux/arm64
+# docker buildx inspect --bootstrap
+
 cd "$(dirname "$0")"
 
 RED='\033[0;31m'
@@ -28,9 +34,9 @@ git checkout server
 
 sleep 5
 
-docker buildx build --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:${CLOUD_VERSION} cloud
-docker buildx build --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:latest cloud
-docker buildx build --push --platform linux/arm64,linux/amd64 --tag supla/supla-server:${SERVER_VERSION} server
-docker buildx build --push --platform linux/arm64,linux/amd64 --tag supla/supla-server:latest server
+docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:${CLOUD_VERSION} cloud
+docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:latest cloud
+docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-server:${SERVER_VERSION} server
+docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-server:latest server
 
 rm build.lock
