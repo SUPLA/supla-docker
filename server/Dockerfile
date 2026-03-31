@@ -20,7 +20,7 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
 
-ENV SERVER_VERSION=v26.03.01
+ENV SERVER_VERSION=v26.03.03
 RUN git clone https://github.com/SUPLA/supla-core.git --recurse-submodules --branch ${SERVER_VERSION} /src \
     && cd /src/supla-scheduler/Release \
     && make all \
