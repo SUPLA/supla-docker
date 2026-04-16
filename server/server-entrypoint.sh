@@ -10,11 +10,11 @@ sed -i "s+url=https://cloud.supla.org+url=$CLOUD_URL+g" /etc/supla-server/supla.
 
 echo "
 [MySQL]
-host=${DB_HOST:-supla-db}
-port=${DB_PORT:-3306}
-database=${DB_NAME:-supla}
-user=${DB_USER:-supla}
-password=${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
+host=${DATABASE_HOST:-supla-db}
+port=${DATABASE_PORT:-3306}
+database=${DATABASE_NAME:-supla}
+user=${DATABASE_USER:-supla}
+password=${DATABASE_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
 " >> /etc/supla-server/supla.cfg
 
 

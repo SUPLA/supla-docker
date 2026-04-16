@@ -1,85 +1,94 @@
 #!/bin/sh
+
 set -e
 
 if [ ! -f /etc/apache2/ssl/server.crt ]; then
   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -subj "/C=PL/ST=SUPLA/L=SUPLA/O=SUPLA/CN=SUPLA"
 fi
 
-if [ "${MAILER_HOST}" != "" ]; then
+if [ -n "${MAILER_HOST:-}" ]; then
   echo "[WARN] You are using deprecated e-mail configuration. Please use MAILER_DSN environment variable to configure it."
 fi
 
-echo "
-parameters:
-  database_driver: pdo_mysql
-  database_host: ${DB_HOST:-supla-db}
-  database_port: ${DB_PORT:-null}
-  database_name: ${DB_NAME:-supla}
-  database_user: ${DB_USER:-supla}
-  database_password: ${DB_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
-  mailer_dsn: ${MAILER_DSN:-null://null}
-  mailer_from: ${MAILER_FROM:-~}
-  admin_email: ${ADMIN_EMAIL:-~}
-  supla_server: ${CLOUD_DOMAIN:-cloud.supla.org}
-  supla_require_regulations_acceptance: ${REQUIRE_REGULATIONS_ACCEPTANCE:-false}
-  supla_require_cookie_policy_acceptance: ${REQUIRE_COOKIE_POLICY_ACCEPTANCE:-false}
-  brute_force_auth_prevention_enabled: ${BRUTE_FORCE_AUTH_PREVENTION_ENABLED:-true}
-  recaptcha_enabled: ${RECAPTCHA_ENABLED:-false}
-  recaptcha_site_key: ${RECAPTCHA_PUBLIC_KEY:-~}
-  recaptcha_secret: ${RECAPTCHA_PRIVATE_KEY:-~}
-  locale: en
-  secret: ${SECRET:-DEFAULT_SECRET_IS_BAD_IDEA}
-  cors_allow_origin_regex:
-    - supla2.+
-    - localhost.+
-" > app/config/parameters.yml
+ENV_MAPPINGS="
+CLOUD_DOMAIN:SUPLA_HOST_ADDRESS
+SECRET:APP_SECRET
+FIRST_USER_EMAIL:SUPLA_FIRST_USER_EMAIL
+FIRST_USER_PASSWORD:SUPLA_FIRST_USER_PASSWORD
+RECAPTCHA_PUBLIC_KEY:GOOGLE_RECAPTCHA_SITE_KEY
+RECAPTCHA_PRIVATE_KEY:GOOGLE_RECAPTCHA_SECRET
+MAILER_FROM:SUPLA_MAILER_FROM
+ADMIN_EMAIL:SUPLA_ADMIN_EMAIL
+REQUIRE_REGULATIONS_ACCEPTANCE:SUPLA_REQUIRE_REGULATIONS_ACCEPTANCE
+REQUIRE_COOKIE_POLICY_ACCEPTANCE:SUPLA_REQUIRE_COOKIE_POLICY_ACCEPTANCE
+BRUTE_FORCE_AUTH_PREVENTION_ENABLED:SUPLA_BRUTE_FORCE_AUTH_PREVENTION_ENABLED
+ACCOUNTS_REGISTRATION_ENABLED:SUPLA_ACCOUNTS_REGISTRATION_ENABLED
+MQTT_BROKER_ENABLED:SUPLA_MQTT_BROKER_ENABLED
+MQTT_BROKER_HOST:SUPLA_MQTT_BROKER_HOST
+MQTT_BROKER_PORT:SUPLA_MQTT_BROKER_PORT
+MQTT_BROKER_TLS:SUPLA_MQTT_BROKER_TLS
+MQTT_BROKER_USERNAME:SUPLA_MQTT_BROKER_USERNAME
+MQTT_BROKER_PASSWORD:SUPLA_MQTT_BROKER_PASSWORD
+MQTT_BROKER_CLIENT_ID:SUPLA_MQTT_BROKER_CLIENT_ID
+"
 
-sed -E -i "s@supla_url: '(.+)'@supla_url: '${SUPLA_URL:-\1}'@g" app/config/config.yml
+for mapping in $ENV_MAPPINGS; do
+  old_name=$(echo "$mapping" | cut -d: -f1)
+  new_name=$(echo "$mapping" | cut -d: -f2)
 
-echo "
-supla:
-  accounts_registration_enabled: ${ACCOUNTS_REGISTRATION_ENABLED:-true}
-  measurement_logs_retention:
-    em_voltage_aberrations: ${MEASUREMENT_LOGS_RETENTION_EM_VOLTAGE_ABERRATIONS:-1000}
-    em_voltage: ${MEASUREMENT_LOGS_RETENTION_EM_VOLTAGE:-1000}
-    em_current: ${MEASUREMENT_LOGS_RETENTION_EM_CURRENT:-1000}
-    em_power_active: ${MEASUREMENT_LOGS_RETENTION_EM_POWER_ACTIVE:-1000}
-  mqtt_broker:
-    enabled: ${MQTT_BROKER_ENABLED:-false}
-    host: ${MQTT_BROKER_HOST:-~}
-    integrated_auth: ${MQTT_BROKER_INTEGRATED_AUTH:-false}
-    protocol: ${MQTT_BROKER_PROTOCOL:-mqtt}
-    port: ${MQTT_BROKER_PORT:-8883}
-    tls: ${MQTT_BROKER_TLS:-true}
-    username: '${MQTT_BROKER_USERNAME:-}'
-    password: '${MQTT_BROKER_PASSWORD:-}'
-parameters:
-  supla_protocol: ${SUPLA_PROTOCOL:-https}
-" > app/config/config_docker.yml
+  eval old_value=\$${old_name}
+  eval new_value=\$${new_name}
 
-# Copy local configuration file if exists
-if [ -f var/local/config_local.yml ]; then
-  cp var/local/config_local.yml app/config/config_local.yml
-  chown www-data:www-data app/config/config_local.yml
-fi
-
-if [ ${SUPLA_PROTOCOL:-https} = "https" ]; then
-  if ! grep -q "%{HTTPS} off" web/.htaccess; then
-    { \
-      echo 'RewriteCond %{HTTPS} off'; \
-      echo 'RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]'; \
-      cat web/.htaccess; \
-    } > web/.htaccess-tmp
-    rm web/.htaccess
-    mv web/.htaccess-tmp web/.htaccess
+  if [ "${old_value}" != "" ]; then
+    if [ "${new_value}" != "" ]; then
+      echo "[WARN] Both ${old_name} and ${new_name} are set. Using ${new_name} and ignoring ${old_name}."
+    else
+      echo "[WARN] You are using deprecated ${old_name} environment variable. Please use ${new_name} instead."
+      export ${new_name}="${old_value}"
+    fi
   fi
-fi
+done
+
+rm -f /var/www/cloud/.env.local.php
+
+cat > /var/www/cloud/.env <<EOF
+APP_ENV=${APP_ENV:-prod}
+APP_DEBUG=${APP_DEBUG:-0}
+APP_SECRET=${APP_SECRET:-}
+DATABASE_HOST=${DATABASE_HOST:-supla-db}
+DATABASE_PORT=${DATABASE_PORT:-3306}
+DATABASE_NAME=${DATABASE_NAME:-supla}
+DATABASE_USER=${DATABASE_USER:-supla}
+DATABASE_PASSWORD=${DATABASE_PASSWORD:-}
+DATABASE_TSDB_URL=${DATABASE_TSDB_URL:-}
+DATABASE_FOR_LOGS=${DATABASE_FOR_LOGS:-mariadb}
+SUPLA_HOST_ADDRESS=${SUPLA_HOST_ADDRESS:-}
+MAILER_DSN=${MAILER_DSN:-}
+SUPLA_MAILER_FROM=${SUPLA_MAILER_FROM:-}
+SUPLA_ADMIN_EMAIL=${SUPLA_ADMIN_EMAIL:-}
+SUPLA_REQUIRE_REGULATIONS_ACCEPTANCE=${SUPLA_REQUIRE_REGULATIONS_ACCEPTANCE:-true}
+SUPLA_REQUIRE_COOKIE_POLICY_ACCEPTANCE=${SUPLA_REQUIRE_COOKIE_POLICY_ACCEPTANCE:-true}
+SUPLA_BRUTE_FORCE_AUTH_PREVENTION_ENABLED=${SUPLA_BRUTE_FORCE_AUTH_PREVENTION_ENABLED:-true}
+SUPLA_ACCOUNTS_REGISTRATION_ENABLED=${SUPLA_ACCOUNTS_REGISTRATION_ENABLED:-true}
+SUPLA_MQTT_BROKER_ENABLED=${SUPLA_MQTT_BROKER_ENABLED:-false}
+SUPLA_MQTT_BROKER_HOST=${SUPLA_MQTT_BROKER_HOST:-}
+SUPLA_MQTT_BROKER_PORT=${SUPLA_MQTT_BROKER_PORT:-8883}
+SUPLA_MQTT_BROKER_TLS=${SUPLA_MQTT_BROKER_TLS:-true}
+SUPLA_MQTT_BROKER_USERNAME=${SUPLA_MQTT_BROKER_USERNAME:-}
+SUPLA_MQTT_BROKER_PASSWORD=${SUPLA_MQTT_BROKER_PASSWORD:-}
+SUPLA_MQTT_BROKER_CLIENT_ID=${SUPLA_MQTT_BROKER_CLIENT_ID:-}
+GOOGLE_RECAPTCHA_SITE_KEY=${GOOGLE_RECAPTCHA_SITE_KEY:-}
+GOOGLE_RECAPTCHA_SECRET=${GOOGLE_RECAPTCHA_SECRET:-}
+EOF
+
+chmod 600 /var/www/cloud/.env
+chown www-data:www-data /var/www/cloud/.env
 
 rm -fr var/cache/*
 php bin/console supla:initialize
 php bin/console cache:warmup
 chown -hR www-data:www-data var
-php bin/console supla:create-confirmed-user $FIRST_USER_EMAIL $FIRST_USER_PASSWORD --no-interaction --if-not-exists
+php bin/console supla:create-confirmed-user ${SUPLA_FIRST_USER_EMAIL:-} ${SUPLA_FIRST_USER_PASSWORD:-} --no-interaction --if-not-exists
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then

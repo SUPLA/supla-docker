@@ -10,7 +10,7 @@ NC='\033[0m'
 if command -v docker-compose >/dev/null 2>&1; then
   DOCKER_COMPOSE="docker-compose"
 elif docker compose version >/dev/null 2>&1; then
-  DOCKER_COMPOSE="docker compose" 
+  DOCKER_COMPOSE="docker compose"
 else
   echo -e "${RED}Neither docker-compose nor docker compose found. Please install Docker Compose.${NC}"
   exit 1
@@ -23,7 +23,7 @@ function docker-compose() {
 if [ ! -f .env ]; then
   cp .env.default .env
   DB_PASSWORD="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
-  SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+  APP_SECRET="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)"
   sed -i "s+CHANGE_PASSWORD_BEFORE_FIRST_LAUNCH+$DB_PASSWORD+g" .env
   sed -i "s+CHANGE_SECRET_BEFORE_FIRST_LAUNCH+$SECRET+g" .env
   echo -e "${YELLOW}Sample configuration file has been generated for you.${NC}"
@@ -37,14 +37,6 @@ if [ "${MAILER_HOST}" != "" ]; then
   echo -e "${YELLOW}[WARN] You are using deprecated e-mail configuration.${NC}"
   echo -e "${YELLOW}[WARN] Please use MAILER_DSN environment variable to configure it.${NC}"
   echo -e "${YELLOW}[WARN] See .env.default for examples.${NC}"
-fi
-
-if [ "$MQTT_BROKER_ENABLED" = "true" ]; then
-  if [ "$MQTT_BROKER_CLIENT_ID" = "" ]; then
-    MQTT_BROKER_CLIENT_ID="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)"
-    echo "MQTT_BROKER_CLIENT_ID=$MQTT_BROKER_CLIENT_ID" >> .env
-    echo -e "${YELLOW}We have generated random MQTT_BROKER_CLIENT_ID for you.${NC}"
-  fi
 fi
 
 if [ -z "$DB_IMAGE" ]; then

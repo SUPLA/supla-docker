@@ -1,6 +1,6 @@
-FROM php:8.3.22-apache
+FROM php:8.4.20-apache
 
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/2.6.4/install-php-extensions /usr/local/bin/
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/2.10.12/install-php-extensions /usr/local/bin/
 
 WORKDIR /var/www
 
@@ -39,23 +39,24 @@ COPY apache-conf /etc/apache2/sites-available
 COPY crontab /etc/cron.d/supla-cron
 COPY php.ini /usr/local/etc/php/conf.d/php-supla.ini
 
-RUN ln -s /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
     && { \
-        echo 'ServerTokens Prod\n'; \
-        echo 'ServerSignature Off\n'; \
+        echo 'ServerTokens Prod'; \
+        echo 'ServerSignature Off'; \
     } >> /etc/apache2/apache2.conf \
     && a2enmod headers rewrite expires deflate ssl cgi alias env \
     && chmod 0644 /etc/cron.d/supla-cron
 
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
 ENV CLOUD_VERSION=26.03.02
-#COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
+COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN a2ensite default-ssl \
     && wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
     && mkdir cloud \
     && tar -xzf supla-cloud-v${CLOUD_VERSION}.tar.gz -C cloud \
     && rm -f supla-cloud-v${CLOUD_VERSION}.tar.gz \
-    && sed -i "s+/var/run/supla/supla-server-ctrl.sock+/supla-server/supla-server-ctrl.sock+g" cloud/app/config/config.yml \
     && chown -hR www-data:www-data cloud
 
 WORKDIR /var/www/cloud
