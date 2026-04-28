@@ -49,9 +49,7 @@ for mapping in $ENV_MAPPINGS; do
   fi
 done
 
-rm -f /var/www/cloud/.env.local.php
-
-cat > /var/www/cloud/.env <<EOF
+cat > /var/www/cloud/.env.local <<EOF
 APP_ENV=${APP_ENV:-prod}
 APP_DEBUG=${APP_DEBUG:-0}
 APP_SECRET=${APP_SECRET:-}
@@ -81,8 +79,8 @@ GOOGLE_RECAPTCHA_SITE_KEY=${GOOGLE_RECAPTCHA_SITE_KEY:-}
 GOOGLE_RECAPTCHA_SECRET=${GOOGLE_RECAPTCHA_SECRET:-}
 EOF
 
-chmod 600 /var/www/cloud/.env
-chown www-data:www-data /var/www/cloud/.env
+chmod 600 /var/www/cloud/.env.local
+chown www-data:www-data /var/www/cloud/.env.local
 
 rm -fr var/cache/*
 php bin/console supla:initialize
