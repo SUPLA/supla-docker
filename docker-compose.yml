@@ -1,6 +1,7 @@
 services:
   supla-cloud:
     container_name: ${COMPOSE_PROJECT_NAME}-cloud
+    init: true
     restart: unless-stopped
     build: ./cloud
     env_file:
@@ -42,7 +43,7 @@ services:
       - .env
     volumes:
       - ./ssl/server:/etc/supla-server/ssl:z
-      - supla-server-socket:/var/run/supla:z
+      - supla-server-socket:/var/run/supla
     ports:
       - "2016:2016"
       - "2015:2015"

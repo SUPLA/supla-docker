@@ -86,7 +86,6 @@ rm -fr var/cache/*
 php bin/console supla:initialize
 php bin/console cache:warmup
 chown -hR www-data:www-data var
-php bin/console supla:create-confirmed-user ${SUPLA_FIRST_USER_EMAIL:-} ${SUPLA_FIRST_USER_PASSWORD:-} --no-interaction --if-not-exists
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then

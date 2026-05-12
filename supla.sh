@@ -89,17 +89,13 @@ upgrade() {
   echo -e "${GREEN}SUPLA containers have been updated.${NC}"
 }
 
-create_confirmed_user() {
-  docker_compose exec -u www-data supla-cloud php bin/console supla:create-confirmed-user
-}
-
 console() {
   shift
   docker_compose exec -u www-data supla-cloud php bin/console "$@"
 }
 
 usage() {
-  echo -e "${RED}Usage: $0 start|stop|restart|update|create-confirmed-user${NC}"
+  echo -e "${RED}Usage: $0 start|stop|restart|upgrade|console${NC}"
 }
 
 ensure_env_file
@@ -113,6 +109,5 @@ case "${1:-}" in
   restart) restart ;;
   upgrade) upgrade ;;
   console) console "$@" ;;
-  create-confirmed-user) create_confirmed_user ;;
   *) usage; exit 1 ;;
 esac
