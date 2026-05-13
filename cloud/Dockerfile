@@ -49,8 +49,8 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
 
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
-ENV CLOUD_VERSION=26.03.02
-COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
+ENV CLOUD_VERSION=26.05
+#COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN a2ensite default-ssl \
     && wget -nc https://github.com/SUPLA/supla-cloud/releases/download/v${CLOUD_VERSION}/supla-cloud-v${CLOUD_VERSION}.tar.gz \
