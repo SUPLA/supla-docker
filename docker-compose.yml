@@ -10,7 +10,7 @@ services:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - ${VOLUME_DATA:-./var}/cloud-local:/var/www/cloud/var/local
       - ${VOLUME_DATA:-./var}/cloud-logs:/var/www/cloud/var/log
-      - supla-server-socket:/var/run/supla:z
+      - supla-server-socket:/var/run/supla
     logging:
       options:
         max-size: 50m
