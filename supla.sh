@@ -54,6 +54,10 @@ validate_required_env() {
     echo -e "${RED}DATABASE_IMAGE is not set. Please define it in .env.${NC}"
     exit 1
   fi
+  if [ -z "${DATABASE_PASSWORD:-}" ]; then
+    echo -e "${RED}DATABASE_PASSWORD is not set. Please define it in .env.${NC}"
+    exit 1
+  fi
 }
 
 prepare_env() {
@@ -89,13 +93,40 @@ upgrade() {
   echo -e "${GREEN}SUPLA containers have been updated.${NC}"
 }
 
+backup() {
+  echo -e "${GREEN}Making database backup${NC}"
+
+  BACKUP_DIR="${VOLUME_DATA:-./var}/backups"
+  mkdir -p "$BACKUP_DIR"
+
+  BACKUP_FILE="$BACKUP_DIR/supla$(date +"%Y%m%d%H%M%S").sql"
+
+  if [[ "${DATABASE_IMAGE}" == *"mariadb"* ]]; then
+    docker_compose exec -T supla-db mariadb-dump \
+      --user=supla \
+      --password="${DATABASE_PASSWORD}" \
+      supla > "$BACKUP_FILE"
+  else
+    docker_compose exec -T supla-db mysqldump \
+      --routines \
+      --no-tablespaces \
+      --user=supla \
+      --password="${DATABASE_PASSWORD}" \
+      supla > "$BACKUP_FILE"
+  fi
+
+  gzip "$BACKUP_FILE"
+
+  echo -e "${GREEN}Database backup saved to ${BACKUP_FILE}.gz${NC}"
+}
+
 console() {
   shift
   docker_compose exec -u www-data supla-cloud php bin/console "$@"
 }
 
 usage() {
-  echo -e "${RED}Usage: $0 start|stop|restart|upgrade|console${NC}"
+  echo -e "${YELLOW}Usage: $0 start|stop|restart|backup|upgrade|console${NC}"
 }
 
 ensure_env_file
@@ -108,6 +139,7 @@ case "${1:-}" in
   stop) stop ;;
   restart) restart ;;
   upgrade) upgrade ;;
+  backup) backup ;;
   console) console "$@" ;;
   *) usage; exit 1 ;;
 esac
