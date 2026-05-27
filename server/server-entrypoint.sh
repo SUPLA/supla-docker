@@ -3,12 +3,10 @@ set -e
 
 cp /etc/supla-server/supla.cfg.initial /etc/supla-server/supla.cfg
 
-CLOUD_URL=${SUPLA_PROTOCOL:-https}://${CLOUD_DOMAIN:-cloud.supla.org}
-
-sed -i "s+url=https://cloud.supla.org+url=$CLOUD_URL+g" /etc/supla-server/supla.cfg
 
 
 ENV_MAPPINGS="
+CLOUD_DOMAIN:SUPLA_HOST_ADDRESS
 MQTT_BROKER_ENABLED:SUPLA_MQTT_BROKER_ENABLED
 MQTT_BROKER_HOST:SUPLA_MQTT_BROKER_HOST
 MQTT_BROKER_PORT:SUPLA_MQTT_BROKER_PORT
@@ -34,6 +32,12 @@ for mapping in $ENV_MAPPINGS; do
     fi
   fi
 done
+
+if [ -z "${SUPLA_URL}" ]; then
+  SUPLA_URL=${SUPLA_PROTOCOL:-https}://${SUPLA_HOST_ADDRESS:-cloud.supla.org}
+fi
+
+sed -i "s+url=https://cloud.supla.org+url=$SUPLA_URL+g" /etc/supla-server/supla.cfg
 
 echo "
 [MySQL]
