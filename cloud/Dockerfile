@@ -49,7 +49,7 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
 
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
-ENV CLOUD_VERSION=26.05
+ENV CLOUD_VERSION=26.05.01
 #COPY supla-cloud.tar.gz ./supla-cloud-v$CLOUD_VERSION.tar.gz
 
 RUN a2ensite default-ssl \
