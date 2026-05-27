@@ -8,6 +8,33 @@ CLOUD_URL=${SUPLA_PROTOCOL:-https}://${CLOUD_DOMAIN:-cloud.supla.org}
 sed -i "s+url=https://cloud.supla.org+url=$CLOUD_URL+g" /etc/supla-server/supla.cfg
 
 
+ENV_MAPPINGS="
+MQTT_BROKER_ENABLED:SUPLA_MQTT_BROKER_ENABLED
+MQTT_BROKER_HOST:SUPLA_MQTT_BROKER_HOST
+MQTT_BROKER_PORT:SUPLA_MQTT_BROKER_PORT
+MQTT_BROKER_TLS:SUPLA_MQTT_BROKER_TLS
+MQTT_BROKER_USERNAME:SUPLA_MQTT_BROKER_USERNAME
+MQTT_BROKER_PASSWORD:SUPLA_MQTT_BROKER_PASSWORD
+MQTT_BROKER_CLIENT_ID:SUPLA_MQTT_BROKER_CLIENT_ID
+"
+
+for mapping in $ENV_MAPPINGS; do
+  old_name=$(echo "$mapping" | cut -d: -f1)
+  new_name=$(echo "$mapping" | cut -d: -f2)
+
+  eval old_value=\$${old_name}
+  eval new_value=\$${new_name}
+
+  if [ "${old_value}" != "" ]; then
+    if [ "${new_value}" != "" ]; then
+      echo "[WARN] Both ${old_name} and ${new_name} are set. Using ${new_name} and ignoring ${old_name}."
+    else
+      echo "[WARN] You are using deprecated ${old_name} environment variable. Please use ${new_name} instead."
+      export ${new_name}="${old_value}"
+    fi
+  fi
+done
+
 echo "
 [MySQL]
 host=${DATABASE_HOST:-supla-db}
@@ -18,18 +45,18 @@ password=${DATABASE_PASSWORD:-DEFAULT_PASSWORD_IS_BAD_IDEA}
 " >> /etc/supla-server/supla.cfg
 
 
-MQTT_BROKER_ENABLED_01=$([ "${MQTT_BROKER_ENABLED:-false}" = "true" ] && echo "1" || echo "0")
-MQTT_BROKER_TLS_01=$([ "${MQTT_BROKER_TLS:-false}" = "true" ] && echo "1" || echo "0")
+SUPLA_MQTT_BROKER_ENABLED_01=$([ "${SUPLA_MQTT_BROKER_ENABLED:-false}" = "true" ] && echo "1" || echo "0")
+SUPLA_MQTT_BROKER_TLS_01=$([ "${SUPLA_MQTT_BROKER_TLS:-false}" = "true" ] && echo "1" || echo "0")
 
 echo "
 [MQTT-BROKER]
-enabled=${MQTT_BROKER_ENABLED_01}
-host=${MQTT_BROKER_HOST:-}
-port=${MQTT_BROKER_PORT:-8883}
-ssl=${MQTT_BROKER_TLS_01}
-username=${MQTT_BROKER_USERNAME:-}
-password=${MQTT_BROKER_PASSWORD:-}
-client_id=${MQTT_BROKER_CLIENT_ID:-}
+enabled=${SUPLA_MQTT_BROKER_ENABLED_01}
+host=${SUPLA_MQTT_BROKER_HOST:-}
+port=${SUPLA_MQTT_BROKER_PORT:-8883}
+ssl=${SUPLA_MQTT_BROKER_TLS_01}
+username=${SUPLA_MQTT_BROKER_USERNAME:-}
+password=${SUPLA_MQTT_BROKER_PASSWORD:-}
+client_id=${SUPLA_MQTT_BROKER_CLIENT_ID:-}
 " >> /etc/supla-server/supla.cfg
 
 if [ ! -f /etc/supla-server/ssl/cert.crt ]; then
