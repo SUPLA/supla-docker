@@ -24,6 +24,7 @@ RUN apt-get update \
       zip \
       gd \
       iconv \
+      calendar \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
