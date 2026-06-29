@@ -13,6 +13,7 @@ RUN apt-get update \
       libzip-dev \
       zip \
       unzip \
+      git \
     && update-ca-certificates \
     && chmod +x /usr/local/bin/install-php-extensions \
     && install-php-extensions \
