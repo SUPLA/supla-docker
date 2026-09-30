@@ -54,6 +54,7 @@ validate_required_env() {
     echo -e "${RED}DATABASE_IMAGE is not set. Please define it in .env.${NC}"
     exit 1
   fi
+
   if [ -z "${DATABASE_PASSWORD:-}" ]; then
     echo -e "${RED}DATABASE_PASSWORD is not set. Please define it in .env.${NC}"
     exit 1
@@ -121,13 +122,58 @@ backup() {
   echo -e "${GREEN}Database backup saved to ${BACKUP_FILE}.gz${NC}"
 }
 
+restore() {
+  BACKUP_FILE="${2:-}"
+
+  if [ -z "$BACKUP_FILE" ]; then
+    echo -e "${RED}Backup file not specified.${NC}"
+    echo -e "${YELLOW}Usage: $0 restore <backup.sql|backup.sql.gz>${NC}"
+    exit 1
+  fi
+
+  if [ ! -f "$BACKUP_FILE" ]; then
+    echo -e "${RED}Backup file does not exist: $BACKUP_FILE${NC}"
+    exit 1
+  fi
+
+  echo -e "${YELLOW}Restoring database from $BACKUP_FILE${NC}"
+
+  docker_compose exec -T -u www-data supla-cloud \
+    php bin/console doctrine:database:drop --force
+
+  docker_compose exec -T -u www-data supla-cloud \
+    php bin/console doctrine:database:create
+
+  if [[ "${DATABASE_IMAGE}" == *"mariadb"* ]]; then
+    DATABASE_CLIENT="mariadb"
+  else
+    DATABASE_CLIENT="mysql"
+  fi
+
+  if [[ "$BACKUP_FILE" == *.gz ]]; then
+    gzip -dc "$BACKUP_FILE" | docker_compose exec -T supla-db \
+      "$DATABASE_CLIENT" \
+      --user=root \
+      --password="${DATABASE_PASSWORD}" \
+      supla
+  else
+    cat "$BACKUP_FILE" | docker_compose exec -T supla-db \
+      "$DATABASE_CLIENT" \
+      --user=root \
+      --password="${DATABASE_PASSWORD}" \
+      supla
+  fi
+
+  echo -e "${GREEN}Database has been restored from $BACKUP_FILE${NC}"
+}
+
 console() {
   shift
   docker_compose exec -u www-data supla-cloud php bin/console "$@"
 }
 
 usage() {
-  echo -e "${YELLOW}Usage: $0 start|stop|restart|backup|upgrade|console${NC}"
+  echo -e "${YELLOW}Usage: $0 start|stop|restart|backup|restore|upgrade|console${NC}"
 }
 
 ensure_env_file
@@ -141,6 +187,7 @@ case "${1:-}" in
   restart) restart ;;
   upgrade) upgrade ;;
   backup) backup ;;
+  restore) restore "$@" ;;
   console) console "$@" ;;
   *) usage; exit 1 ;;
 esac
