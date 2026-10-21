@@ -34,8 +34,8 @@ git checkout server
 
 sleep 5
 
-docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:${CLOUD_VERSION} cloud
-docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:latest cloud
+docker buildx build --pull --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:${CLOUD_VERSION} cloud
+docker buildx build --pull --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-cloud:latest cloud
 docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-server:${SERVER_VERSION} server
 docker buildx build --builder supla-builder --push --platform linux/arm64,linux/amd64 --tag supla/supla-server:latest server
 
