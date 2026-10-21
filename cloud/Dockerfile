@@ -1,4 +1,4 @@
-FROM php:8.4.20-apache
+FROM php:8.4-apache-trixie
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/2.10.12/install-php-extensions /usr/local/bin/
 
