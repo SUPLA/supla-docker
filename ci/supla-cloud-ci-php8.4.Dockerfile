@@ -1,4 +1,4 @@
-FROM php:8.4.13-apache
+FROM php:8.4.27-apache
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/2.6.4/install-php-extensions /usr/local/bin/
 
@@ -26,6 +26,7 @@ RUN apt-get update \
       gd \
       iconv \
       calendar \
+      pcntl \
     && apt-get autoremove \
     && rm -r /var/lib/apt/lists/* \
     && mkdir -p /var/log/supervisor
