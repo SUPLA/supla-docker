@@ -31,6 +31,7 @@ services:
       MYSQL_DATABASE: supla
       MYSQL_USER: supla
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_AUTO_UPGRADE: "1"
     volumes:
       - ${VOLUME_DATA}/mysql:/var/lib/mysql
     logging:
