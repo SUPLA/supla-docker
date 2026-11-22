@@ -1,4 +1,4 @@
-FROM debian:11.9
+FROM debian:13
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -13,6 +13,7 @@ RUN apt-get update \
         ca-certificates \
         ssl-cert \
         libcurl4-openssl-dev \
+        libcjson-dev \
         nlohmann-json3-dev \
         libpqxx-dev \
         libpq-dev \
